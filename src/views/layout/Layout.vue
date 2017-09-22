@@ -1,22 +1,20 @@
 <template>
   <div class="app-wrapper">
-    <div class="navbar-wrapper">
-      <navbar></navbar>
-    </div>
-    <div class="main-container">
-      <app-main></app-main>
+    <personal-col></personal-col>
+    <div class="container-col">
+      <container-col></container-col>
     </div>
   </div>
 </template>
 
 <script>
-  import { Navbar, AppMain } from 'views/layout';
+  import { PersonalCol, ContainerCol } from 'views/layout';
 
   export default {
     name: 'layout',
     components: {
-      Navbar,
-      AppMain
+      PersonalCol,
+      ContainerCol
     },
     computed: {
     }
@@ -32,10 +30,10 @@
     position: relative;
     min-height: 100vh;
     width: 100%;
-    .navbar-wrapper {
+    .personal-col {
       
     }
-    .main-container {
+    .container-col {
       background-color: #f8f9fa;
       flex: 1;
       overflow: auto;

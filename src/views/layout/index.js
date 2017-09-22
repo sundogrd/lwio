@@ -1,5 +1,3 @@
-export { default as Navbar } from './Navbar';
+export { default as PersonalCol } from './PersonalCol';
 
-export { default as Levelbar } from './Levelbar';
-
-export { default as AppMain } from './AppMain';
+export { default as ContainerCol } from './ContainerCol';
