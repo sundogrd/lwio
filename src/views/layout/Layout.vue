@@ -1,9 +1,7 @@
 <template>
   <div class="app-wrapper">
     <personal-col></personal-col>
-    <div class="container-col">
-      <container-col></container-col>
-    </div>
+    <container-col></container-col>
   </div>
 </template>
 
