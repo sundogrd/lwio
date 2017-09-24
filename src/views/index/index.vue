@@ -24,8 +24,10 @@
         </footer>
       </article>
     </div>
-    <footer>
-      
+    <footer id="footer">
+      <div class="license">
+        © 2017 Lwio
+      </div>
     </footer>
   </div>
 </template>
@@ -135,6 +137,20 @@
   }
   // article display style
   .article-brief {
+
+  }
+  #footer {
+    font-size: 12px;
+    text-shadow: 0 1px #fff;
+    position: absolute;
+    bottom: 30px;
+    opacity: .6;
+    padding: 0 30px;
+    width: 100%;
+    text-align: center;
+    .license {
+      float: left;
+    }
 
   }
 </style>
