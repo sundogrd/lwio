@@ -10,6 +10,9 @@ const Index = _import('index/index');
 /* login */
 const Login = _import('login/index');
 
+const Blog = _import('blog/blog');
+const Publish = _import('blog/publish');
+
 /* error page */
 const Err404 = _import('error/404');
 const Err401 = _import('error/401');
@@ -32,12 +35,24 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/index',
-    name: '首页',
+    name: 'index',
     hidden: true,
     children: [{ 
       path: 'index', 
       component: Index
     }]
+  },
+  {
+    path: '/blog',
+    component: Layout,
+    name: 'blog',
+    children: [{
+        path: 'publish',
+        component: Publish
+      },{
+        path: ':blogid',
+        component: Blog
+      }] 
   },
   { 
     path: '/login',

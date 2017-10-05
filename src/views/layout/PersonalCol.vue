@@ -13,6 +13,7 @@
       </ul>
     </nav>
     <nav class="header-nav">
+      <button class="pan-btn tiffany-btn" @click="$router.push('/blog/publish')">New Blog</button>
       <div class="social">
         <a class="github" target="_blank" href="https://github.com/lwio" title="github"><i class="icon-github"></i></a>
       </div>
@@ -74,6 +75,11 @@
     h1.header-author {
       margin: 40px 0;
       color: #1a1a1a;
+    }
+  }
+  nav.header-nav {
+    button {
+      margin: 10px;
     }
   }
 </style>
