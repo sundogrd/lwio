@@ -6,7 +6,7 @@
         keke
       </header>
       <ul>
-        <li>github</li>
+        <li @click="githubLogin">github</li>
       </ul>
       <footer></footer>
     </div>
@@ -21,9 +21,26 @@
     computed: {
       ...mapGetters([
         'app',
+        'user',
       ])
     },
     mounted() {
+      if(!this.user.accessToken && !this.app.showLogin) {
+        this.$store.commit('TOGGLE_LOGIN_MODAL');
+      }
+      // TODO: a new page for oauth callback
+      if(this.$route.query.code) {
+        console.log(this.$route.query.code)
+        // request backend
+        setTimeout(() => {
+          alert('fuckyou')
+        }, 1000)
+      }
+    },
+    methods: {
+      githubLogin: function() {
+        window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user:email`, 'githubLogin', 'width=400, height=300');
+      }
     }
   }
 </script>

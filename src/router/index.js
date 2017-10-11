@@ -8,10 +8,11 @@ const _import = require('./_import_' + process.env.NODE_ENV);
 import Layout from 'views/layout/Layout';
 import Index from 'views/index';
 /* login */
-import Login from 'views/login'
+import Login from 'views/login';
 
-const Blog = _import('blog/blog');
-const Publish = _import('blog/publish');
+import Blog from 'views/blog/blog';
+
+import Publish from 'views/blog/publish';
 
 /* error page */
 const Err404 = _import('error/404');
@@ -62,7 +63,7 @@ export const constantRouterMap = [
 ]
 
 export default new Router({
-  // mode: 'history', //后端支持可开
+  mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 });

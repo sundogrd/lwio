@@ -274,7 +274,7 @@ import store from 'store'
     },
     get: function(key){
         var info = store.get(key);
-        if(!info) { return {} }
+        if(!info) { return null }
         if(new Date().getTime() - info.time > info.exp){
             return null;
         }
