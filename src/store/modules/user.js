@@ -1,4 +1,4 @@
-import { login, signup, setinfo } from 'api/auth';
+import { githubLogin, signup, setinfo } from 'api/auth';
 import { storeWithExpiration } from 'utils';
 
 
@@ -6,13 +6,9 @@ const user = {
   state: {
     // OPTIMIZE: the logic is so shit...
     accessToken: storeWithExpiration.get('user.accessToken') ? storeWithExpiration.get('user.accessToken') : null,
-    userInfo: storeWithExpiration.get('user.userInfo') ? storeWithExpiration.get('user.userInfo') : null,
   },
 
   mutations: {
-    SET_USERINFO: (state, userInfo) => {
-      state.userInfo = userInfo;
-    },
     SET_TOKEN: (state, token) => {
       state.accessToken = state;
     },
@@ -22,14 +18,15 @@ const user = {
     // 邮箱登录
     // TODO: login_params descripe
 
-    GithubLogin({ commit }, login_params) {
+    GithubLogin({ commit }, code) {
       return new Promise((resolve, reject) => {
-        login(login_params.code).then(response => {
+        console.log('promise start');
+        githubLogin(code).then(response => {
+          console.log('response get')
           const data = response;
-          storeWithExpiration.set('user.userInfo', response, 86400000);
-          storeWithExpiration.set('user.accessToken', response['Access-Token'], 86400000);
-          commit('SET_USERINFO', response);  
-          commit('SET_TOKEN', response['Access-Token']);  
+          console.log(response);
+          storeWithExpiration.set('user.accessToken', response.token, 86400000); 
+          commit('SET_TOKEN', response.token);  
           resolve();      
         }).catch(error => {
           reject(error);

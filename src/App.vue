@@ -32,9 +32,9 @@
       if(this.$route.query.code) {
         console.log(this.$route.query.code)
         // request backend
-        setTimeout(() => {
-          alert('fuckyou')
-        }, 1000)
+        this.$store.dispatch('GithubLogin', this.$route.query.code).then(() => {
+          // window.close();
+        })
       }
     },
     methods: {
