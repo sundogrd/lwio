@@ -10,7 +10,7 @@ const user = {
 
   mutations: {
     SET_TOKEN: (state, token) => {
-      state.accessToken = state;
+      state.accessToken = token;
     },
   },
 
