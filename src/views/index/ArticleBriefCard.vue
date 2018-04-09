@@ -1,58 +1,55 @@
 <template>
-  <div class="index-container">
-    <div class="articles">
-      <article-brief-card v-for="article in articles" :key="article.id" :article="article" />
+  <article>
+    <header class="article-header">
+      <h1>{{article.title}}</h1>
+      <time>
+        <i class="icon-calendar icon"></i>
+        2017-07-30
+      </time>
+    </header>
+    <div class="article-brief">
+      <p>{{article.brief}}</p>
     </div>
-    <footer id="footer">
-      <div class="license">
-        © 2017 Lwio
+    <footer class="article-info">
+      <div class="article-tag">
+        <i class="icon-price-tags icon"></i>
+        <ul class="article-tag-list">
+          <li class="article-tag-list-item">
+            <a>安全</a>
+          </li>
+        </ul>
       </div>
     </footer>
-  </div>
+  </article>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { getArticles } from 'api/article'
-import ArticleBriefCard from './ArticleBriefCard';
 export default {
-  name: 'index',
-  components: {
-    'article-brief-card': ArticleBriefCard
-  },
-  data() {
-    return {
-      articles: null,
-      pagination: {
-        current: 1,
-        limit: 20,
-        total: 0
+  name: 'article-brief-card',
+  props: {
+    article: {
+      type: Object,
+      required: true,
+      validator(article) {
+        if (article.id && article.title && article.brief) {
+          return true;
+        }
+        return false;
       }
     }
   },
+  data() {
+    return {
+    }
+  },
   computed: {
-    ...mapGetters([
-      'user'
-    ])
   },
   mounted() {
-    getArticles().then(res => {
-      this.articles = res.articles;
-    })
   }
 }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .articles {
-    margin: 30px;
-    position: relative;
-    border: 1px solid #ddd;
-    border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;
-    background: #fff;
-    transition: all .2s ease-in;
-  }
   article {
     header {
       border-left: 5px solid #4d4d4d;
@@ -129,20 +126,6 @@ export default {
   }
   // article display style
   .article-brief {
-
-  }
-  #footer {
-    font-size: 12px;
-    text-shadow: 0 1px #fff;
-    position: absolute;
-    bottom: 30px;
-    opacity: .6;
-    padding: 0 30px;
-    width: 100%;
-    text-align: center;
-    .license {
-      float: left;
-    }
 
   }
 </style>

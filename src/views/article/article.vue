@@ -7,15 +7,15 @@
 <script>
   import { mapGetters } from 'vuex';
   export default {
-    name: 'blog',
+    name: 'article',
     data() {
       return {
-        
+  
       }
     },
     computed: {
       ...mapGetters([
-        'user',
+        'user'
       ])
     },
     created() {
