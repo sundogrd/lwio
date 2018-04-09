@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<router-view></router-view>
-    <div class="login-modal" v-show="app.showLogin">
+    <!-- <div class="login-modal" v-show="app.showLogin">
       <header>
         keke
       </header>
@@ -10,7 +10,7 @@
       </ul>
       <footer></footer>
     </div>
-    <div id="overlay" v-show="app.showLogin"></div>
+    <div id="overlay" v-show="app.showLogin"></div> -->
 	</div>
 </template>
 
@@ -21,15 +21,15 @@
     computed: {
       ...mapGetters([
         'app',
-        'user',
+        'user'
       ])
     },
     mounted() {
-      if(!this.user.accessToken && !this.app.showLogin) {
+      if (!this.user.accessToken && !this.app.showLogin) {
         this.$store.commit('TOGGLE_LOGIN_MODAL');
       }
       // TODO: a new page for oauth callback
-      if(this.$route.query.code) {
+      if (this.$route.query.code) {
         console.log(this.$route.query.code)
         // request backend
         this.$store.dispatch('GithubLogin', this.$route.query.code).then(() => {
@@ -38,9 +38,9 @@
       }
     },
     methods: {
-      githubLogin: function() {
-        window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user:email`, 'githubLogin', 'width=400, height=300');
-      }
+      githubLogin() {
+      window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user:email`, 'githubLogin', 'width=400, height=300');
+    }
     }
   }
 </script>

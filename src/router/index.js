@@ -1,22 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-const _import = require('./_import_' + process.env.NODE_ENV);
 
-// in development env not use Lazy Loading,because Lazy Loading large page will cause webpack hot update too slow.so only in production use Lazy Loading
-
-/* layout */
-import Layout from 'views/layout/Layout';
-import Index from 'views/index';
-/* login */
-import Login from 'views/login';
-
-import Blog from 'views/blog/blog';
-
-import Publish from 'views/blog/publish';
-
+const Layout = resolve => require.ensure([], () => resolve(require('../views/layout/Layout')), 'Layout')
+const Index = resolve => require.ensure([], () => resolve(require('../views/index/index')), 'Index')
+const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
+const Article = resolve => require.ensure([], () => resolve(require('../views/article/article')), 'Article')
+const Publish = resolve => require.ensure([], () => resolve(require('../views/article/publish')), 'Publish')
 /* error page */
-const Err404 = _import('error/404');
-const Err401 = _import('error/401');
+const Err404 = resolve => require.ensure([], () => resolve(require('../views/error/404')), 'Err404')
+const Err401 = resolve => require.ensure([], () => resolve(require('../views/error/401')), 'Err401')
+
 
 Vue.use(Router);
 
@@ -29,7 +22,7 @@ Vue.use(Router);
   **/
 
 export const constantRouterMap = [
-  /*{ path: '/authredirect', component: authRedirect, hidden: true },*/
+  /* { path: '/authredirect', component: authRedirect, hidden: true },*/
   { path: '/404', component: Err404, hidden: true },
   { path: '/401', component: Err401, hidden: true },
   {
@@ -38,32 +31,32 @@ export const constantRouterMap = [
     redirect: '/index',
     name: 'index',
     hidden: true,
-    children: [{ 
-      path: 'index', 
+    children: [{
+      path: 'index',
       component: Index
     }]
   },
   {
-    path: '/blog',
+    path: '/article',
     component: Layout,
-    name: 'blog',
+    name: 'article',
     children: [{
-        path: 'publish',
-        component: Publish
-      },{
-        path: ':blogid',
-        component: Blog
-      }] 
+      path: 'publish',
+      component: Publish
+    }, {
+      path: ':articleId',
+      component: Article
+    }]
   },
-  { 
+  {
     path: '/login',
     component: Layout,
     children: [{ path: '', name: 'login', component: Login }]
-  },
+  }
 ]
 
 export default new Router({
-  mode: 'history', //后端支持可开
+  mode: 'history', // 后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 });
