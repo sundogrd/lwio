@@ -14,3 +14,15 @@ export function getArticle(id) {
     method: 'get'
   });
 }
+
+export function postArticle({ title, content, tags }) {
+  return fetch({
+    url: '/articles',
+    method: 'post',
+    data: {
+      title,
+      content,
+      tags
+    }
+  });
+}
