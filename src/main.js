@@ -10,10 +10,12 @@ import 'nprogress/nprogress.css';// Progress 进度条 样式
 import 'normalize.css/normalize.css';// normalize.css 样式格式化
 import 'assets/iconfont/iconfont'; // iconfont 具体图标见https://github.com/PanJiaChen/vue-element-admin/wiki
 import * as filters from './filters'; // 全局vue filter
-import IconSvg from 'components/Icon-svg';// svg 组件
+import IconSvg from 'components/IconSvg';// svg 组件
+import LwCard from 'components/LwCard'
 
 // register globally
 Vue.component('icon-svg', IconSvg)
+Vue.component('lw-card', LwCard)
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
@@ -45,7 +47,7 @@ router.afterEach(() => {
   NProgress.done(); // 结束Progress
 });
 
-//Vue.config.productionTip = false;
+// Vue.config.productionTip = false;
 
 new Vue({
   el: '#app',

@@ -1,0 +1,48 @@
+<template>
+  <div class="lw-card">
+    <header class="lw-card__header">
+      <slot name="header"></slot>
+    </header>
+    <main class="lw-card__main">
+      <slot></slot>
+    </main>
+    <footer class="lw-card__footer">
+      <slot name="footer"></slot>
+    </footer>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'article-brief-card',
+  props: {
+    article: {
+      type: Object,
+      required: true,
+      validator(article) {
+        if (article.id && article.title && article.brief) {
+          return true;
+        }
+        return false;
+      }
+    }
+  },
+  data() {
+    return {
+    }
+  },
+  computed: {
+  },
+  mounted() {
+  }
+}
+</script>
+
+<style rel="stylesheet/scss" lang="scss">
+.lw-card {
+  border: 1px solid #ddd;
+  background: #fff;
+  transition: all .2s ease-in;
+  margin-bottom: 30px;
+}
+</style>
