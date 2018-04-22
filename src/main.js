@@ -12,7 +12,10 @@ import 'assets/iconfont/iconfont'; // iconfont 具体图标见https://github.com
 import * as filters from './filters'; // 全局vue filter
 import IconSvg from 'components/IconSvg';// svg 组件
 import LwCard from 'components/LwCard'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
+Vue.use(ElementUI)
 // register globally
 Vue.component('icon-svg', IconSvg)
 Vue.component('lw-card', LwCard)

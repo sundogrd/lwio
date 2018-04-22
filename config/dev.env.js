@@ -1,8 +1,8 @@
 module.exports = {
     NODE_ENV: '"development"',
-    BASE_API: '"http://localhost:1337/"',
+    BASE_API: '"http://lwio.me/api/"',
     APP_ORIGIN: '"https://wallstreetcn.com"',
-    API_MOCK: true,
+    API_MOCK: false,
     // 七牛域名
     CLIENT_ID: '"81e22d6ae69d39c88175"',
 }

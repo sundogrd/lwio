@@ -1,5 +1,11 @@
 <template>
   <div class="app-wrapper">
+    <!-- <app-shell>
+      <header>
+        <el-button> </el-button>
+        <input type="file" />
+      </header>
+    </app-shell> -->
     <personal-col></personal-col>
     <container-col></container-col>
   </div>
