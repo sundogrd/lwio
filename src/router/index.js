@@ -6,6 +6,8 @@ const Index = resolve => require.ensure([], () => resolve(require('../views/inde
 const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
 const Article = resolve => require.ensure([], () => resolve(require('../views/article/article')), 'Article')
 const Publish = resolve => require.ensure([], () => resolve(require('../views/article/publish')), 'Publish')
+
+const FileManager = resolve => require.ensure([], () => resolve(require('../views/file-manager/index')), 'FileManager')
 /* error page */
 const Err404 = resolve => require.ensure([], () => resolve(require('../views/error/404')), 'Err404')
 const Err401 = resolve => require.ensure([], () => resolve(require('../views/error/401')), 'Err401')
@@ -47,6 +49,11 @@ export const constantRouterMap = [
       path: ':articleId',
       component: Article
     }]
+  },
+  {
+    path: '/tools/file-manager',
+    component: FileManager,
+    name: 'file-manager'
   },
   {
     path: '/login',
