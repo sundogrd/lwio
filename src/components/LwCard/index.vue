@@ -14,18 +14,9 @@
 
 <script>
 export default {
-  name: 'article-brief-card',
+  name: 'lw-card',
   props: {
-    article: {
-      type: Object,
-      required: true,
-      validator(article) {
-        if (article.id && article.title && article.brief) {
-          return true;
-        }
-        return false;
-      }
-    }
+
   },
   data() {
     return {

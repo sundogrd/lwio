@@ -9,11 +9,12 @@
     <p class="header-subtitle">A salty fish</p>
     <nav class="header-menu">
       <ul>
-        <li><a href="/">Homepage</a></li>  
+        <li><a href="/">Homepage</a></li>
+        <li><a href="/tools/file-manager">file manager</a></li>  
       </ul>
     </nav>
     <nav class="header-nav">
-      <button class="pan-btn tiffany-btn" @click="$router.push('/blog/publish')">New Blog</button>
+      <button class="pan-btn tiffany-btn" @click="$router.push('/article/publish')">New Blog</button>
       <div class="social">
         <a class="github" target="_blank" href="https://github.com/lwio" title="github"><i class="icon-github"></i></a>
       </div>
@@ -33,7 +34,7 @@
     },
     computed: {
       ...mapGetters([
-        'user',
+        'user'
       ])
     },
     methods: {

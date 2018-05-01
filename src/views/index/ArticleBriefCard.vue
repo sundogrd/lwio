@@ -18,7 +18,7 @@
           </li>
         </ul>
       </div>
-      <span class="pv">阅读量 {{article.page_view}}</span>
+      <span class="pv">阅读量 {{article.read_count}}</span>
     </template>
   </lw-card>
 </template>
@@ -45,6 +45,7 @@ export default {
   computed: {
   },
   mounted() {
+    console.log(this)
   }
 }
 </script>
