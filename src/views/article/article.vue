@@ -20,7 +20,7 @@
 import { getArticle } from 'api/article'
 import { mapGetters } from 'vuex';
 export default {
-  name: 'article',
+  name: 'article-lwio',
   data() {
     return {
       article: null

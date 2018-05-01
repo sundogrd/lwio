@@ -15,7 +15,7 @@ export function getArticle(id) {
   });
 }
 
-export function postArticle({ title, content, tags }) {
+export function postArticles({ title, content, tags = [] }) {
   return fetch({
     url: '/articles',
     method: 'post',

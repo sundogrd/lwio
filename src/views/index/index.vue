@@ -5,7 +5,7 @@
     </div>
     <footer id="footer">
       <div class="license">
-        © 2017 Lwio
+        © 2017-2018 Lwio
       </div>
     </footer>
   </div>
@@ -35,10 +35,9 @@ export default {
       'user'
     ])
   },
-  mounted() {
-    getArticles().then(res => {
-      this.articles = res.articles;
-    })
+  async mounted() {
+    const { list } = await getArticles()
+    this.articles = list
   }
 }
 </script>
