@@ -7,24 +7,22 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
-
-  export default {
-    name: 'ContainerCol',
-    components: {
-    },
-    data() {
-      return {
-      }
-    },
-    computed: {
-      key() {
-        return this.$route.name !== undefined ? this.$route.name + +new Date() : this.$route + +new Date()
-      }
-    },
-    methods: {
+export default {
+  name: 'ContainerCol',
+  components: {
+  },
+  data() {
+    return {
     }
+  },
+  computed: {
+    key() {
+      return this.$route.name !== undefined ? this.$route.name + +new Date() : this.$route + +new Date()
+    }
+  },
+  methods: {
   }
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>

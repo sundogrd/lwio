@@ -4,27 +4,22 @@
 </template>
  
 <script>
-  import { mapActions, mapGetters } from 'vuex'
-  
-  export default {
-    name: "login",
-    data() {
-      return {
-      
-      }
-    },
-    computed: {
-    },
-    watch: {
+export default {
+  name: 'login',
+  data() {
+    return {
 
-    },
-    mounted() {
-
-    },
-    methods: {
-      
     }
+  },
+  computed: {
+  },
+  watch: {
+
+  },
+  methods: {
+
   }
+}
 </script>
  
 <style lang="scss" scoped>

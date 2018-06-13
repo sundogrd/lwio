@@ -39,8 +39,8 @@
     },
     methods: {
       githubLogin() {
-      window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user:email`, 'githubLogin', 'width=400, height=300');
-    }
+        window.open(`https://github.com/login/oauth/authorize?client_id=${process.env.CLIENT_ID}&scope=user:email`, 'githubLogin', 'width=400, height=300');
+      }
     }
   }
 </script>

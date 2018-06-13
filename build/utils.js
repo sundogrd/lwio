@@ -1,6 +1,6 @@
 var path = require('path')
 var config = require('../config')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 exports.assetsPath = function (_path) {
   var assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -35,10 +35,33 @@ exports.cssLoaders = function (options) {
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        fallback: 'vue-style-loader'
-      })
+      return [MiniCssExtractPlugin.loader, ...loaders]
+    } else {
+      return ['vue-style-loader'].concat(loaders)
+    }
+  }
+
+  function resolveResouce (name) {
+    return path.resolve(__dirname, '../src/styles/' + name)
+  }
+
+  // 使用sass-resources-loader
+  // https://hopkinson.github.io/2017/06/30/Vue%E4%B8%ADSASS%E5%A6%82%E4%BD%95%E5%85%A8%E5%B1%80%E4%BD%BF%E7%94%A8%E5%8F%98%E9%87%8F%EF%BC%8Cmixin%EF%BC%8C%E6%88%96%E8%80%85function/
+  function generateSassResourceLoader () {
+    var loaders = [
+      cssLoader,
+      // 'postcss-loader',
+      'sass-loader',
+      {
+        loader: 'sass-resources-loader',
+        options: {
+          // it need a absolute path
+          resources: [resolveResouce('theme-default/global/site.scss'), resolveResouce('mixin.scss')]
+        }
+      }
+    ]
+    if (options.extract) {
+      return [MiniCssExtractPlugin.loader, ...loaders]
     } else {
       return ['vue-style-loader'].concat(loaders)
     }
@@ -47,10 +70,10 @@ exports.cssLoaders = function (options) {
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
     css: generateLoaders(),
-    postcss: generateLoaders(),
+    postcss: generateLoaders('postcss'),
     less: generateLoaders('less'),
-    sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
+    sass: generateSassResourceLoader(),
+    scss: generateSassResourceLoader(),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
   }

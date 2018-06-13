@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import store from 'vuex-store';
+import store from 'store';
 
 import NProgress from 'nprogress'; // Progress 进度条
 import 'nprogress/nprogress.css';// Progress 进度条 样式
@@ -27,23 +27,9 @@ Object.keys(filters).forEach(key => {
 
 
 // register global progress.
-const blackList = ['inform', 'collection'];// 重定向黑名单
 router.beforeEach((to, from, next) => {
   NProgress.start(); // 开启Progress
-  if (store.getters.user.token != '') { // 判断是否有token
-    if (to.path === '/login') {
-      next({ path: '/' });
-    } else {
-      next()
-    }
-  } else {
-    if (blackList.indexOf(to.name) == -1) { // 不在录重定向黑名单，直接进入
-      next()
-    } else {
-      next('/login'); // 否则全部重定向到登录页
-      NProgress.done(); // 在hash模式下 改变手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
-    }
-  }
+  next()
 });
 
 router.afterEach(() => {
