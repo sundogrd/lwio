@@ -15,7 +15,7 @@ const Err401 = resolve => require.ensure([], () => resolve(require('../views/err
 
 Vue.use(Router);
 
- /**
+/**
   * icon : the icon show in the sidebar
   * hidden : if hidden:true will not show in the sidebar
   * redirect : if redirect:noredirect will not redirct in the levelbar
