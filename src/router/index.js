@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 const Layout = resolve => require.ensure([], () => resolve(require('../views/layout/Layout')), 'Layout')
+
 const Index = resolve => require.ensure([], () => resolve(require('../views/index/index')), 'Index')
 const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
 const Article = resolve => require.ensure([], () => resolve(require('../views/article/article')), 'Article')
@@ -39,15 +40,16 @@ export const constantRouterMap = [
     }]
   },
   {
+    name: 'article',
+    path: '/article/:articleId',
+    component: Article
+  },
+  {
     path: '/article',
     component: Layout,
-    name: 'article',
     children: [{
       path: 'publish',
       component: Publish
-    }, {
-      path: ':articleId',
-      component: Article
     }]
   },
   {

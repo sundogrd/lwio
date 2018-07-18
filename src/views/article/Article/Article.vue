@@ -1,19 +1,21 @@
 <template>
-  <div class="article-container">
-    <lw-card v-if="article" class="article-detail">
-      <template slot="header">
-        <h1>{{article.title}}</h1>
-        <time>
-          <i class="icon-calendar icon"></i>
-          {{article.created_at | formatTime}}
-        </time>
-      </template>
-      <div class="article-entry" v-html="article.content"></div>
-    </lw-card>
-    <lw-card v-else>
-      <p>loading</p>
-    </lw-card>
-  </div>
+  <transition name="fade" mode="out-in">
+    <div class="article-container">
+      <lw-card v-if="article" class="article-detail">
+        <template slot="header">
+          <h1>{{article.title}}</h1>
+          <time>
+            <i class="icon-calendar icon"></i>
+            {{article.created_at | formatTime}}
+          </time>
+        </template>
+        <div class="article-entry" v-html="article.content"></div>
+      </lw-card>
+      <lw-card v-else>
+        <p>loading</p>
+      </lw-card>
+    </div>
+   </transition>
 </template>
 
 <script>
