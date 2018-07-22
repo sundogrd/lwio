@@ -5,7 +5,7 @@ const Layout = resolve => require.ensure([], () => resolve(require('../views/lay
 
 const Index = resolve => require.ensure([], () => resolve(require('../views/index/index')), 'Index')
 const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
-const Article = resolve => require.ensure([], () => resolve(require('../views/article/article')), 'Article')
+const Article = resolve => require.ensure([], () => resolve(require('../views/article/Article')), 'Article')
 const Publish = resolve => require.ensure([], () => resolve(require('../views/article/publish')), 'Publish')
 
 const FileManager = resolve => require.ensure([], () => resolve(require('../views/file-manager/index')), 'FileManager')

@@ -1,28 +1,35 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <div class="article-container">
-      <lw-card v-if="article" class="article-detail">
-        <template slot="header">
-          <h1>{{article.title}}</h1>
-          <time>
-            <i class="icon-calendar icon"></i>
-            {{article.created_at | formatTime}}
-          </time>
-        </template>
-        <div class="article-entry" v-html="article.content"></div>
-      </lw-card>
-      <lw-card v-else>
-        <p>loading</p>
-      </lw-card>
-    </div>
-   </transition>
+  <div class="article-page">
+    <detail-header  />
+    <transition-group name="fade" mode="out-in">
+      <div class="article-container" key="article-container">
+        <author-bar />
+        <article-content />
+        <article-replies />
+      </div>
+    </transition-group>
+    <detail-footer />
+  </div>
 </template>
 
 <script>
 import { getArticle } from 'api/article'
 import { mapGetters } from 'vuex';
+import DetailHeader from './DetailHeader'
+import DetailFooter from './DetailFooter'
+import AuthorBar from './AuthorBar'
+import ArticleContent from './ArticleContent'
+import ArticleReplies from './ArticleReplies'
+
 export default {
   name: 'article-lwio',
+  components: {
+    DetailHeader,
+    DetailFooter,
+    AuthorBar,
+    ArticleContent,
+    ArticleReplies
+  },
   data() {
     return {
       article: null
@@ -43,45 +50,9 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .article-container {
-  margin: 30px;
-}
-.article-detail {
-  .lw-card__header {
-    border-left: 5px solid #4d4d4d;
-    padding: 30px 0 15px 25px;
-    padding-left: 7.6923%;
-    h1 {
-      display: inline-block;
-      position: relative;
-      margin-bottom: 10px;
-      &::after {
-        content: '';
-        position: absolute;
-        height: 2px;
-        width: 100%;
-        transform: scaleX(0);
-        left: 0;
-        bottom: 0;
-        background: #000;
-        transition: all 0.3s ease-in-out;
-      }
-      &:hover {
-        cursor: pointer;
-        &::after {
-          transform: scaleX(1);
-        }
-      }
-    }
-    time {
-      float: right;
-      color: #999;
-      margin-right: 7.6923%;
-      float: right;
-    }
-  }
-  .article-entry {
-    padding: 30px 0 15px 25px;
-    padding-left: 7.6923%;
-  }
+  margin: 30px auto;
+  max-width: 740px;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 </style>
