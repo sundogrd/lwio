@@ -4,6 +4,6 @@
 2. Backend(Nodejs + express + MongoDB)
 
 ## Planning
-1. Vue SSR
-2. Review(prefer Github)
-3. search
+1. Review(prefer Github)
+2. search
+3. 扩展markdown使得支持audio
