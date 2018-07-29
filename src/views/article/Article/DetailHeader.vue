@@ -1,7 +1,7 @@
 <template>
   <div class="detail-header" :class="{'nav-up': !show}">
     <div class="detail-header-container">
-      <button>Great</button>
+      <!-- <button>Great</button> -->
       <h1>Lwio</h1>
       <div class="user-navbar">
         <div class="avatar">
@@ -40,7 +40,7 @@ export default {
   },
   created() {
     lastScrollTop = 0;
-    window.addEventListener('scroll', _.throttle(this.handleScroll, 200));
+    window.addEventListener('scroll', _.throttle(this.handleScroll, 100));
   },
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
