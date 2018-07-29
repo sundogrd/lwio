@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     updateContent: _.debounce(function(e) {
-      debugger
+      // debugger
       this.content = e.target.value;
     }, 300),
     changeText(event) {
