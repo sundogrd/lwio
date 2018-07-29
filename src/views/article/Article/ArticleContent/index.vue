@@ -4,8 +4,8 @@
     <div class="article-html" v-html="contentHTML">
     </div>
     <ul class="article-tags">
-      <li>
-        Oauth
+      <li v-for="(tag, index) in tags" :key="index">
+        {{ tag }}
       </li>
     </ul>
   </div>
@@ -13,25 +13,15 @@
 
 <script>
 import marked from 'marked';
+import { getArticle } from 'api/article';
 export default {
   name: 'ArticleContent',
   components: {
   },
   data() {
     return {
-      title: '标题测试',
-      contentMD: `# 欢迎使用 Cmd Markdown 编辑阅读器
-
-------
-
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：
-我们理解您需要更便捷更高效的工具记录思想，整理笔记、知识，并将其中承载的价值传播给他人，**Cmd Markdown** 是我们给出的答案 —— 我们为记录思想和分享知识提供更专业的工具。 您可以使用 Cmd Markdown：`
+      title: 'Loading...',
+      contentMD: 'Loading...'
     }
   },
   computed: {
@@ -40,6 +30,12 @@ export default {
     }
   },
   methods: {
+  },
+  async mounted() {
+    const res = await getArticle(this.$route.params.articleId)
+    this.title = res.title
+    this.contentMD = res.content_md
+    this.tags = res.tags
   }
 }
 </script>
@@ -97,6 +93,7 @@ export default {
       position: relative;
       border: none;
       padding: 5px 10px;
+      margin-right: 20px;
       color: rgba(0,0,0,.68);
       background: rgba(0,0,0,.05);
       

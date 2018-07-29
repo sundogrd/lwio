@@ -4,7 +4,8 @@ export default function articleRule(mockAdapter) {
     .reply(200, {
       id: '2',
       title: '文章测试3',
-      content: '<p>我TM是正文，不服来刚</p>',
+      contentMD: `# asdasdad asdasd
+      asda`,
       tags: ['Javascript', 'AI'],
       updated_at: '2017-07-20T12:50:30.176Z',
       created_at: '2017-07-20T12:50:30.176Z',
