@@ -100,7 +100,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       },
       path: config.build.staticPath,
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'auto'
     }),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
