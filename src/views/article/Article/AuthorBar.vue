@@ -1,11 +1,11 @@
 <template>
   <div class="author-bar">
     <div class="avatar-block">
-      <img src="//p1.pstatp.com/thumb/2c66000380eab7b3f040" />
+      <img src="//cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT." />
     </div>
     <div class="info-block">
       <p class="name">梁王</p>
-      <p class="caption">一个喜欢唱歌的死宅</p>
+      <p class="caption">blabla</p>
     </div>
   </div>
 </template>
@@ -31,6 +31,7 @@ export default {
 .author-bar {
   display: flex;
   .avatar-block {
+    margin-right: 20px;
     img {
       width: 60px;
       height: 60px;
