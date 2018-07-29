@@ -3,16 +3,17 @@
     <div class="editor-wrapper">
       <!-- <input id="title" type="text" name="title" placeholder="title" v-model="title"> -->
       <el-row type="flex" justify="end">
-        <el-button type="success">发布</el-button>
+        <el-button type="success" @click="submitBlog">发布</el-button>
         <el-button type="warning">草稿</el-button>
       </el-row>
       <LFInput name="title" v-model="title" required :maxlength="100">
         标题
       </LFInput>
       <div id="editor">
-        <textarea class="editor-part" :value="content" @input="updateContent" placeholder="输入markdown语法"></textarea>
+        <textarea class="editor-part" :value="contentMD" @input="updateContent" placeholder="输入markdown语法"></textarea>
         <div class="editor-part" v-html="compiledMarkdown"></div>
       </div>
+      <el-input v-model="publishToken" />
       <!-- <footer>
         <button class="lwio-btn" @click="submitBlog">Publish</button>
         <label for="publishToken">
@@ -36,22 +37,22 @@ export default {
     return {
       publishToken: '',
       title: '',
-      content: ''
+      contentMD: ''
     };
   },
   computed: {
     compiledMarkdown() {
-      return marked(this.content, { sanitize: true });
+      return marked(this.contentMD, { sanitize: true });
     },
     ...mapGetters(['user'])
   },
   methods: {
     updateContent: _.debounce(function(e) {
       // debugger
-      this.content = e.target.value;
+      this.contentMD = e.target.value;
     }, 300),
     changeText(event) {
-      this.content = event.target.innerText;
+      this.contentMD = event.target.innerText;
     },
     async submitBlog() {
       if (this.publishToken !== '443474713') {
@@ -63,7 +64,7 @@ export default {
       try {
         const article = await postArticles({
           title: this.title,
-          content: this.content
+          contentMD: this.contentMD
         });
         this.$router.push({ path: `/article/${article.id}` });
       } catch (e) {

@@ -15,13 +15,13 @@ export function getArticle(id) {
   });
 }
 
-export function postArticles({ title, content, tags = [] }) {
+export function postArticles({ title, contentMD, tags = [] }) {
   return fetch({
     url: '/articles',
     method: 'post',
     data: {
       title,
-      content,
+      content_md: contentMD,
       tags
     }
   });
