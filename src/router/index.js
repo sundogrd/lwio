@@ -3,8 +3,8 @@ import Router from 'vue-router';
 
 const Layout = resolve => require.ensure([], () => resolve(require('../views/layout/Layout')), 'Layout')
 
-const Index = resolve => require.ensure([], () => resolve(require('../views/index/index')), 'Index')
-const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
+// const Index = resolve => require.ensure([], () => resolve(require('../views/index/index')), 'Index')
+// const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
 const Article = resolve => require.ensure([], () => resolve(require('../views/article/Article')), 'Article')
 const Publish = resolve => require.ensure([], () => resolve(require('../views/article/publish')), 'Publish')
 
@@ -26,19 +26,18 @@ Vue.use(Router);
 
 export const constantRouterMap = [
   /* { path: '/authredirect', component: authRedirect, hidden: true },*/
-  { path: '/404', component: Err404, hidden: true },
   { path: '/401', component: Err401, hidden: true },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/index',
-    name: 'index',
-    hidden: true,
-    children: [{
-      path: 'index',
-      component: Index
-    }]
-  },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/index',
+  //   name: 'index',
+  //   hidden: true,
+  //   children: [{
+  //     path: 'index',
+  //     component: Index
+  //   }]
+  // },
   {
     name: 'article',
     path: '/article/:articleId',
@@ -57,11 +56,12 @@ export const constantRouterMap = [
     component: FileManager,
     name: 'file-manager'
   },
-  {
-    path: '/login',
-    component: Layout,
-    children: [{ path: '', name: 'login', component: Login }]
-  }
+  // {
+  //   path: '/login',
+  //   component: Layout,
+  //   children: [{ path: '', name: 'login', component: Login }]
+  // }
+  { path: '*', component: Err404, hidden: true }
 ]
 
 export default new Router({
