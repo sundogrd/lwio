@@ -39,17 +39,17 @@ export const constantRouterMap = [
   //   }]
   // },
   {
-    name: 'article',
-    path: '/article/:articleId',
-    component: Article
-  },
-  {
     path: '/article',
     component: Layout,
     children: [{
       path: 'publish',
       component: Publish
     }]
+  },
+  {
+    name: 'article',
+    path: '/article/:articleId',
+    component: Article
   },
   {
     path: '/tools/file-manager',
