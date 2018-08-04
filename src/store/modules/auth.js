@@ -43,7 +43,6 @@ const auth = {
   actions: {
     async setToken({ commit }, token) {
       const tokenPayload = JSON.parse(atob(token.split('.')[1]))
-      debugger
       commit('SET_TOKEN', {
         accessToken: token,
         expiresAt: tokenPayload.iat// when the access token will expire
