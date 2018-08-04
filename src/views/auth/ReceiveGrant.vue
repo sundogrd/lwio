@@ -17,7 +17,6 @@ export default {
     console.log(this)
     const { token } = this.$route.query
     this.setToken(token).then(res => {
-      debugger
       if (res === true) {
         window.location.href = '/'
       }
