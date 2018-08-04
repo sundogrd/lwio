@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import GoAuth from 'views/auth/GoAuth'
+import ReceiveGrant from 'views/auth/ReceiveGrant'
 
 const Layout = resolve => require.ensure([], () => resolve(require('../views/layout/Layout')), 'Layout')
 
@@ -55,6 +57,14 @@ export const constantRouterMap = [
     path: '/tools/file-manager',
     component: FileManager,
     name: 'file-manager'
+  },
+  {
+    path: '/receive-grant',
+    component: ReceiveGrant
+  },
+  {
+    path: '/go-auth',
+    component: GoAuth
   },
   // {
   //   path: '/login',
