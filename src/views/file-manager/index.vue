@@ -4,12 +4,11 @@
     <el-input :value="password"></el-input>
     <el-upload
       class="upload-demo"
-      action="http://lwio.me/api/file/upload"
+      action="http://upload.lwio.me/"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :before-remove="beforeRemove"
       multiple
-      :limit="3"
       :on-exceed="handleExceed"
       :file-list="fileList">
       <el-button size="small" type="primary">点击上传</el-button>
