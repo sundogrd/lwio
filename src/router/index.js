@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import GoAuth from 'views/auth/GoAuth'
 import ReceiveGrant from 'views/auth/ReceiveGrant'
 
-const Layout = resolve => require.ensure([], () => resolve(require('../views/layout/Layout')), 'Layout')
+// const Layout = resolve => require.ensure([], () => resolve(require('../views/layout/Layout')), 'Layout')
 
 // const Index = resolve => require.ensure([], () => resolve(require('../views/index/index')), 'Index')
 // const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
@@ -41,12 +41,9 @@ export const constantRouterMap = [
   //   }]
   // },
   {
-    path: '/article',
-    component: Layout,
-    children: [{
-      path: 'publish',
-      component: Publish
-    }]
+    name: 'ArticlePublish',
+    path: '/article/publish',
+    component: Publish
   },
   {
     name: 'article',

@@ -1,5 +1,5 @@
 const getters = {
   app: state => state.app,
-  user: state => state.user
+  auth: state => state.auth
 };
 export default getters

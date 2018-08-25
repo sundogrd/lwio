@@ -2,25 +2,20 @@
   <div class="publish-container">
     <div class="editor-wrapper">
       <!-- <input id="title" type="text" name="title" placeholder="title" v-model="title"> -->
-      <el-row type="flex" justify="end">
-        <el-button type="success" @click="submitBlog">发布</el-button>
-        <el-button type="warning">草稿</el-button>
-      </el-row>
-      <LFInput name="title" v-model="title" required :maxlength="100">
-        标题
-      </LFInput>
+      <div class="editor-topbar">
+        <el-input v-model="title" placeholder="请输入标题"></el-input>
+        <el-dropdown split-button type="primary" @click="submitBlog">
+          发布
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>草稿</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
       <div id="editor">
         <textarea class="editor-part" :value="contentMD" @input="updateContent" placeholder="输入markdown语法"></textarea>
         <div class="editor-part" v-html="compiledMarkdown"></div>
       </div>
-      <el-input v-model="publishToken" />
-      <!-- <footer>
-        <button class="lwio-btn" @click="submitBlog">Publish</button>
-        <label for="publishToken">
-          Publish Token
-          <input id="publishToken" type="password" name="publishToken" v-model="publishToken">
-        </label>
-      </footer> -->
+      <el-input v-model="publishToken" placeholder="token" />
     </div>
   </div>
 </template>
@@ -28,7 +23,6 @@
 <script>
 import _ from 'lodash';
 import marked from 'marked';
-// import LFInput from 'components/LFInput';
 import { mapGetters } from 'vuex';
 import { postArticles } from 'api/article';
 export default {
@@ -60,6 +54,7 @@ export default {
           title: '错误',
           message: 'token错误'
         });
+        return
       }
       try {
         const article = await postArticles({
@@ -82,10 +77,17 @@ export default {
 .publish-container {
   height: 100%;
   flex: 1;
+  justify-content: space-between;
   align-items: stretch;
 
+  .editor-topbar {
+    display: flex;
+    justify-content: space-between;
+    .el-input {
+      flex: 1;
+    }
+  }
   .editor-wrapper {
-    padding: 40px 100px 0px;
     /* height: 100%; */
     min-height: 100%;
     position: absolute;
