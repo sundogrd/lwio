@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import { getArticle } from 'api/article'
 import { mapGetters } from 'vuex';
 import DetailHeader from './DetailHeader'
 import DetailFooter from './DetailFooter'
@@ -39,11 +38,6 @@ export default {
     ...mapGetters([
       'user'
     ])
-  },
-  mounted() {
-    getArticle(this.$route.params.articleId).then(res => {
-      this.article = res;
-    })
   }
 }
 </script>

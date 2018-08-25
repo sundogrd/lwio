@@ -15,8 +15,8 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
   // Do something before request is sent
-  if (store.getters.user['Access-Token']) {
-    config.headers['Access-Token'] = store.getters.user['Access-Token']
+  if (store.getters.auth.token.accessToken) {
+    config.headers['Access-Token'] = store.getters.auth.token.accessToken
   }
   return config
 }, error => {
