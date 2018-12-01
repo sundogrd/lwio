@@ -10,20 +10,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'AuthorBar',
-  components: {
-
-  },
-  data() {
-    return {
-    }
-  },
-  computed: {
-  },
-  methods: {
-  }
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import marked from 'marked'
+// import { getArticle } from '@/api/article'
+export default class AuthorBar extends Vue {
 }
 </script>
 

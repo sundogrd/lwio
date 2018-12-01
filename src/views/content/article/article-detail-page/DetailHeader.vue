@@ -12,38 +12,28 @@
   </div>
 </template>
 
-<script>
-import _ from 'lodash';
-let lastScrollTop = 0;
-export default {
-  name: 'DetailHeader',
-  components: {
-  },
-  data() {
-    return {
-      show: true
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import _ from 'lodash'
+let lastScrollTop = 0
+export default class DetailHeader extends Vue {
+  public show = true
+  public handleScroll () {
+    // 下滑隐藏
+    const st = window.pageYOffset || document.documentElement.scrollTop
+    if (st > lastScrollTop) {
+      this.show = false
+    } else {
+      this.show = true
     }
-  },
-  computed: {
-  },
-  methods: {
-    handleScroll() {
-      // 下滑隐藏
-      const st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-      if (st > lastScrollTop) {
-        this.show = false
-      } else {
-        this.show = true;
-      }
-      lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
-    }
-  },
-  created() {
-    lastScrollTop = 0;
-    window.addEventListener('scroll', _.throttle(this.handleScroll, 100));
-  },
-  destroyed() {
-    window.removeEventListener('scroll', this.handleScroll);
+    lastScrollTop = st <= 0 ? 0 : st // For Mobile or negative scrolling
+  }
+  public created () {
+    lastScrollTop = 0
+    window.addEventListener('scroll', _.throttle(this.handleScroll, 100))
+  }
+  public destroyed () {
+    window.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>

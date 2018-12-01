@@ -11,31 +11,23 @@
   </div>
 </template>
 
-<script>
-import marked from 'marked';
-import { getArticle } from 'api/article';
-export default {
-  name: 'ArticleContent',
-  components: {
-  },
-  data() {
-    return {
-      title: 'Loading...',
-      contentMD: 'Loading...'
-    }
-  },
-  computed: {
-    contentHTML() {
-      return marked(this.contentMD, { sanitize: true })
-    }
-  },
-  methods: {
-  },
-  async mounted() {
-    const res = await getArticle(this.$route.params.articleId)
-    this.title = res.title
-    this.contentMD = res.content_md
-    this.tags = res.tags
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import marked from 'marked'
+// import { getArticle } from '@/api/article'
+export default class ArticleDetailPage extends Vue {
+  public tags = null
+  public title = 'Loading...'
+  public contentMD = 'Loading'
+
+  get contentHTML () {
+    return marked(this.contentMD, { sanitize: true })
+  }
+  public async mounted () {
+    // const res = await getArticle(this.$route.params.articleId)
+    // this.title = res.title
+    // this.contentMD = res.content_md
+    // this.tags = res.tags
   }
 }
 </script>
