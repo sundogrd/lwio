@@ -76,7 +76,7 @@ export default {
     beforeRemove(file, fileList) {
       console.log(fileList)
       return this.$confirm(`确定移除 ${file.name}？`);
-    }
+    },
   }
 }
 </script>
