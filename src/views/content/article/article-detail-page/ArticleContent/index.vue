@@ -15,8 +15,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import marked from 'marked'
 // import { getArticle } from '@/api/article'
+@Component({
+  name: 'ArticleContent'
+})
 export default class ArticleDetailPage extends Vue {
-  public tags = null
+  public tags?: string[]
   public title = 'Loading...'
   public contentMD = 'Loading'
 
@@ -28,6 +31,9 @@ export default class ArticleDetailPage extends Vue {
     // this.title = res.title
     // this.contentMD = res.content_md
     // this.tags = res.tags
+    this.title = 'tet'
+    this.contentMD = 'kekekekke'
+    this.tags = ['keke']
   }
 }
 </script>

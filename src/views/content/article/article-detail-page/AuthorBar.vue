@@ -13,12 +13,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import marked from 'marked'
-// import { getArticle } from '@/api/article'
+@Component({
+  name: 'AuthorBar'
+})
 export default class AuthorBar extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
 .author-bar {
   display: flex;
   .avatar-block {

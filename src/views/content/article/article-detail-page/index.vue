@@ -22,6 +22,7 @@ import ArticleContent from './ArticleContent/index.vue'
 import ArticleReplies from './ArticleReplies/index.vue'
 
 @Component({
+  name: 'ArticleDetailPage',
   components: {
     DetailHeader,
     DetailFooter,
@@ -32,11 +33,6 @@ import ArticleReplies from './ArticleReplies/index.vue'
 })
 export default class ArticleDetailPage extends Vue {
   private article = null
-  // computed: {
-  //   ...mapGetters([
-  //     "user"
-  //   ])
-  // }
 }
 </script>
 
