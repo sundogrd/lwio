@@ -5,7 +5,7 @@
       <div class="article-container" key="article-container">
         <author-bar />
         <article-content />
-        <article-replies />
+        <!-- <article-replies /> -->
       </div>
     </transition-group>
     <detail-footer />

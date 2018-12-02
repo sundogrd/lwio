@@ -16,6 +16,9 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import _ from 'lodash'
 let lastScrollTop = 0
+@Component({
+  name: 'DetailHeader'
+})
 export default class DetailHeader extends Vue {
   public show = true
   public handleScroll () {
@@ -38,7 +41,7 @@ export default class DetailHeader extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
 .detail-header {
   position: sticky;
   top: 0px;
