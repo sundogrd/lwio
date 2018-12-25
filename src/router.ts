@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import Home from './views/Home.vue'
-import ArticleDetail from './views/content/article/article-detail-page/index.vue'
+import ArticleDetailPage from './views/content/article/article-detail-page/index.vue'
+import ArticlePublishPage from './views/content/article/article-publish-page/index.vue'
 
 Vue.use(Router)
 
@@ -24,11 +25,19 @@ export default new Router({
     // },
     {
       path: '/articles/:articleId',
-      name: 'articleDetail',
+      name: 'articleDetailPage',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: ArticleDetail
+      component: ArticleDetailPage
+    },
+    {
+      path: '/articles/publish',
+      name: 'articlePublishPage',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: ArticlePublishPage
     }
   ]
 })
