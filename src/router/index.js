@@ -1,5 +1,5 @@
-import Vue from 'vue';
-import Router from 'vue-router';
+import Vue from 'vue'
+import Router from 'vue-router'
 import GoAuth from 'views/auth/GoAuth'
 import ReceiveGrant from 'views/auth/ReceiveGrant'
 
@@ -7,16 +7,16 @@ import ReceiveGrant from 'views/auth/ReceiveGrant'
 
 // const Index = resolve => require.ensure([], () => resolve(require('../views/index/index')), 'Index')
 // const Login = resolve => require.ensure([], () => resolve(require('../views/login/index')), 'Login')
-const Article = resolve => require.ensure([], () => resolve(require('../views/article/Article')), 'Article')
-const Publish = resolve => require.ensure([], () => resolve(require('../views/article/publish')), 'Publish')
+const Article = (resolve) => require.ensure([], () => resolve(require('../views/article/Article')), 'Article')
+const Publish = (resolve) => require.ensure([], () => resolve(require('../views/article/publish')), 'Publish')
 
-const FileManager = resolve => require.ensure([], () => resolve(require('../views/file-manager/index')), 'FileManager')
+const FileManager = (resolve) => require.ensure([], () => resolve(require('../views/file-manager/index')), 'FileManager')
 /* error page */
-const Err404 = resolve => require.ensure([], () => resolve(require('../views/error/404')), 'Err404')
-const Err401 = resolve => require.ensure([], () => resolve(require('../views/error/401')), 'Err401')
+const Err404 = (resolve) => require.ensure([], () => resolve(require('../views/error/404')), 'Err404')
+const Err401 = (resolve) => require.ensure([], () => resolve(require('../views/error/401')), 'Err401')
 
 
-Vue.use(Router);
+Vue.use(Router)
 
 /**
   * icon : the icon show in the sidebar
@@ -46,7 +46,7 @@ export const constantRouterMap = [
     component: Publish
   },
   {
-    name: 'article',
+    name: 'ArticleDetail',
     path: '/article/:articleId',
     component: Article
   },
@@ -75,4 +75,4 @@ export default new Router({
   mode: 'history', // 后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
-});
+})

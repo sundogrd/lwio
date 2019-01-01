@@ -1,15 +1,17 @@
 {
   "defaultSeverity": "warning",
   "extends": [
-    "tslint:recommended",
-    "tslint-config-standard"
+    // "tslint:recommended",
+    // "tslint-config-standard"
   ],
   "linterOptions": {
     "exclude": [
       "node_modules/**"
     ]
   },
+  "rulesDirectory": "./src",
   "rules": {
+    "noImplicitAny": false,
     "quotemark": [true, "single"],
     "indent": [true, "spaces", 2],
     "interface-name": false,
