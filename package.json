@@ -12,8 +12,20 @@
   "dependencies": {
     "element-ui": "^2.4.5",
     "marked": "^0.5.2",
+    "prosemirror-commands": "^1.0.7",
+    "prosemirror-dropcursor": "^1.1.1",
+    "prosemirror-example-setup": "^1.0.1",
+    "prosemirror-gapcursor": "^1.0.3",
+    "prosemirror-history": "^1.0.3",
+    "prosemirror-inputrules": "^1.0.1",
+    "prosemirror-keymap": "^1.0.1",
+    "prosemirror-markdown": "^1.2.2",
+    "prosemirror-menu": "^1.0.5",
+    "prosemirror-schema-list": "^1.0.1",
+    "prosemirror-state": "^1.2.2",
+    "prosemirror-view": "^1.6.7",
     "register-service-worker": "^1.5.2",
-    "vue": "^2.5.17",
+    "vue": "^2.5.21",
     "vue-class-component": "^6.3.2",
     "vue-property-decorator": "^7.2.0",
     "vue-router": "^3.0.1",
@@ -37,10 +49,11 @@
     "node-sass": "^4.9.2",
     "sass-loader": "^7.0.3",
     "ts-jest": "^23.0.0",
+    "tslint": "^5.12.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.2.0",
-    "typescript-tslint-plugin": "^0.1.2",
+    "typescript-tslint-plugin": "^0.2.1",
     "vue-cli-plugin-element": "^1.0.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.5.21"
   }
 }

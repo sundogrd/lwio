@@ -1,7 +1,10 @@
-const css = `
+
 /* from Prosemirror */
 .ProseMirror {
   position: relative;
+  &:focus {
+    outline: none;
+  }
 }
 
 .ProseMirror {
@@ -189,7 +192,8 @@ textarea {
   opacity: .3;
 }
 
-.ProseMirror-menu-submenu-wrap:hover .ProseMirror-menu-submenu, .ProseMirror-menu-submenu-wrap-active .ProseMirror-menu-submenu {
+.ProseMirror-menu-submenu-wrap:hover.ProseMirror-menu-submenu,
+.ProseMirror-menu-submenu-wrap-active .ProseMirror-menu-submenu {
   display: block;
 }
 
@@ -295,6 +299,3 @@ textarea.vue-prosemirror {
   margin: 0;
   padding: 0;
 }
-`
-
-export default css
