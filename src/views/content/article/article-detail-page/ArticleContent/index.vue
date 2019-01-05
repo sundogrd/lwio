@@ -1,6 +1,7 @@
 <template>
   <div class="article-content">
     <h1 class="article-title">{{ title }}</h1>
+    <author-bar />
     <div class="article-html" v-html="contentHTML">
     </div>
     <ul class="article-tags">
@@ -13,10 +14,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import AuthorBar from './AuthorBar.vue'
 import marked from 'marked'
 // import { getArticle } from '@/api/article'
 @Component({
-  name: 'ArticleContent'
+  name: 'ArticleContent',
+  components: {
+    AuthorBar
+  }
 })
 export default class ArticleDetailPage extends Vue {
   public tags?: string[]
@@ -31,9 +36,11 @@ export default class ArticleDetailPage extends Vue {
     // this.title = res.title
     // this.contentMD = res.content_md
     // this.tags = res.tags
-    this.title = 'tet'
-    this.contentMD = 'kekekekke'
-    this.tags = ['keke']
+    this.title = 'You Might Not Need Redux'
+    this.contentMD = `People often choose Redux before they need it. “What if our app doesn’t scale without it?” Later, developers frown at the indirection Redux introduced to their code. “Why do I have to touch three files to get a simple feature working?” Why indeed!
+
+None of these limitations are required to build an app, with or without React. In fact these are pretty strong constraints, and you should think carefully before adopting them even in parts of your app.`
+    this.tags = ['keke', 'React']
   }
 }
 </script>
@@ -41,11 +48,11 @@ export default class ArticleDetailPage extends Vue {
 <style rel="stylesheet/scss" lang="scss">
 .article-content {
   h1.article-title {
-    border-bottom: 1px solid;
-    margin: 0 0 50px 0;
-    padding: 20px 0;
+    margin: 0;
+    padding: 16px 0 0 0;
 
-    font-weight: 600;
+    font-family: medium-content-title-font,Georgia,Cambria,"Times New Roman",Times,serif;
+    font-weight: 400;
     font-style: normal;
     letter-spacing: 0;
     font-size: 42px;
@@ -90,8 +97,10 @@ export default class ArticleDetailPage extends Vue {
       display: inline-block;
       position: relative;
       border: none;
-      padding: 5px 10px;
-      margin-right: 20px;
+      padding: 8px 10px;
+      font-size: 13px;
+      margin-right: 10px;
+      border-radius: 5px;
       color: rgba(0,0,0,.68);
       background: rgba(0,0,0,.05);
       

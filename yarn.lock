@@ -9333,6 +9333,11 @@ vue-cli-plugin-element@^1.0.0:
   resolved "http://registry.npm.taobao.org/vue-cli-plugin-element/download/vue-cli-plugin-element-1.0.0.tgz#2ee8cfecb9a49aabdc1d4cb58934113bddf3b4c0"
   integrity sha1-LujP7LmkmqvcHUy1iTQRO93ztMA=
 
+vue-fullscreen@^2.1.3:
+  version "2.1.3"
+  resolved "http://registry.npm.taobao.org/vue-fullscreen/download/vue-fullscreen-2.1.3.tgz#831f6c2f89771e80f7189b1c8b863d4d66677fcf"
+  integrity sha1-gx9sL4l3HoD3GJsci4Y9TWZnf88=
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.1"
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-2.3.1.tgz#b2d3d95402a811602380783ea4f566eb875569a2"
@@ -9376,6 +9381,11 @@ vue-router@^3.0.1:
   version "3.0.2"
   resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
   integrity sha1-3txnr+bE4rwlaCyLHCqMDXx+Vr4=
+
+vue-sticky-directive@^0.0.7:
+  version "0.0.7"
+  resolved "http://registry.npm.taobao.org/vue-sticky-directive/download/vue-sticky-directive-0.0.7.tgz#ae7f59ddeb7667de5f7631e443df99fcaae41539"
+  integrity sha1-rn9Z3et2Z95fdjHkQ9+Z/KrkFTk=
 
 vue-style-loader@^4.1.0:
   version "4.1.2"
