@@ -23,11 +23,12 @@ export default class AuthorBar extends Vue {
 <style rel="stylesheet/scss" lang="scss">
 .author-bar {
   display: flex;
+  margin: 24px 0;
   .avatar-block {
     margin-right: 20px;
     img {
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
     }
   }

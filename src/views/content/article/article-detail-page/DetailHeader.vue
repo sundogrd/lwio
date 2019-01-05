@@ -1,7 +1,6 @@
 <template>
   <div class="detail-header" :class="{'nav-up': !show}">
     <div class="detail-header-container">
-      <!-- <button>Great</button> -->
       <h1>Lwio</h1>
       <div class="user-navbar">
         <div class="avatar">
@@ -45,14 +44,16 @@ export default class DetailHeader extends Vue {
 .detail-header {
   position: sticky;
   top: 0px;
-  height: 50px;
+  height: 65px;
+  padding: 0 20px;
   background: #fff;
   box-shadow: 0 2px 2px -2px rgba(0,0,0,.15);
   transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,.05);
 
   // 下滑时
   &.nav-up {
-    top: -50px;
+    top: -60px;
   }
 
   &-container {
