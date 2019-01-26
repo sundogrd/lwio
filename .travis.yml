@@ -14,4 +14,4 @@ before_install:
 
 after_success:
 - chmod 600 ~/.ssh/id_rsa
-- ssh sundogrd@sundogrd.com -o StrictHostKeyChecking=no 'cd ~/lwio && npm run build'
+- ssh sundogrd@sundogrd.com -o StrictHostKeyChecking=no 'cd ~/lwio && npm install && npm run build'
