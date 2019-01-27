@@ -43,13 +43,13 @@ export default class DetailHeader extends Vue {
 <style rel="stylesheet/scss" lang="scss">
 .detail-header {
   position: sticky;
-  top: 0px;
+  top: 0;
   height: 65px;
   padding: 0 20px;
   background: #fff;
-  box-shadow: 0 2px 2px -2px rgba(0,0,0,.15);
+  box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease-in-out;
-  box-shadow: 0 4px 12px 0 rgba(0,0,0,.05);
+  box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
 
   // 下滑时
   &.nav-up {
@@ -63,13 +63,16 @@ export default class DetailHeader extends Vue {
     height: 100%;
     max-width: 900px;
     margin: 0 auto;
+
     button {
       padding: 5px;
     }
+
     h1 {
       font-size: 20px;
       margin: 0;
     }
+
     .user-navbar {
       .avatar {
         img {

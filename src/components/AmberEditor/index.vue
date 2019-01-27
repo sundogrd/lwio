@@ -146,15 +146,19 @@ export default class AmberEditor extends Vue {
 
 <style lang="less">
 @import './proseMirrorStyle.less';
+
 .ProseMirror {
   height: calc(100vh - 30px);
+
   p {
     font-size: 18px;
   }
 }
+
 .ProseMirror-menubar {
   height: 30px;
   font-size: 22px;
+
   .ProseMirror-icon {
     line-height: 1;
   }

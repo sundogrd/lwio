@@ -18,6 +18,9 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@config": [
+        "config"
       ]
     },
     "lib": [
