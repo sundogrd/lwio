@@ -2,5 +2,5 @@
  * dev env config.
  */
 export default {
-    baseUrl: 'http://localhost:8086',
+    baseUrl: '//lwio.sundogrd.com/api',
 };
