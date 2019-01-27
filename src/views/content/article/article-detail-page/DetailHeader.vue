@@ -40,8 +40,10 @@ export default class DetailHeader extends Vue {
   }
   public mounted () {
     authService.getI().then(res => {
-      this.isLogined = true
-      this.user = res.name
+      if(res.name) {
+        this.isLogined = true
+        this.user = res.name
+      }
     })
   }
   public destroyed () {
