@@ -2,5 +2,5 @@
  * default global config.
  */
 export default {
-    baseUrl: 'https://www.sundogrd.com',
+    baseUrl: '//lwio.sundogrd.com/api',
 };
