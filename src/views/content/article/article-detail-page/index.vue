@@ -57,6 +57,7 @@ export default class ArticleDetailPage extends Vue {
   padding-left: 20px;
   padding-right: 20px;
 }
+
 .graylight-bg {
   background: #fafafa;
 }

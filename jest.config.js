@@ -13,7 +13,8 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest'
   },
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '@config': '<rootDir>/config',
   },
   snapshotSerializers: [
     'jest-serializer-vue'

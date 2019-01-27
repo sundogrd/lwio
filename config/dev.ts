@@ -2,5 +2,5 @@
  * dev env config.
  */
 export default {
-    baseUrl: '/',
+    baseUrl: 'http://localhost:8086',
 };

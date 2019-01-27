@@ -1,24 +1,36 @@
-import axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
-import router from '@/router'
-import config from '@/config'
-import { MessageBox, Notification } from 'element-ui'
-import mockData from 'api/mock'
-import store from '../store'
-// import router from '../router';
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import config from '../../config'
+// import store from '../store'
+
+export interface IResponse<T> {
+  err_msg: string;
+  err_no: EResponseCode;
+  data: T;
+}
+
+export enum EResponseCode {
+  SUCCESS = 0,
+}
+
+interface IAxiosRequestCustomConfig {}
+
+export class ResponseError<T = any> extends Error {
+  response: IResponse<T>;
+  constructor(resp: IResponse<T>) {
+      super(resp.err_msg);
+      this.response = resp;
+  }
+}
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: process.env.BASE_API, // api的base_url
+  baseURL: config.baseUrl, // api的base_url
   timeout: 5000 // 请求超时时间
 })
 
 // request拦截器
 service.interceptors.request.use(config => {
   // Do something before request is sent
-  if (store.getters.auth.token.accessToken) {
-    config.headers['Access-Token'] = store.getters.auth.token.accessToken
-  }
   return config
 }, error => {
   Promise.reject(error)
@@ -26,23 +38,23 @@ service.interceptors.request.use(config => {
 
 // respone拦截器
 service.interceptors.response.use(
-  response => {
-    if (response.status === 200) {
-      return response.data
-    }
-    if (response.status === 204) {
-      return {}
-    }
+  (response: AxiosResponse<IResponse<any>>) => {
+    return response
   },
   error => {
     return Promise.reject(error.response)
   }
 )
 
-// const mock = new MockAdapter(service, { delayResponse: 2000 })
+export { service };
 
-// mockData(mock)
-// if (process.env.API_MOCK === undefined || !process.env.API_MOCK) {
-//   mock.restore()
-// }
-export default service
+export const requestRaw = <T>(
+    config: AxiosRequestConfig & IAxiosRequestCustomConfig,
+) => service.request<IResponse<T>>(config);
+
+// tslint:disable-next-line:no-any
+export default function request<T = any>(
+    config: AxiosRequestConfig & IAxiosRequestCustomConfig,
+) {
+    return requestRaw<T>(config).then(ret => ret.data.data);
+}

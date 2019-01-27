@@ -24,20 +24,24 @@ export default class AuthorBar extends Vue {
 .author-bar {
   display: flex;
   margin: 24px 0;
+
   .avatar-block {
     margin-right: 20px;
+
     img {
       width: 50px;
       height: 50px;
       border-radius: 50%;
     }
   }
+
   .info-block {
     p.name {
-      color: rgba(0,0,0,.84);
+      color: rgba(0, 0, 0, 0.84);
     }
+
     p.caption {
-      color: rgba(0,0,0,.54);
+      color: rgba(0, 0, 0, 0.54);
     }
   }
 }
