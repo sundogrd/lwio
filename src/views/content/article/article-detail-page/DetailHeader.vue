@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import * as authService from "@/services/auth"
+import * as authService from '@/services/auth'
 import _ from 'lodash'
 let lastScrollTop = 0
 @Component({
