@@ -2,25 +2,11 @@ import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import config from '../../config'
 // import store from '../store'
 
-export interface IResponse<T> {
-  err_msg: string;
-  err_no: EResponseCode;
-  data: T;
-}
-
 export enum EResponseCode {
   SUCCESS = 0,
 }
 
 interface IAxiosRequestCustomConfig {}
-
-export class ResponseError<T = any> extends Error {
-  response: IResponse<T>;
-  constructor(resp: IResponse<T>) {
-      super(resp.err_msg);
-      this.response = resp;
-  }
-}
 
 // 创建axios实例
 const service = axios.create({
@@ -38,7 +24,7 @@ service.interceptors.request.use(config => {
 
 // respone拦截器
 service.interceptors.response.use(
-  (response: AxiosResponse<IResponse<any>>) => {
+  (response: AxiosResponse<any>) => {
     return response
   },
   error => {
@@ -50,11 +36,11 @@ export { service };
 
 export const requestRaw = <T>(
     config: AxiosRequestConfig & IAxiosRequestCustomConfig,
-) => service.request<IResponse<T>>(config);
+) => service.request<T>(config);
 
 // tslint:disable-next-line:no-any
 export default function request<T = any>(
     config: AxiosRequestConfig & IAxiosRequestCustomConfig,
 ) {
-    return requestRaw<T>(config).then(ret => ret.data.data);
+    return requestRaw<T>(config).then(ret => ret.data);
 }

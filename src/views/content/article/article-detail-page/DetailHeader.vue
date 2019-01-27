@@ -1,8 +1,9 @@
 <template>
   <div class="detail-header" :class="{'nav-up': !show}">
     <div class="detail-header-container">
-      <h1>Lwio</h1>
-      <div class="user-navbar">
+      <a v-if="!isLogined" href="/api/oauth2/github/login">github登录</a>
+      <h1 v-if="isLogined">Lwio</h1>
+      <div v-if="isLogined" class="user-navbar">
         <div class="avatar">
           <img src="https://cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT." class="avatar-image" alt="Pearce Liang">
         </div>
@@ -13,6 +14,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import * as authService from "@/services/auth"
 import _ from 'lodash'
 let lastScrollTop = 0
 @Component({
@@ -20,6 +22,8 @@ let lastScrollTop = 0
 })
 export default class DetailHeader extends Vue {
   public show = true
+  public isLogined = false
+  public user: string | null = null
   public handleScroll () {
     // 下滑隐藏
     const st = window.pageYOffset || document.documentElement.scrollTop
@@ -33,6 +37,12 @@ export default class DetailHeader extends Vue {
   public created () {
     lastScrollTop = 0
     window.addEventListener('scroll', _.throttle(this.handleScroll, 100))
+  }
+  public mounted () {
+    authService.getI().then(res => {
+      this.isLogined = true
+      this.user = res.name
+    })
   }
   public destroyed () {
     window.removeEventListener('scroll', this.handleScroll)
