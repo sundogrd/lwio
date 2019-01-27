@@ -6,5 +6,10 @@ module.exports = {
             poll: true
         }
     }
+  },
+
+  pluginOptions: {
+    lintStyleOnBuild: false,
+    stylelint: {}
   }
 }
