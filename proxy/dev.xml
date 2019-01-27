@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<?charles serialisation-version='2.0' ?>
+<map>
+  <toolEnabled>true</toolEnabled>
+  <mappings>
+    <mapMapping>
+      <sourceLocation>
+        <protocol>http</protocol>
+        <host>lwio.sundogrd.com</host>
+        <path>/api/*</path>
+      </sourceLocation>
+      <destLocation>
+        <protocol>http</protocol>
+        <host>localhost</host>
+        <port>8086</port>
+        <path>/</path>
+      </destLocation>
+      <preserveHostHeader>false</preserveHostHeader>
+      <enabled>true</enabled>
+    </mapMapping>
+    <mapMapping>
+      <sourceLocation>
+        <protocol>http</protocol>
+        <host>lwio.sundogrd.com</host>
+      </sourceLocation>
+      <destLocation>
+        <protocol>http</protocol>
+        <host>localhost</host>
+        <port>8080</port>
+      </destLocation>
+      <preserveHostHeader>false</preserveHostHeader>
+      <enabled>true</enabled>
+    </mapMapping>
+  </mappings>
+</map>
