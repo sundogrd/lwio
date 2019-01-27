@@ -1,0 +1,4 @@
+/**
+ * prod config.
+ */
+export default {};
