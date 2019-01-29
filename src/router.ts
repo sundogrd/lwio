@@ -3,6 +3,7 @@ import Router from 'vue-router'
 // import Home from './views/Home.vue'
 import ArticleDetailPage from './views/content/article/article-detail-page/index.vue'
 import ArticlePublishPage from './views/content/article/article-publish-page/index.vue'
+import UserSpacePage from './views/user/user-space-page/index.vue'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: ArticleDetailPage
+    },
+    {
+      path: '/users/:userId',
+      name: 'userSpacePage',
+      component: UserSpacePage,
     }
   ]
 })
