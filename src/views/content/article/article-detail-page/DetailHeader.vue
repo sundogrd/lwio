@@ -4,7 +4,7 @@
       <a v-if="!isLogined" href="/api/oauth2/github/login">github登录</a>
       <h1 v-if="isLogined">Lwio</h1>
       <div v-if="isLogined" class="user-navbar">
-        <div class="avatar">
+        <div class="avatar" @click="handleGoUserSpace">
           <img src="https://cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT." class="avatar-image" alt="Pearce Liang">
         </div>
       </div>
@@ -49,6 +49,9 @@ export default class DetailHeader extends Vue {
   public destroyed () {
     window.removeEventListener('scroll', this.handleScroll)
   }
+  public handleGoUserSpace () {
+    this.$router.push({name: 'userSpacePage', params: {userId: '304012802987667460'}})
+  }
 }
 </script>
 
@@ -59,7 +62,6 @@ export default class DetailHeader extends Vue {
   height: 65px;
   padding: 0 20px;
   background: #fff;
-  box-shadow: 0 2px 2px -2px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease-in-out;
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
 
@@ -88,7 +90,6 @@ export default class DetailHeader extends Vue {
     .user-navbar {
       .avatar {
         img {
-          height: 30px;
           height: 30px;
         }
       }

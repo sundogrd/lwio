@@ -1,5 +1,5 @@
 <template>
-  <svg class="svg-icon" aria-hidden="true">
+  <svg class="icon" aria-hidden="true">
     <use :xlink:href="iconName"></use>
   </svg>
 </template>
@@ -14,7 +14,7 @@ export default class IconSvg extends Vue {
   public iconClass!: string
 
   get iconName () {
-    return `#icon-${this.iconClass}`
+    return `#lwio-icon-${this.iconClass}`
   }
 }
 </script>
