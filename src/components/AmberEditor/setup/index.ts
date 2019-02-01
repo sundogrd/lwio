@@ -9,6 +9,7 @@ import { menuBar } from 'prosemirror-menu'
 import { buildMenuItems } from './menu'
 import { buildKeymap } from './keymap'
 import { buildInputRules } from './inputrules'
+import placeholderPlugin from '../plugins/placeholder'
 
 export { buildMenuItems, buildKeymap, buildInputRules }
 
@@ -56,13 +57,18 @@ export function exampleSetup(options: any) {
     dropCursor(),
     gapCursor()
   ]
-  if (options.menuBar !== false)
+  if (options.menuBar !== false) {
     plugins.push(menuBar({
       floating: options.floatingMenu !== false,
       content: options.menuContent || buildMenuItems(options.schema).fullMenu
     }))
-  if (options.history !== false)
+  }
+  if (options.history !== false) {
     plugins.push(history())
+  }
+  if (options.placeholder !== false) {
+    plugins.push(placeholderPlugin)
+  }
 
   return plugins.concat(new Plugin({
     props: {
