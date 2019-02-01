@@ -1,5 +1,7 @@
 declare module 'prosemirror-view' {
     export let EditorView: any;
+    export let Decoration: any;
+    export let DecorationSet: any;
 }
 
 declare module 'prosemirror-state' {
@@ -75,4 +77,13 @@ declare module 'prosemirror-inputrules' {
     export let emDash: any
     export let ellipsis: any
     export let undoInputRule: any
+}
+
+declare module 'prosemirror-schema-basic' {
+    export let schema: any
+}
+
+declare module 'prosemirror-model' {
+    export let Schema: any
+    export let DOMParser: any
 }

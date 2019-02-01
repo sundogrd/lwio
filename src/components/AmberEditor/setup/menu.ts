@@ -6,6 +6,7 @@ import { NodeSelection } from 'prosemirror-state'
 import { toggleMark } from 'prosemirror-commands'
 import { wrapInList } from 'prosemirror-schema-list'
 import { TextField, openPrompt } from './prompt'
+import blockImageSchema from '../schema/block-image'
 
 // Helpers to create specific types of items
 
@@ -44,6 +45,20 @@ function insertImageItem(nodeType: any) {
       })
     }
   })
+}
+
+function insertBlockImage(src: string) {
+  let block = blockImageSchema.nodes.block_image
+  return function(state: any, dispatch?: any) {
+    let {$from} = state.selection, index = $from.index()
+    if (!$from.parent.canReplaceWith(index, index, block)) {
+      return false
+    }
+    if (dispatch) {
+      dispatch(state.tr.replaceSelectionWith(block.create({src})))
+    }
+    return true
+  }
 }
 
 function cmdItem(cmd: any, options: any) {
@@ -184,40 +199,48 @@ export function buildMenuItems(schema: any) {
   if (type = schema.marks.link)
     r.toggleLink = linkItem(type)
 
-  if (type = schema.nodes.image)
+  if (type = schema.nodes.image) {
     r.insertImage = insertImageItem(type)
-  if (type = schema.nodes.bullet_list)
+  }
+  if (type = schema.nodes.bullet_list) {
     r.wrapBulletList = wrapListItem(type, {
       title: 'Wrap in bullet list',
       icon: icons.bulletList
     })
-  if (type = schema.nodes.ordered_list)
+  }
+  if (type = schema.nodes.ordered_list) {
     r.wrapOrderedList = wrapListItem(type, {
       title: 'Wrap in ordered list',
       icon: icons.orderedList
     })
-  if (type = schema.nodes.blockquote)
+  }
+  if (type = schema.nodes.blockquote) {
     r.wrapBlockQuote = wrapItem(type, {
       title: 'Wrap in block quote',
       icon: icons.blockquote
     })
-  if (type = schema.nodes.paragraph)
+  }
+  if (type = schema.nodes.paragraph) {
     r.makeParagraph = blockTypeItem(type, {
       title: 'Change to paragraph',
       label: 'Plain'
     })
-  if (type = schema.nodes.code_block)
+  }
+  if (type = schema.nodes.code_block) {
     r.makeCodeBlock = blockTypeItem(type, {
       title: 'Change to code block',
       label: 'Code'
     })
-  if (type = schema.nodes.heading)
-    for (let i = 1; i <= 10; i++)
+  }
+  if (type = schema.nodes.heading) {
+    for (let i = 1; i <= 10; i++) {
       r['makeHead' + i] = blockTypeItem(type, {
         title: 'Change to heading ' + i,
         label: 'Level ' + i,
         attrs: { level: i }
       })
+    }
+  }
   if (type = schema.nodes.horizontal_rule) {
     let hr = type
     r.insertHorizontalRule = new MenuItem({
@@ -234,6 +257,15 @@ export function buildMenuItems(schema: any) {
 
   let cut = (arr: any) => arr.filter((x: any) => x)
   r.insertMenu = new Dropdown(cut([r.insertImage, r.insertHorizontalRule]), { label: 'Insert' })
+  r.insertMenu.content.push(new MenuItem({
+    title: 'Insert Block Image',
+    label: 'Block image',
+    enable(state: any) {
+       return insertBlockImage('https://sf1-ttcdn-tos.pstatp.com/img/learning/5e60d8e123784a3d6de96e2407b5a6b6~noop.png')(state) 
+    },
+    run: insertBlockImage('https://sf1-ttcdn-tos.pstatp.com/img/learning/5e60d8e123784a3d6de96e2407b5a6b6~noop.png')
+  }))
+
   r.typeMenu = new Dropdown(cut([r.makeParagraph, r.makeCodeBlock, r.makeHead1 && new DropdownSubmenu(cut([
     r.makeHead1, r.makeHead2, r.makeHead3, r.makeHead4, r.makeHead5, r.makeHead6
   ]), { label: 'Heading' })]), { label: 'Type...' })

@@ -19,6 +19,7 @@ import {
   defaultMarkdownParser,
   defaultMarkdownSerializer
 } from 'prosemirror-markdown'
+import imageSchema from './schema/block-image'
 import { exampleSetup } from './setup'
 
 @Component({
