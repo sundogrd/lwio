@@ -1,22 +1,24 @@
 <template>
   <div class="author-bar">
     <div class="avatar-block">
-      <img src="//cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT." />
+      <img :src="author.avatar_url" />
     </div>
     <div class="info-block">
-      <p class="name">梁王</p>
-      <p class="caption">blabla</p>
+      <p class="name">{{author.name}}</p>
+      <p class="caption">{{author.extra.github_home}}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import marked from 'marked'
+import * as userService from '@/services/user'
 @Component({
   name: 'AuthorBar'
 })
 export default class AuthorBar extends Vue {
+  @Prop(Object) author!: userService.UserInfo
 }
 </script>
 

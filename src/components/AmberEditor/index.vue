@@ -5,7 +5,7 @@
       class="markdown"
       v-bind:class="className"
       v-show="mode === 'markdown' || mode ==='all'"
-      v-model='content.markdown'
+      v-model='markdown'
     />
   </div>
 </template>
@@ -26,10 +26,8 @@ import { exampleSetup } from './setup'
   name: 'AmberEditor'
 })
 export default class AmberEditor extends Vue {
-  content = {
-    markdown: '',
-    editor: ''
-  }
+  markdown = ''
+  doc = ''
   editor = {}
   view: any = {}
   className = 'vue-prosemirror'
@@ -37,7 +35,7 @@ export default class AmberEditor extends Vue {
     this.editor = this.$el.children[0]
     // sets up prose mirror. Also
     // bind textarea content changes
-    this.setupProseMirror(this.content.editor, this.editor)
+    this.setupProseMirror(this.doc, this.editor)
     this.bindTextarea(this.$el.children[1])
 
     // handle private change events:
@@ -51,7 +49,7 @@ export default class AmberEditor extends Vue {
     this.$on('_content-change-markdown', () => {
       if (['all', 'editor'].includes(this.mode)) {
         const state = EditorState.create({
-          doc: defaultMarkdownParser.parse(this.content.markdown),
+          doc: defaultMarkdownParser.parse(this.markdown),
           plugins: exampleSetup({ schema, menuBar: false}),
         })
         this.view.updateState(state)
@@ -59,7 +57,7 @@ export default class AmberEditor extends Vue {
     })
 
     if (this.initialMarkdown) {
-      this.content.markdown = this.initialMarkdown
+      this.markdown = this.initialMarkdown
       this.$emit('_content-change-markdown')
     }
     // if (window.eventHub) {
@@ -84,8 +82,8 @@ export default class AmberEditor extends Vue {
       }),
       dispatchTransaction: (action: any) => {
         this.$emit('_content-change-editor', action)
-        this.content.editor = this.view.state.doc
-        this.content.markdown = defaultMarkdownSerializer.serialize(
+        this.doc = this.view.state.doc
+        this.markdown = defaultMarkdownSerializer.serialize(
           this.view.state.doc
         )
       }
@@ -97,8 +95,8 @@ export default class AmberEditor extends Vue {
     const self = this
 
     function mtodoc () {
-      self.content.editor = defaultMarkdownParser.parse(area.value)
-      self.content.markdown = area.value
+      self.doc = defaultMarkdownParser.parse(area.value)
+      self.markdown = area.value
       self.$emit('_content-change-markdown')
     }
     // emulate v-model
@@ -110,22 +108,23 @@ export default class AmberEditor extends Vue {
   }
 
   // applyMarkdown(newData) {
-  //   this.content.markdown = newData.markdown
+  //   this.markdown = newData.markdown
   //   this.$emit('_content-change-markdown')
   // }
   @Watch('initialMarkdown')
   private onInit (val: string) {
-    this.content.markdown = val
+    this.markdown = val
     this.$emit('_content-change-markdown')
   }
 
-  @Watch('content', { deep: true })
+  @Watch('markdown', { deep: true })
   private onContentChange (
     val: { content: string; markdown: string },
     oldVal: { content: string; markdown: string }
   ) {
-    this.$emit('contentChange', val, oldVal)
-    this.$emit('contentChangeMarkdown', val.markdown, oldVal.markdown)
+    this.$emit('content-change', val, oldVal)
+    this.$emit('content-change-markdown', val.markdown, oldVal.markdown)
+    this.$emit('update:markdown', val)
   }
 
   @Watch('mode')
@@ -134,7 +133,7 @@ export default class AmberEditor extends Vue {
     // Do manually here
     if (oldVal !== 'all' && (val === 'editor' || val === 'all')) {
       const state = EditorState.create({
-        doc: defaultMarkdownParser.parse(this.content.markdown),
+        doc: defaultMarkdownParser.parse(this.markdown),
         plugins: exampleSetup({ schema })
       })
       this.view.updateState(state)
