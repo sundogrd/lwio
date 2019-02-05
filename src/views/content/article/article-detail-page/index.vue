@@ -1,10 +1,10 @@
 <template>
   <div class="article-page" sticky-container>
     <!-- <button v-sticky sticky-offset="30" sticky-side="bottom" :click="fullScreen">Great</button> -->
-    <detail-header  />
+    <detail-header />
     <transition-group name="fade" mode="out-in">
       <div class="article-container" key="article-container">
-        <article-content />
+        <article-content :article="article" />
       </div>
     </transition-group>
     <div class="graylight-bg">
@@ -19,6 +19,7 @@
 import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import * as contentService from '@/services/content'
 import DetailHeader from './DetailHeader.vue'
 import DetailFooter from './DetailFooter.vue'
 import ArticleContent from './ArticleContent/index.vue'
@@ -37,9 +38,10 @@ import RecommendSection from './RecommendSection/index.vue'
 })
 
 export default class ArticleDetailPage extends Vue {
-  private article = null
-  public mounted() {
-    
+  private article: contentService.ContentInfo | null = null
+  public async  mounted() {
+    const res = await contentService.getContentById({contentId: this.$route.params.articleId})
+    this.article = res
   }
   // fullScreen() {
   //   this.$fullscreen.toggle(this.$el.querySelector('.example'), {
@@ -50,7 +52,7 @@ export default class ArticleDetailPage extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="less">
+<style lang="less">
 .article-container {
   margin: 20px auto;
   max-width: 740px;

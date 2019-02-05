@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from './views/Home.vue'
+import IndexPage from './views/public/index-page/index.vue'
 import ArticleDetailPage from './views/content/article/article-detail-page/index.vue'
 import ArticlePublishPage from './views/content/article/article-publish-page/index.vue'
 import UserSpacePage from './views/user/user-space-page/index.vue'
@@ -11,11 +11,11 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Home
-    // },
+    {
+      path: '/',
+      name: 'index',
+      component: IndexPage
+    },
     // {
     //   path: '/about',
     //   name: 'about',

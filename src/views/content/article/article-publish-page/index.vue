@@ -1,6 +1,12 @@
 <template>
   <div class="article-page">
-    <amber-editor />
+    <header>
+      <el-input v-model="title" placeholder="Please Input title" />
+    </header>
+    <amber-editor v-bind:markdown.sync="body" />
+    <footer>
+      <el-button @click="handleSubmit">发表</el-button>
+    </footer>
   </div>
 </template>
 
@@ -8,6 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import AmberEditor from '@/components/AmberEditor/index.vue'
+import * as contentService from '@/services/content'
 
 @Component({
   name: 'ArticleDetailPage',
@@ -17,6 +24,20 @@ import AmberEditor from '@/components/AmberEditor/index.vue'
 })
 export default class ArticlePublishPage extends Vue {
   private article = null
+  private title = ''
+  private body = ''
+  public handleSubmit() {
+    contentService.createContent({
+      title: this.title,
+      body: this.body,
+      type: contentService.EType.TEXT,
+      body_type: contentService.EBodyType.BODY_MARKDOWN
+    }).then(res => {
+      debugger
+    }).catch(err => {
+      debugger
+    })
+  }
 }
 </script>
 

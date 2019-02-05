@@ -1,7 +1,7 @@
 <template>
   <div class="article-content">
-    <h1 class="article-title">{{ title }}</h1>
-    <author-bar />
+    <h1 class="article-title">{{ article.title }}</h1>
+    <author-bar :author="article.author" />
     <div class="article-html" v-html="contentHTML">
     </div>
     <ul class="article-tags">
@@ -13,11 +13,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import * as contentService from '@/services/content'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import AuthorBar from './AuthorBar.vue'
+import * as contentService from '@/services/content'
+import * as userService from '@/services/user'
 import marked from 'marked'
-// import { getArticle } from '@/api/article'
 @Component({
   name: 'ArticleContent',
   components: {
@@ -28,20 +28,15 @@ export default class ArticleDetailPage extends Vue {
   public tags?: string[]
   public title = 'Loading...'
   public contentMD = 'Loading'
+  @Prop(Object) article!: contentService.ContentInfo & {
+    author: userService.UserInfo
+  }
 
   get contentHTML () {
-    return marked(this.contentMD, { sanitize: true })
+    return marked(this.article.body, { sanitize: true })
   }
   public async mounted () {
-    const res = await contentService.getContentById({contentId: this.$route.params.articleId})
-    this.title = res.title
-    this.contentMD = res.body
-    // this.tags = res.tags
-//     this.title = 'You Might Not Need Redux'
-//     this.contentMD = `People often choose Redux before they need it. “What if our app doesn’t scale without it?” Later, developers frown at the indirection Redux introduced to their code. “Why do I have to touch three files to get a simple feature working?” Why indeed!
-
-// None of these limitations are required to build an app, with or without React. In fact these are pretty strong constraints, and you should think carefully before adopting them even in parts of your app.`
-//     this.tags = ['keke', 'React']
+    
   }
 }
 </script>
