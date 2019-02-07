@@ -1,10 +1,20 @@
+//
+// Copied and modified from https://github.com/ProseMirror/prosemirror-example-setup/blob/07cd58f03dc95f2e9d4375f6ab9166b1850ef327/src/prompt.js
+//
+
 const prefix = 'ProseMirror-prompt'
 
-export function openPrompt(options: any) {
-  let wrapper = document.body.appendChild(document.createElement('div'))
+export function openMenuPrompt(options: any) {
+  const { menuEl, buttonEl } = options
+  let wrapper = document.createElement('div')
+  menuEl.appendChild(wrapper)
   wrapper.className = prefix
 
-  let mouseOutside = (e: any) => { if (!wrapper.contains(e.target)) close() }
+  let mouseOutside = (e: MouseEvent) => {
+    if (!wrapper.contains((e as any).target)) {
+      close()
+    }
+  }
   setTimeout(() => window.addEventListener('mousedown', mouseOutside), 50)
   let close = () => {
     window.removeEventListener('mousedown', mouseOutside)
@@ -35,9 +45,10 @@ export function openPrompt(options: any) {
   buttons.appendChild(document.createTextNode(' '))
   buttons.appendChild(cancelButton)
 
-  let box = wrapper.getBoundingClientRect()
-  wrapper.style.top = ((window.innerHeight - box.height) / 2) + 'px'
-  wrapper.style.left = ((window.innerWidth - box.width) / 2) + 'px'
+  let menuBox = menuEl.getBoundingClientRect()
+  let buttonBox = buttonEl.getBoundingClientRect()
+  wrapper.style.top = (buttonBox.top + buttonBox.height) + 'px'
+  wrapper.style.left = (buttonBox.left - menuBox.left) + 'px'
 
   let submit = () => {
     let params = getValues(options.fields, domFields)
@@ -53,28 +64,35 @@ export function openPrompt(options: any) {
   })
 
   form.addEventListener('keydown', e => {
-    if (e.keyCode == 27) {
+    if (e.keyCode === 27) {
       e.preventDefault()
       close()
-    } else if (e.keyCode == 13 && !(e.ctrlKey || e.metaKey || e.shiftKey)) {
+    } else if (e.keyCode === 13 && !(e.ctrlKey || e.metaKey || e.shiftKey)) {
       e.preventDefault()
       submit()
-    } else if (e.keyCode == 9) {
+    } else if (e.keyCode === 9) {
       window.setTimeout(() => {
         if (!wrapper.contains(document.activeElement)) close()
       }, 500)
     }
   })
 
-  let input = form.elements[0] as HTMLInputElement
-  if (input) input.focus()
+  form.noValidate = true
+
+  let input = form.elements[0]
+  if (input) {
+    (input as HTMLInputElement).focus()
+  }
 }
 
 function getValues(fields: any, domFields: any) {
-  let result = Object.create(null), i = 0
+  let result = Object.create(null)
+  let i = 0
   for (let name in fields) {
-    let field = fields[name], dom = domFields[i++]
-    let value = field.read(dom), bad = field.validate(value)
+    let field = fields[name]
+    let dom = domFields[i++]
+    let value = field.read(dom)
+    let bad = field.validate(value)
     if (bad) {
       reportInvalid(dom, bad)
       return null
@@ -84,7 +102,7 @@ function getValues(fields: any, domFields: any) {
   return result
 }
 
-function reportInvalid(dom: any, message: any) {
+function reportInvalid(dom: any, message: string) {
   // FIXME this is awful and needs a lot more work
   let parent = dom.parentNode
   let msg = parent.appendChild(document.createElement('div'))
@@ -96,7 +114,7 @@ function reportInvalid(dom: any, message: any) {
 }
 
 // ::- The type of field that `FieldPrompt` expects to be passed to it.
-export class Field {
+class Field {
   options: any;
   // :: (Object)
   // Create a field with the given options. Options support by all
@@ -115,7 +133,7 @@ export class Field {
   //   : A function to validate the given value. Should return an
   //     error message if it is not valid.
   constructor(options: any) {
-    this.options = options 
+    this.options = options
   }
 
   // render:: (state: EditorState, props: Object) → dom.Node
@@ -123,19 +141,20 @@ export class Field {
 
   // :: (dom.Node) → any
   // Read the field's value from its DOM node.
-  read(dom: any) {
-    return dom.value
+  read(dom: Element) { 
+    return dom.querySelector('input')!.value 
   }
 
   // :: (any) → ?string
   // A field-type-specific validation function.
-  validateType(_value: any): string | undefined {
-    return
+  validateType(_value: any): any {
+
   }
 
   validate(value: any) {
-    if (!value && this.options.required)
+    if (!value && this.options.required) {
       return 'Required field'
+    }
     return this.validateType(value) || (this.options.validate && this.options.validate(value))
   }
 
@@ -147,29 +166,17 @@ export class Field {
 // ::- A field class for single-line text fields.
 export class TextField extends Field {
   render() {
-    let input = document.createElement('input')
-    input.type = 'text'
-    input.placeholder = this.options.label
+    const label = document.createElement('label')
+    const labellabel = document.createElement('span')
+    const input = document.createElement('input')
+    labellabel.innerText = this.options.label
+    label.appendChild(labellabel)
+    label.appendChild(input)
+    input.type = this.options.type || 'text'
+    input.placeholder = this.options.placeholder || ''
     input.value = this.options.value || ''
     input.autocomplete = 'off'
-    return input
-  }
-}
-
-
-// ::- A field class for dropdown fields based on a plain `<select>`
-// tag. Expects an option `options`, which should be an array of
-// `{value: string, label: string}` objects, or a function taking a
-// `ProseMirror` instance and returning such an array.
-export class SelectField extends Field {
-  render() {
-    let select = document.createElement('select')
-    this.options.options.forEach((o: any) => {
-      let opt = select.appendChild(document.createElement('option'))
-      opt.value = o.value
-      opt.selected = o.value == this.options.value
-      opt.label = o.label
-    })
-    return select
+    input.pattern = ''
+    return label
   }
 }

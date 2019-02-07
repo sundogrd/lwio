@@ -723,6 +723,11 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
+"@types/he@^1.1.0":
+  version "1.1.0"
+  resolved "http://registry.npm.taobao.org/@types/he/download/@types/he-1.1.0.tgz#0ddc2ae80f0814f729f0f7e5aa77b191ab4a9598"
+  integrity sha1-Ddwq6A8IFPcp8PflqnexkatKlZg=
+
 "@types/jest@^23.1.4":
   version "23.3.14"
   resolved "http://registry.npm.taobao.org/@types/jest/download/@types/jest-23.3.14.tgz#37daaf78069e7948520474c87b80092ea912520a"
@@ -767,6 +772,13 @@
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/@types/unist/download/@types/unist-2.0.2.tgz#5dc0a7f76809b7518c0df58689cd16a19bd751c6"
   integrity sha1-XcCn92gJt1GMDfWGic0WoZvXUcY=
+
+"@types/uuid@^3.4.4":
+  version "3.4.4"
+  resolved "http://registry.npm.taobao.org/@types/uuid/download/@types/uuid-3.4.4.tgz#7af69360fa65ef0decb41fd150bf4ca5c0cefdf5"
+  integrity sha1-evaTYPpl7w3stB/RUL9MpcDO/fU=
+  dependencies:
+    "@types/node" "*"
 
 "@types/vfile-message@*":
   version "1.0.1"
@@ -2744,6 +2756,11 @@ crel@^3.0.0:
   resolved "http://registry.npm.taobao.org/crel/download/crel-3.1.0.tgz#c0d5ed3df6b8017ff5ecc9f0743c60572e268c64"
   integrity sha1-wNXtPfa4AX/17MnwdDxgVy4mjGQ=
 
+crel@^4.0.1:
+  version "4.0.1"
+  resolved "http://registry.npm.taobao.org/crel/download/crel-4.0.1.tgz#cc01ca443b8d07e04d6bb0a392ba05340eb3de58"
+  integrity sha1-zAHKRDuNB+BNa7CjkroFNA6z3lg=
+
 cross-env@^5.2.0:
   version "5.2.0"
   resolved "http://registry.npm.taobao.org/cross-env/download/cross-env-5.2.0.tgz#6ecd4c015d5773e614039ee529076669b9d126f2"
@@ -4495,7 +4512,7 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
-he@1.2.x, he@^1.1.0:
+he@1.2.x, he@^1.1.0, he@^1.2.0:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/he/download/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha1-hK5l+n6vsWX922FWauFLrwVmTw8=
@@ -8048,7 +8065,7 @@ prosemirror-history@^1.0.0, prosemirror-history@^1.0.3:
     prosemirror-transform "^1.0.0"
     rope-sequence "^1.2.0"
 
-prosemirror-inputrules@^1.0.0, prosemirror-inputrules@^1.0.1:
+prosemirror-inputrules@1.0.1, prosemirror-inputrules@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/prosemirror-inputrules/download/prosemirror-inputrules-1.0.1.tgz#f63305fd966379f218e82ca76a2a9b328b66dc7b"
   integrity sha1-9jMF/ZZjefIY6CynaiqbMotm3Hs=
