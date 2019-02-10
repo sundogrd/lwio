@@ -36,7 +36,7 @@ function makeToggleLink (toggleLink: any) {
         const urlLike = isUrlLike(selectedText)
         const value = (urlLike ? selectedText : '')
 
-        const {amber} = key.get(state).options.amberStuff
+        const {amber} = key.get(state).spec.amberStuff
         if (amber.onRequestLink) {
           amber.onRequestLink(value)
           return true

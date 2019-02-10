@@ -7,7 +7,7 @@ function makeMenu (label: any, type: any, widgetType?: any) {
   function run (state: any, onAction?: any) {
     const index = focusedIndex(state)
     if (index == null) return
-    const {amber} = key.get(state).options.amberStuff
+    const {amber} = key.get(state).spec.amberStuff
     amber.routeChange('ADD_MEDIA', {index, type, widgetType})
   }
 

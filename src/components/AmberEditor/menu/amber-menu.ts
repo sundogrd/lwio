@@ -4,7 +4,10 @@ import {
     undoItem,
     redoItem,
     liftItem,
-} from 'prosemirror-menu'
+} from './common'
+import {
+    MenuBarView
+} from './common/menu-bar-view'
 import { buildMenuItems } from 'prosemirror-example-setup'
 import AmberSchema from '../schema/amber-schema'
 import menuImage from './menu-image'
@@ -19,30 +22,29 @@ import {
 
 const menuItems = buildMenuItems(AmberSchema)
 const { 
-    // makeParagraph,
-    // makeHead1
-    // , makeHead2
-    // , makeHead3,
-    wrapBulletList
-    , wrapOrderedList
-    , insertHorizontalRule
-    , toggleEm
-    , toggleLink
-    , toggleStrong,
+    makeParagraph,
+    makeHead1,
+    makeHead2,
+    makeHead3,
+    wrapBulletList,
+    wrapOrderedList,
+    insertHorizontalRule,
+    toggleEm,
+    toggleLink,
+    toggleStrong,
 } = menuItems
 
 // Customise link
 const amberToggleLink = makeToggleLink(toggleLink)
 
 // Customise labels
-// makeHead1.spec.label = 'h1 - Main title'
-// makeHead2.spec.label = 'h2 - Section heading'
-// makeHead3.spec.label = 'h3 - Subsection heading'
-// makeParagraph.spec.label = 'p - Body text'
+makeHead1.spec.label = 'h1 - Main title'
+makeHead2.spec.label = 'h2 - Section heading'
+makeHead3.spec.label = 'h3 - Subsection heading'
+makeParagraph.spec.label = 'p - Body text'
 
 // Disable these menus on media block selection
 // makeParagraph.spec.select = function (state: any) {
-//     debugger
 //     if (state.selection && state.selection.node && !state.selection.node.isTextblock) {
 //         return false
 //     }
@@ -92,10 +94,10 @@ export const amberCommands: { [key: string]: any } = {
 
 const typeDropdown = new Dropdown(
     [
-        // makeParagraph,
-        // makeHead1,
-        // makeHead2,
-        // makeHead3,
+        makeParagraph,
+        makeHead1,
+        makeHead2,
+        makeHead3,
     ]
     , { label: 'Type' }
 )
@@ -111,12 +113,14 @@ const addDropdown = new Dropdown(
 )
 
 export const amberBlockMenu = [
-    [toggleStrong,
+    [
+        toggleStrong,
         toggleEm,
         amberToggleLink,
     ],
     [typeDropdown],
-    [wrapBulletList,
+    [
+        wrapBulletList,
         wrapOrderedList,
         menuQuote,
         liftItem,
@@ -130,6 +134,13 @@ export const amberBarMenu = amberBlockMenu
 
 
 export const amberMenuPlugin = new Plugin({
+    view(editorView: any) {
+        let menuView = new MenuBarView(editorView, {
+            content: amberBarMenu
+        })
+        // editorView.dom.parentNode.insertBefore(menuView.wrapper, editorView.dom)
+        return menuView
+    },
     props: {
         menuContent: amberBarMenu,
         floatingMenu: false,

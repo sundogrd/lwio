@@ -1,12 +1,12 @@
 <template>
-  <div class="module-card">
-    <slot name="header"></slot>
+  <div class='module-card'>
+    <slot name='header'></slot>
     <slot></slot>
-    <slot name="footer"></slot>
+    <slot name='footer'></slot>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   name: 'ModuleCard'
@@ -17,7 +17,7 @@ export default class IconSvg extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 .module-card {
   background-color: #fff;
   border-radius: 2px;

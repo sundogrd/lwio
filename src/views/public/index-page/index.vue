@@ -1,10 +1,10 @@
 <template>
-  <div class="index-page" sticky-container>
+  <div class='index-page' sticky-container>
     I am index
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
@@ -28,7 +28,7 @@ export default class IndexPage extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang='less'>
 .index-page {
   margin: 20px auto;
   max-width: 740px;

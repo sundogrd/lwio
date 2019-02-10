@@ -1,16 +1,16 @@
 <template>
-  <div class="article-page">
+  <div class='article-page'>
     <header>
-      <el-input v-model="title" placeholder="Please Input title" />
+      <el-input v-model='title' placeholder='Please Input title' />
     </header>
-    <amber-editor v-bind:markdown.sync="body" />
+    <amber-editor v-bind:markdown.sync='body' :hasMenubar='true' />
     <footer>
-      <el-button @click="handleSubmit">发表</el-button>
+      <el-button @click='handleSubmit'>发表</el-button>
     </footer>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import AmberEditor from '@/components/AmberEditor/index.vue'
@@ -41,7 +41,7 @@ export default class ArticlePublishPage extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="less">
+<style rel='stylesheet/scss' lang='less'>
 .article-publish-container {
   margin: 30px auto;
   max-width: 740px;

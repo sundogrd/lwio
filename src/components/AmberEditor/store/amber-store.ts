@@ -111,7 +111,7 @@ export default class AmberStore {
   }
   _editableInitialize (editableView: any) {
     if (editableView) {
-      throw new Error('Ed._editableInitialize should only be called once')
+      throw new Error('Amber._editableInitialize should only be called once')
     }
     this.editableView = editableView
     this.pm = editableView.pm

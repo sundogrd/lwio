@@ -1,10 +1,10 @@
 <template>
-  <svg class="icon" aria-hidden="true">
-    <use :xlink:href="iconName"></use>
+  <svg class='icon' aria-hidden='true'>
+    <use :xlink:href='iconName'></use>
   </svg>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   name: 'IconSvg'

@@ -1,11 +1,11 @@
 <template>
-  <div class="Editable">
-    <div class="Editable-Mirror" ref="mirror"></div>
-    <div class="Editable-Plugins" ref="plugins"></div>
+  <div class='Editable'>
+    <div class='Editable-Mirror' ref='mirror'></div>
+    <div class='Editable-Plugins' ref='plugins'></div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop, Inject, Emit } from 'vue-property-decorator'
 import {EditorState, Plugin, NodeSelection} from 'prosemirror-state'
 import {history as pluginHistory} from 'prosemirror-history'
@@ -69,9 +69,6 @@ export default class AddCover extends Vue {
 
   mounted() {
     const { mirror, plugins } = this.$refs
-
-    console.log(amberInputRules)
-    debugger
     let amberPlugins = [
       pluginHistory(),
       amberInputRules,
@@ -83,7 +80,6 @@ export default class AddCover extends Vue {
       PluginShareUrl,
       PluginPlaceholder,
     ]
-
     if (this.hasMenuBar) {
       amberPlugins.push(amberMenuPlugin)
       amberPluginClasses.push(PluginFixedMenuHack)
@@ -117,19 +113,18 @@ export default class AddCover extends Vue {
     })
 
     let view: any
-    const applyTransaction = (transaction: any) => {
-      view.updateState(view.state.apply(transaction))
-      if (transaction.steps.length) {
-        this.emitChange('EDITABLE_CHANGE', this.pm)
-      }
-    }
-
     // PM setup
     let pmOptions =
-      { state,
+      { 
+        state,
         autoInput: true,
         spellcheck: true,
-        dispatchTransaction: applyTransaction,
+        dispatchTransaction: (transaction: any) => {
+          view.updateState(view.state.apply(transaction))
+          if (transaction.steps.length) {
+            this.emitChange('EDITABLE_CHANGE', this.pm)
+          }
+        },
         handleClickOn: function (_view: any, _pos: any, node: any) { return node.type.name === 'media' },
         nodeViews: {
           // media: (node: any, view: any, getPos: any) => {
@@ -152,7 +147,6 @@ export default class AddCover extends Vue {
     view = this.pm = new EditorView(mirror, pmOptions)
     this.pm.amber = this.store
 
-    debugger
     this.emitChange('EDITABLE_INITIALIZE', this)
   }
   destroyed() {
@@ -173,19 +167,19 @@ export default class AddCover extends Vue {
     }
     event.preventDefault()
     event.stopPropagation()
-    this.emitDropFiles(index, event!.dataTransfer.files)
+    this.emitDropFiles(index, (event as any).dataTransfer.files)
   }
 
 }
 </script>
 
-<style lang="less">
+<style lang='less'>
 [contenteditable]:focus {
   outline: 0 solid transparent;
 }
 
 .Amber {
-  font-family: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  font-family: -apple-system, '.SFNSText-Regular', 'San Francisco', 'Roboto', 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', sans-serif;
 }
 
 .Amber button:hover {
@@ -234,7 +228,7 @@ export default class AddCover extends Vue {
 .ProseMirror-content h4,
 .ProseMirror-content h5,
 .ProseMirror-content h6 {
-  font-family: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+  font-family: -apple-system, '.SFNSText-Regular', 'San Francisco', 'Roboto', 'Segoe UI', 'Helvetica Neue', 'Lucida Grande', sans-serif;
   font-weight: normal;
 }
 

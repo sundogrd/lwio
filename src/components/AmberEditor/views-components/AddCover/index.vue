@@ -1,8 +1,8 @@
 <template>
-  <button class="add-cover" @click="handleAddImage">Add Image</button>
+  <button class='add-cover' @click='handleAddImage'>Add Image</button>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop, Inject } from 'vue-property-decorator'
 @Component({
   name: 'AddCover'
@@ -28,10 +28,10 @@ export default class AddCover extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang='less'>
 .add-cover {
   button {
-    text-transform: "uppercase";
+    text-transform: 'uppercase';
     border-radius: 4px;
     padding: 10px 16px;
     margin: 0.25em 0.5em;

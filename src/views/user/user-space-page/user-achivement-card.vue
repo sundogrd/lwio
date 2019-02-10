@@ -1,16 +1,16 @@
 <template>
-  <module-card class="user-achivement-card">
-    <h1 slot="header">个人成就</h1>
-    <div class="stat-list">
-      <div class="stat-item">
-        <icon-svg :iconClass="'thumbup'" />
-        <span>获得鼓掌<span class="count">666</span>次</span>
+  <module-card class='user-achivement-card'>
+    <h1 slot='header'>个人成就</h1>
+    <div class='stat-list'>
+      <div class='stat-item'>
+        <icon-svg :iconClass="thumbup" />
+        <span>获得鼓掌<span class='count'>666</span>次</span>
       </div>
     </div>
   </module-card>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
 import ModuleCard from '../../../components/ModuleCard/index.vue'
 import IconSvg from '../../../components/IconSvg/index.vue'
@@ -27,7 +27,7 @@ export default class UserAchivementCard extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="less">
+<style rel='stylesheet/scss' lang='less'>
 .user-achivement-card {
   h1 {
     padding: 1.333rem;

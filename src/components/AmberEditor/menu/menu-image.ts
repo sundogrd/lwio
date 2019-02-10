@@ -7,7 +7,7 @@ import {key} from '../plugins/store-ref'
 function run (state: any, onAction?: any) {
   const index = focusedIndex(state)
   if (index == null) return
-  const {amber} = key.get(state).options.amberStuff
+  const {amber} = key.get(state).spec.amberStuff
   amber.trigger('command.menu.file', index)
 }
 
