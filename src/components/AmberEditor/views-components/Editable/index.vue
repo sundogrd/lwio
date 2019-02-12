@@ -349,6 +349,14 @@ export default class AddCover extends Vue {
   top: 0;
 }
 
+.ProseMirror-content > ul {
+  list-style-type: disc;
+}
+
+.ProseMirror-content > ol {
+  list-style-type: decimal;
+}
+
 @media screen and (min-width: 728px) {
   .ProseMirror-content {
     padding: 1rem 3rem 3rem 3rem;

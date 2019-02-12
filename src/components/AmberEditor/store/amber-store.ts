@@ -6,7 +6,7 @@ import {indexToPos, indexOfId} from '../util/pm'
 
 import DocToGrid from '../convert/doc-to-grid'
 import IframeInfo from '../plugins/iframe-info'
-import EdSchema from '../schema/amber-schema'
+import AmberSchema from '../schema/amber-schema'
 
 function noop () {}
 
@@ -101,9 +101,6 @@ export default class AmberStore {
         break
       case 'PLACEHOLDER_CANCEL':
         this._placeholderCancel(payload)
-        break
-      case 'ADD_MEDIA':
-        this._addMedia(payload)
         break
       default:
         throw new Error(`amber.routeChange '${type}' does not exist`)
@@ -288,7 +285,7 @@ export default class AmberStore {
       initialHeight = info.initialHeight
     }
 
-    const node = EdSchema.nodes.media.create(
+    const node = AmberSchema.nodes.media.create(
       { id,
         type,
         widget,
@@ -331,7 +328,7 @@ export default class AmberStore {
       if (!isMediaType(type)) {
         throw new Error('_insertBlocks with non-media blocks not yet implemented.')
       }
-      const node = EdSchema.nodes.media.create(
+      const node = AmberSchema.nodes.media.create(
         { id,
           type,
           widget,
@@ -352,17 +349,45 @@ export default class AmberStore {
     //   this.pm.content.blur()
     // }
   }
-  _addMedia ({index, type, widgetType}: any) {
-    let block: any = { 
-        id: uuid.v4(),
-        type,
-        html: '',
-        metadata: {},
-      }
-    if (widgetType) {
-      block.metadata.widget = widgetType
+  insertImages (index: number, imgs: any) {
+    let toInsert = []
+    let ids = []
+    for (let i = 0, length = imgs.length; i < length; i++) {
+      const id = uuid.v4()
+      ids.push(id)
+      const block =
+        { 
+          id,
+          src: imgs[i].src,
+          caption: imgs[i].caption,
+        }
+      toInsert.push(block)
     }
-    this._insertBlocks(index, [block])
+    this._initializeContent(toInsert)
+
+    let nodes = []
+
+    for (let i = 0, len = toInsert.length; i < len; i++) {
+      const block = toInsert[i]
+      const { id, src, caption } = block      
+      const node = AmberSchema.nodes.image.create(
+        { 
+          id,
+          src,
+          caption
+        }
+      )
+      nodes.push(node)
+    }
+
+    const state = this.pm.state
+    const dispatch = this.pm.dispatch
+    const pos = indexToPos(state.doc, index)
+    dispatch(
+      state.tr.insert(pos, nodes)
+    )
+
+    return ids
   }
   insertPlaceholders (index: number, count: number) {
     let toInsert = []
@@ -374,7 +399,6 @@ export default class AmberStore {
       ids.push(id)
       const block =
         { id,
-          type: 'placeholder',
           // metadata: {starred},
         }
       toInsert.push(block)
@@ -386,7 +410,7 @@ export default class AmberStore {
     for (let i = 0, len = toInsert.length; i < len; i++) {
       const block = toInsert[i]
       const { id } = block
-      const node = EdSchema.nodes.placeholder.create(
+      const node = AmberSchema.nodes.placeholder.create(
         { 
           id,
         }

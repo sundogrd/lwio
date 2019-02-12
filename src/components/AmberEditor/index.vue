@@ -38,12 +38,12 @@ import {
 } from 'vue-property-decorator';
 import { EditorView } from 'prosemirror-view';
 import { EditorState } from 'prosemirror-state';
-import {
-  schema,
-  defaultMarkdownParser,
-  defaultMarkdownSerializer
-} from 'prosemirror-markdown';
-// import imageSchema from './schema/block-image'
+// import {
+//   schema,
+//   defaultMarkdownParser,
+//   defaultMarkdownSerializer
+// } from 'prosemirror-markdown';
+import defaultMarkdownSerializer from './parsers/markdown/to-markdown/defaultMarkdownSerializer'
 import Editable from './views-components/Editable/index.vue';
 // import WidgetEdit from './views-components/WidgetEdit/index.vue'
 // import Modal from './views-components/Modal/index.vue'
@@ -132,6 +132,12 @@ export default class AmberEditor extends Vue {
         if (!files || !files.length) return;
         filesUploadSim(index, files);
         const ids = that.store.insertPlaceholders(index, files.length)
+        // TODO: Test Image        
+        that.store.insertImages(index, [{
+          src: 'https://avatars2.githubusercontent.com/u/41531553?s=200&v=4',
+          caption: 'fuck',
+        }])
+        
         for (let i = 0, len = files.length; i < len; i++) {
           const file = files[i]
           const url = URL.createObjectURL(file)
@@ -246,6 +252,8 @@ export default class AmberEditor extends Vue {
 
   private handleEditableChange(action: { name: string; vc: any }) {
     this.store.routeChange(action.name, action.vc);
+    const markdown = defaultMarkdownSerializer.serialize(action.vc.state.doc)
+    console.log("markdown: ", markdown)
     console.log(action)
   }
 

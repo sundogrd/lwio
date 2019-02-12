@@ -70,6 +70,8 @@ export class ImageNodeView {
         this.dom.setAttribute('amber-image-id', id)
         this.dom.setAttribute('amber-image-caption', node.attrs.caption)
         this.dom.setAttribute('amber-image-src', node.attrs.src)
+        var nodeContentPlaceholder = document.createElement('div')
+        this.dom.appendChild(nodeContentPlaceholder)
 
         this.dom.contentEditable = false
         this.dom.spellcheck = false
@@ -82,11 +84,15 @@ export class ImageNodeView {
                 )
             )
         }
-        this.mounted = new ImageNode(props).$mount(this.dom)
+        setTimeout(() => {
+            this.mounted = new ImageNode({
+                propsData: props
+            }).$mount(`div[amber-image-id='${id}'] div`)
+        }, 0)
     }
     update(node: any, decorations: any) {
         console.log('ImageNodeView update')
-        if (node.attrs.id !== this.node.attrs.id) {
+        if (node.attrs.id !== this.node.attrs.id && node.attrs.src !== this.node.attrs.src && node.attrs.caption !== this.node.attrs.caption) {
             return false
         }
         return true

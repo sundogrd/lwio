@@ -11,11 +11,11 @@ declare module 'prosemirror-state' {
     export let PluginKey: any;
 }
 
-declare module 'prosemirror-markdown' {
-    export let schema: any;
-    export let defaultMarkdownParser: any;
-    export let defaultMarkdownSerializer: any;
-}
+// declare module 'prosemirror-markdown' {
+//     export let schema: any;
+//     export let defaultMarkdownParser: any;
+//     export let defaultMarkdownSerializer: any;
+// }
 
 declare module 'prosemirror-example-setup' {
     export let exampleSetup: any;
@@ -98,4 +98,5 @@ declare module 'prosemirror-model' {
     export let Schema: any
     export let DOMParser: any
     export let DOMSerializer: any
+    export let Mark: any
 }

@@ -13,11 +13,11 @@ import AmberSchema from '../schema/amber-schema'
 import menuImage from './menu-image'
 import makeToggleLink from './menu-link'
 import {
-    menuCode
-    , menuLocation
-    , menuUserhtml
-    , menuCta
-    , menuQuote,
+    // menuCode
+    // , menuLocation
+    // , menuUserhtml
+    // , menuCta
+    // , menuQuote,
 } from './menu-media'
 
 const menuItems = buildMenuItems(AmberSchema)
@@ -84,12 +84,12 @@ export const amberCommands: { [key: string]: any } = {
     'lift': liftItem,
     'undo': undoItem,
     'redo': redoItem,
-    'ed_upload_image': menuImage,
-    'ed_add_code': menuCode,
-    'ed_add_location': menuLocation,
-    'ed_add_userhtml': menuUserhtml,
-    'ed_add_cta': menuCta,
-    'ed_add_quote': menuQuote,
+    'amber_upload_image': menuImage,
+    // 'ed_add_code': menuCode,
+    // 'ed_add_location': menuLocation,
+    // 'ed_add_userhtml': menuUserhtml,
+    // 'ed_add_cta': menuCta,
+    // 'ed_add_quote': menuQuote,
 }
 
 const typeDropdown = new Dropdown(
@@ -104,10 +104,10 @@ const typeDropdown = new Dropdown(
 
 const addDropdown = new Dropdown(
     [insertHorizontalRule,
-        menuLocation,
-        menuCode,
-        menuCta,
-        menuUserhtml,
+        // menuLocation,
+        // menuCode,
+        // menuCta,
+        // menuUserhtml,
     ]
     , { label: 'Add' }
 )
@@ -122,7 +122,7 @@ export const amberBlockMenu = [
     [
         wrapBulletList,
         wrapOrderedList,
-        menuQuote,
+        // menuQuote,
         liftItem,
     ],
     [menuImage],

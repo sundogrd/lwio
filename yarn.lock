@@ -733,10 +733,22 @@
   resolved "http://registry.npm.taobao.org/@types/jest/download/@types/jest-23.3.14.tgz#37daaf78069e7948520474c87b80092ea912520a"
   integrity sha1-N9qveAaeeUhSBHTIe4AJLqkSUgo=
 
+"@types/linkify-it@*":
+  version "2.0.4"
+  resolved "http://registry.npm.taobao.org/@types/linkify-it/download/@types/linkify-it-2.0.4.tgz#80a7f9aec4c9283e8333debda5a88511d4a529a7"
+  integrity sha1-gKf5rsTJKD6DM969paiFEdSlKac=
+
 "@types/lodash@^4.14.118":
   version "4.14.120"
   resolved "http://registry.npm.taobao.org/@types/lodash/download/@types/lodash-4.14.120.tgz#cf265d06f6c7a710db087ed07523ab8c1a24047b"
   integrity sha1-zyZdBvbHpxDbCH7QdSOrjBokBHs=
+
+"@types/markdown-it@^0.0.7":
+  version "0.0.7"
+  resolved "http://registry.npm.taobao.org/@types/markdown-it/download/@types/markdown-it-0.0.7.tgz#75070485a3d8ad11e7deb8287f4430be15bf4d39"
+  integrity sha1-dQcEhaPYrRHn3rgof0QwvhW/TTk=
+  dependencies:
+    "@types/linkify-it" "*"
 
 "@types/marked@^0.4.2":
   version "0.4.2"
