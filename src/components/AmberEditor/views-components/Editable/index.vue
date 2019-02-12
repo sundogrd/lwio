@@ -17,6 +17,8 @@ import {amberMenuPlugin, amberMenuEmptyPlugin} from '../../menu/amber-menu'
 import GridToDoc from '../../convert/grid-to-doc'
 import AmberSchema from '../../schema/amber-schema'
 // import {MediaNodeView} from '../../schema/media'
+import {ImageNodeView} from '../../schema/image'
+import {PlaceholderNodeView} from '../../schema/placeholder'
 import {amberInputRules, amberBaseKeymap, amberKeymap} from '../../inputrules/amber-input-rules'
 import {posToIndex} from '../../util/pm'
 import {isDropFileEvent} from '../../util/drop'
@@ -130,6 +132,12 @@ export default class AddCover extends Vue {
           // media: (node: any, view: any, getPos: any) => {
           //   return new MediaNodeView(node, view, getPos, store, imgfloConfig, coverPrefs, widgetPath)
           // },
+          image: (node: any, view: any, getPos: any) => {
+            return new ImageNodeView(node, view, getPos, this.store)
+          },
+          placeholder: (node: any, view: any, getPos: any) => {
+            return new PlaceholderNodeView(node, view, getPos, this.store)
+          }
         },
         editable: function (state: any) { return true },
         attributes: { class: 'ProseMirror-content' },
@@ -150,14 +158,14 @@ export default class AddCover extends Vue {
     this.emitChange('EDITABLE_INITIALIZE', this)
   }
   destroyed() {
-    this.pm.editor.destroy()
+    this.pm.destroy()
   }
 
   public handleDrop(editor: any, event: DragEvent) {
     if (!isDropFileEvent(event)) {
       return
     }
-    const {pos} = this.pm.editor.posAtCoords({left: event.clientX, top: event.clientY})
+    const {pos} = this.pm.posAtCoords({left: event.clientX, top: event.clientY})
     if (pos == null) {
       return
     }
@@ -200,15 +208,6 @@ export default class AddCover extends Vue {
   max-width: 856px;
   -webkit-user-modify: read-write-plaintext-only;
   -moz-user-modify: read-write-plaintext-only;
-}
-
-.ProseMirror-content::after {
-  content: 'Type here or paste links to images, articles, videos...';
-  display: block; /* For Firefox */
-  position: relative;
-  opacity: 0.2;
-  bottom: 0;
-  z-index: -1;
 }
 
 .ProseMirror-focused .ProseMirror-content::after {

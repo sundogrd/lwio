@@ -113,6 +113,7 @@ export default class AmberEditor extends Vue {
   }
   @Emit('share-file')
   emitShareFile(val: string) {
+    const that = this;
     let input: HTMLInputElement;
     function filesUploadSim(index: number, files: any) {
       // Make placeholder blocks
@@ -123,13 +124,20 @@ export default class AmberEditor extends Vue {
         names.push(name);
       }
     }
-    function makeInputOnChange(index: number) {
-      return function(event: Event) {
+    const makeInputOnChange = (index: number) => {
+      return (event: Event) => {
         event.stopPropagation();
         const input = event.target;
         const files = (input as any).files;
         if (!files || !files.length) return;
         filesUploadSim(index, files);
+        const ids = that.store.insertPlaceholders(index, files.length)
+        for (let i = 0, len = files.length; i < len; i++) {
+          const file = files[i]
+          const url = URL.createObjectURL(file)
+          const id = ids[i]
+          that.store.setCoverPreview(id, url)
+        }
       };
     }
     function onShareFileDemo(index: number) {
@@ -194,7 +202,7 @@ export default class AmberEditor extends Vue {
     this.blockToEdit = null;
   }
   public blur() {
-    this.store.pm.editor.content.blur();
+    this.store.pm.dom.blur();
     window.getSelection().removeAllRanges();
   }
   public getContent() {
@@ -238,6 +246,7 @@ export default class AmberEditor extends Vue {
 
   private handleEditableChange(action: { name: string; vc: any }) {
     this.store.routeChange(action.name, action.vc);
+    console.log(action)
   }
 
   // private setupProseMirror (content: any, editor: any) {

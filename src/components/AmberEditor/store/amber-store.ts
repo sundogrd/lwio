@@ -110,7 +110,7 @@ export default class AmberStore {
     }
   }
   _editableInitialize (editableView: any) {
-    if (editableView) {
+    if (this.editableView) {
       throw new Error('Amber._editableInitialize should only be called once')
     }
     this.editableView = editableView
@@ -224,15 +224,15 @@ export default class AmberStore {
       throw new Error('Can not find this block id')
     }
 
-    const index = indexOfId(this.pm.editor.state.doc, id)
+    const index = indexOfId(this.pm.state.doc, id)
     if (index === -1) {
       throw new Error('Can not find node with this id')
     }
-    const nodeToRemove = this.pm.editor.state.doc.child(index)
-    const pos = indexToPos(this.pm.editor.state.doc, index)
+    const nodeToRemove = this.pm.state.doc.child(index)
+    const pos = indexToPos(this.pm.state.doc, index)
 
-    const state = this.pm.editor.state
-    const dispatch = this.pm.editor.dispatch
+    const state = this.pm.state
+    const dispatch = this.pm.dispatch
 
     dispatch(
       state.tr
@@ -241,8 +241,8 @@ export default class AmberStore {
   }
   _dedupeIds () {
     let ids = []
-    for (let i = 0, len = this.pm.editor.state.doc.childCount; i < len; i++) {
-      const node = this.pm.editor.state.doc.child(i)
+    for (let i = 0, len = this.pm.state.doc.childCount; i < len; i++) {
+      const node = this.pm.state.doc.child(i)
       if (!node.attrs || !node.attrs.id) {
         continue
       }
@@ -275,7 +275,7 @@ export default class AmberStore {
     if (!isMediaType(type)) {
       throw new Error('_replaceBlock with non-media blocks not yet implemented.')
     }
-    const replaceNode = this.pm.editor.state.doc.maybeChild(index)
+    const replaceNode = this.pm.state.doc.maybeChild(index)
     if (!replaceNode) {
       throw new Error('Node to replace not found.')
     }
@@ -296,10 +296,10 @@ export default class AmberStore {
         // initialFocus,
       }
     )
-    const pos = indexToPos(this.pm.editor.state.doc, index)
+    const pos = indexToPos(this.pm.state.doc, index)
 
-    const state = this.pm.editor.state
-    const dispatch = this.pm.editor.dispatch
+    const state = this.pm.state
+    const dispatch = this.pm.dispatch
 
     dispatch(
       state.tr
@@ -340,8 +340,8 @@ export default class AmberStore {
       nodes.push(node)
     }
 
-    const state = this.pm.editor.state
-    const dispatch = this.pm.editor.dispatch
+    const state = this.pm.state
+    const dispatch = this.pm.dispatch
     const pos = indexToPos(state.doc, index)
     dispatch(
       state.tr.insert(pos, nodes)
@@ -368,18 +368,39 @@ export default class AmberStore {
     let toInsert = []
     let ids = []
     const fold = this.indexOfFold()
-    const starred = (fold === -1 || index < fold)
+    // const starred = (fold === -1 || index < fold)
     for (let i = 0, length = count; i < length; i++) {
       const id = uuid.v4()
       ids.push(id)
       const block =
         { id,
           type: 'placeholder',
-          metadata: {starred},
+          // metadata: {starred},
         }
       toInsert.push(block)
     }
-    this._insertBlocks(index, toInsert)
+    this._initializeContent(toInsert)
+
+    let nodes = []
+
+    for (let i = 0, len = toInsert.length; i < len; i++) {
+      const block = toInsert[i]
+      const { id } = block
+      const node = EdSchema.nodes.placeholder.create(
+        { 
+          id,
+        }
+      )
+      nodes.push(node)
+    }
+
+    const state = this.pm.state
+    const dispatch = this.pm.dispatch
+    const pos = indexToPos(state.doc, index)
+    dispatch(
+      state.tr.insert(pos, nodes)
+    )
+
     return ids
   }
   indexOfFold () {
@@ -445,7 +466,7 @@ export default class AmberStore {
     throw new Error('_convertToFullPost not updated to PM 0.17.x')
   }
   getContent () {
-    return DocToGrid(this.pm.editor.state.doc, this._content)
+    return DocToGrid(this.pm.state.doc, this._content)
   }
   setContent (content: any) {
     this._applyTransform(content)
@@ -465,7 +486,7 @@ export default class AmberStore {
         continue
       }
       if (this._applyTransformCheckBlock(currentBlock, block)) {
-        const index = indexOfId(this.pm.editor.state.doc, id)
+        const index = indexOfId(this.pm.state.doc, id)
         if (index === -1) {
           continue
         }

@@ -5,7 +5,9 @@ import {Schema} from 'prosemirror-model'
 
 import {nodes, marks} from 'prosemirror-schema-basic'
 import {orderedList, bulletList, listItem} from 'prosemirror-schema-list'
-import {media} from './media'
+// import {media} from './media'
+import {image} from './image'
+import {placeholder} from './placeholder/'
 
 let {paragraph, heading, horizontal_rule, text, hard_break} = nodes
 let {em, strong, link} = marks
@@ -30,7 +32,9 @@ const AmberSchema = new Schema({
     list_item: add(listItem, {content: 'paragraph block*'}),
     horizontal_rule: add(horizontal_rule, {group: 'topblock'}),
     heading: add(heading, {group: 'topblock'}),
-    media: add(media, {group: 'topblock'}),
+    // media: add(media, {group: 'topblock'}),
+    image: add(image, {group: 'topblock'}),
+    placeholder: add(placeholder, {group: 'topblock'}),
     text,
     hard_break,
   },
