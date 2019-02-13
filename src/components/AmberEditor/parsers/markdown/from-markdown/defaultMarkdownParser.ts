@@ -2,16 +2,16 @@ import MarkdownParser from './MarkdownParser'
 import markdownIt from "markdown-it"
 // A parser parsing unextended [CommonMark](http://commonmark.org/),
 // without inline HTML, and producing a document in the basic schema.
-export const defaultMarkdownParser = (schema: any) => {
+const defaultMarkdownParser = (schema: any) => {
     return new MarkdownParser(schema, markdownIt("commonmark", { html: false }), {
-        blockquote: { block: "blockquote" },
+        // blockquote: { block: "blockquote" },
         paragraph: { block: "paragraph" },
         list_item: { block: "list_item" },
         bullet_list: { block: "bullet_list" },
         ordered_list: { block: "ordered_list", getAttrs: (tok: any) => ({ order: +tok.attrGet('order') || 1 }) },
         heading: { block: "heading", getAttrs: (tok: any) => ({ level: +tok.tag.slice(1) }) },
-        code_block: { block: "code_block" },
-        fence: { block: "code_block", getAttrs: (tok: any) => ({ params: tok.info || '' }) },
+        // code_block: { block: "code_block" },
+        // fence: { block: "code_block", getAttrs: (tok: any) => ({ params: tok.info || '' }) },
         hr: { node: "horizontal_rule" },
         image: {
             node: "image", 
@@ -44,3 +44,4 @@ export const defaultMarkdownParser = (schema: any) => {
         }
     })
 }
+export default defaultMarkdownParser

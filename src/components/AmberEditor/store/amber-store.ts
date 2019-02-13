@@ -392,7 +392,6 @@ export default class AmberStore {
   insertPlaceholders (index: number, count: number) {
     let toInsert = []
     let ids = []
-    const fold = this.indexOfFold()
     // const starred = (fold === -1 || index < fold)
     for (let i = 0, length = count; i < length; i++) {
       const id = uuid.v4()
@@ -427,16 +426,16 @@ export default class AmberStore {
 
     return ids
   }
-  indexOfFold () {
-    const blocks = this.getContent()
-    for (let i = 0, len = blocks.length; i < len; i++) {
-      const block = blocks[i]
-      if (!block.metadata || !block.metadata.starred) {
-        return i
-      }
-    }
-    return -1
-  }
+  // indexOfFold () {
+  //   const blocks = this.getContent()
+  //   for (let i = 0, len = blocks.length; i < len; i++) {
+  //     const block = blocks[i]
+  //     if (!block.metadata || !block.metadata.starred) {
+  //       return i
+  //     }
+  //   }
+  //   return -1
+  // }
   updateProgress (id: any, metadata: any) {
     let block = this.getBlock(id)
     if (!block) {
@@ -489,9 +488,10 @@ export default class AmberStore {
   _convertToFullPost () {
     throw new Error('_convertToFullPost not updated to PM 0.17.x')
   }
-  getContent () {
-    return DocToGrid(this.pm.state.doc, this._content)
-  }
+  // getContent () {
+  //   return DocToGrid(this.pm.state.doc, this._content)
+  // }
+  // TODO: 这里需要更新，不可用
   setContent (content: any) {
     this._applyTransform(content)
     // Let widgets know to update

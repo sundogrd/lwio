@@ -3,7 +3,8 @@
     <div class='real amber'>
       <div class='amber-content' style='z-index: 1;'>
         <editable
-          :initialContent='initialContent'
+          v-if="initialDoc"
+          :initialDoc='initialDoc'
           :hasMenuBar='hasMenuBar'
           @change='handleEditableChange'
           @share-url='emitShareUrl'
@@ -14,16 +15,7 @@
           :coverPrefs='coverPrefs'
         />
       </div>
-      <!-- <modal 
-        @close='closeMediaBlockModal'
-      >
-        <widget-edit :blockToEdit='blockToEdit' :coverPrefs='coverPrefs' />
-      </modal>-->
     </div>
-    <h2>Output</h2>
-    <pre>
-      <!-- <code>{{JSON.stringify(doc, null, 2)}}</code> -->
-    </pre>
   </div>
 </template>
 
@@ -44,11 +36,13 @@ import { EditorState } from 'prosemirror-state';
 //   defaultMarkdownSerializer
 // } from 'prosemirror-markdown';
 import defaultMarkdownSerializer from './parsers/markdown/to-markdown/defaultMarkdownSerializer'
+import defaultMarkdownParser from './parsers/markdown/from-markdown/defaultMarkdownParser'
 import Editable from './views-components/Editable/index.vue';
 // import WidgetEdit from './views-components/WidgetEdit/index.vue'
 // import Modal from './views-components/Modal/index.vue'
 import AmberStore from './store/amber-store';
 import { amberCommands } from './menu/amber-menu';
+import AmberSchema from './schema/amber-schema';
 
 // import { exampleSetup } from './setup'
 
@@ -63,7 +57,7 @@ export default class AmberEditor extends Vue {
   blockToEdit = null;
 
   @Provide() store: any = new AmberStore({
-    initialContent: '',
+    initialContent: [],
     onChange: this.emitChange,
     onShareFile: this.emitShareFile,
     onShareUrl: this.emitShareUrl,
@@ -74,18 +68,10 @@ export default class AmberEditor extends Vue {
     onCommandsChanged: this.emitCommandsChanged
   });
 
-  // TODO: old
-  @Prop({
-    default: 'editor', // 'editor', 'markdown', 'all'
-    type: String
-  })
-  private mode!: string;
-  // TODO: old
-  @Prop(String)
-  private initialMarkdown!: string;
+  initialDoc = null
 
   @Prop({ type: String, default: '' })
-  private initialContent!: string;
+  private initialMarkdown!: string;
   @Prop({ type: Boolean, default: true })
   private hasMenuBar!: boolean;
   @Prop({ type: String, default: './node_modules/' })
@@ -105,7 +91,11 @@ export default class AmberEditor extends Vue {
 
   @Emit('change')
   emitChange(val: string) {
-    return '';
+    const markdown = defaultMarkdownSerializer.serialize(this.store.pm.state.doc)
+    return {
+      markdown: markdown,
+      doc: this.store.pm.state.doc,
+    };
   }
   @Emit('share-url')
   emitShareUrl(val: string) {
@@ -187,15 +177,16 @@ export default class AmberEditor extends Vue {
   }
 
   public created() {
-    this.store.setContent(this.initialContent);
-    this.store.on('media.block.edit.open', (blockID: any) => {
-      // TODO expose prop for native editors?
-      this.blockToEdit = blockID;
-      this.blur();
-    });
-    this.store.on('media.block.edit.close', () => {
-      this.closeMediaBlockModal();
-    });
+    this.initialDoc = defaultMarkdownParser(AmberSchema).parse(this.initialMarkdown)
+    // this.store.setContent(initialDoc.content);
+    // this.store.on('media.block.edit.open', (blockID: any) => {
+    //   // TODO expose prop for native editors?
+    //   this.blockToEdit = blockID;
+    //   this.blur();
+    // });
+    // this.store.on('media.block.edit.close', () => {
+    //   this.closeMediaBlockModal();
+    // });
   }
 
   mounted() {
@@ -252,78 +243,7 @@ export default class AmberEditor extends Vue {
 
   private handleEditableChange(action: { name: string; vc: any }) {
     this.store.routeChange(action.name, action.vc);
-    const markdown = defaultMarkdownSerializer.serialize(action.vc.state.doc)
-    console.log("markdown: ", markdown)
-    console.log(action)
   }
-
-  // private setupProseMirror (content: any, editor: any) {
-  //   this.view = new EditorView(editor, {
-  //     state: EditorState.create({
-  //       doc: defaultMarkdownParser.parse(content),
-  //       plugins: exampleSetup({ schema })
-  //     }),
-  //     dispatchTransaction: (action: any) => {
-  //       this.$emit('_content-change-editor', action)
-  //       this.doc = this.view.state.doc
-  //       this.markdown = defaultMarkdownSerializer.serialize(
-  //         this.view.state.doc
-  //       )
-  //     }
-  //   })
-  //   this.view.focus()
-  // }
-
-  // private bindTextarea (area: any) {
-  //   const self = this
-
-  //   function mtodoc () {
-  //     self.doc = defaultMarkdownParser.parse(area.value)
-  //     self.markdown = area.value
-  //     self.$emit('_content-change-markdown')
-  //   }
-  //   // emulate v-model
-  //   if (area.addEventListener) {
-  //     area.addEventListener('input', mtodoc, false)
-  //   } else if (area.attachEvent) {
-  //     area.attachEvent('onpropertychange', mtodoc)
-  //   }
-  // }
-
-  // // applyMarkdown(newData) {
-  // //   this.markdown = newData.markdown
-  // //   this.$emit('_content-change-markdown')
-  // // }
-  // @Watch('initialMarkdown')
-  // private onInit (val: string) {
-  //   this.markdown = val
-  //   this.$emit('_content-change-markdown')
-  // }
-
-  // @Watch('markdown', { deep: true })
-  // private onContentChange (
-  //   val: { content: string; markdown: string },
-  //   oldVal: { content: string; markdown: string }
-  // ) {
-  //   this.$emit('content-change', val, oldVal)
-  //   this.$emit('content-change-markdown', val.markdown, oldVal.markdown)
-  //   this.$emit('update:markdown', val)
-  // }
-
-  // @Watch('mode')
-  // private onModeChange (val: string, oldVal: string) {
-  //   // editor doesn't get updated when it isn't visible.
-  //   // Do manually here
-  //   if (oldVal !== 'all' && (val === 'editor' || val === 'all')) {
-  //     const state = EditorState.create({
-  //       doc: defaultMarkdownParser.parse(this.markdown),
-  //       plugins: exampleSetup({ schema })
-  //     })
-  //     this.view.updateState(state)
-  //   }
-
-  //   this.$emit('modeChange', val, oldVal)
-  // }
 }
 </script>
 

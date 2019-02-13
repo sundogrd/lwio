@@ -1,6 +1,8 @@
 <template>
   <div class='index-page' sticky-container>
     I am index
+    <el-button @click="handleGoDetailDemo">Content Detail</el-button>
+    <el-button @click="handleGoPublishDemo">Content Publish</el-button>
   </div>
 </template>
 
@@ -18,6 +20,12 @@ import { mapGetters } from 'vuex'
 export default class IndexPage extends Vue {
   public mounted() {
     
+  }
+  handleGoDetailDemo () {
+    this.$router.push({name: "articleDetailPage", params: {articleId: '309464524321198080'}})
+  }
+  handleGoPublishDemo () {
+    this.$router.push({name: "articlePublishPage"})
   }
   // fullScreen() {
   //   this.$fullscreen.toggle(this.$el.querySelector('.example'), {

@@ -14,7 +14,7 @@ import {history as pluginHistory} from 'prosemirror-history'
 import { MenuBarView } from 'prosemirror-menu'
 import {amberMenuPlugin, amberMenuEmptyPlugin} from '../../menu/amber-menu'
 
-import GridToDoc from '../../convert/grid-to-doc'
+// import GridToDoc from '../../convert/grid-to-doc'
 import AmberSchema from '../../schema/amber-schema'
 // import {MediaNodeView} from '../../schema/media'
 import {ImageNodeView} from '../../schema/image'
@@ -58,8 +58,8 @@ export default class AddCover extends Vue {
     }
   }
 
-  @Prop(String)
-  private initialContent!: string
+  @Prop({type: Object})
+  private initialDoc!: any
   @Prop({type: Boolean, default: true})
   private hasMenuBar!: boolean
   @Prop({type: String, default: './node_modules/'})
@@ -107,9 +107,10 @@ export default class AddCover extends Vue {
       amberPlugins.push(p)
     })
 
+    console.log(this.initialDoc)
     const state = EditorState.create({
       schema: AmberSchema,
-      doc: GridToDoc(this.initialContent),
+      doc: this.initialDoc,
       plugins: amberPlugins,
       amber: this.store,
     })
@@ -215,7 +216,6 @@ export default class AddCover extends Vue {
 }
 
 /* Font junk */
-
 .ProseMirror-content > * {
   margin: 1.75rem 0;
   padding: 0;

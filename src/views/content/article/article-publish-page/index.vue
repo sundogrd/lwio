@@ -3,7 +3,7 @@
     <header>
       <el-input v-model='title' placeholder='Please Input title' />
     </header>
-    <amber-editor v-bind:markdown.sync='body' :hasMenubar='true' />
+    <amber-editor v-if="body" :initialMarkdown='body' :hasMenubar='true' />
     <footer>
       <el-button @click='handleSubmit'>发表</el-button>
     </footer>
@@ -24,12 +24,16 @@ import * as contentService from '@/services/content'
 })
 export default class ArticlePublishPage extends Vue {
   private article = null
-  private title = ''
-  private body = ''
+  private title: string | null = null
+  private body: string | null = null
+  created() {
+    this.body = `# keke`
+    this.title = ''
+  }
   public handleSubmit() {
     contentService.createContent({
-      title: this.title,
-      body: this.body,
+      title: this.title!,
+      body: this.body!,
       type: contentService.EType.TEXT,
       body_type: contentService.EBodyType.BODY_MARKDOWN
     }).then(res => {
