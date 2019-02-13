@@ -28,7 +28,7 @@ export default class ArticlePublishPage extends Vue {
   private body: string | null = null
   created() {
     this.body = `# keke`
-    this.title = ''
+    this.title = '未命名'
   }
   public handleSubmit() {
     contentService.createContent({
@@ -37,7 +37,7 @@ export default class ArticlePublishPage extends Vue {
       type: contentService.EType.TEXT,
       body_type: contentService.EBodyType.BODY_MARKDOWN
     }).then(res => {
-      debugger
+      this.$router.push({name: "articleDetailPage", params: {articleId: res.content_id}})
     }).catch(err => {
       debugger
     })
