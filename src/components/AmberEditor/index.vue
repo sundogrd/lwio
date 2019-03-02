@@ -30,6 +30,7 @@ import {
 } from 'vue-property-decorator';
 import { EditorView } from 'prosemirror-view';
 import { EditorState } from 'prosemirror-state';
+import FilePortal from '@sundogrd/fileportal';
 // import {
 //   schema,
 //   defaultMarkdownParser,
@@ -55,6 +56,12 @@ import AmberSchema from './schema/amber-schema';
 export default class AmberEditor extends Vue {
   className = 'vue-prosemirror';
   blockToEdit = null;
+  fileInput?: HTMLInputElement;
+  filePortal: FilePortal = new FilePortal({
+    host: 'http://os.sundogrd.com/upload',
+    apiKey: 'keke',
+    token: 'keke',
+  });;
 
   @Provide() store: any = new AmberStore({
     initialContent: [],
@@ -104,55 +111,7 @@ export default class AmberEditor extends Vue {
   @Emit('share-file')
   emitShareFile(val: string) {
     const that = this;
-    let input: HTMLInputElement;
-    function filesUploadSim(index: number, files: any) {
-      // Make placeholder blocks
-      let names: string[] = [];
-      for (let i = 0, len = files.length; i < len; i++) {
-        const file = files[i];
-        const name = file.name.substr(0, file.name.indexOf('.'));
-        names.push(name);
-      }
-    }
-    const makeInputOnChange = (index: number) => {
-      return (event: Event) => {
-        event.stopPropagation();
-        const input = event.target;
-        const files = (input as any).files;
-        if (!files || !files.length) return;
-        filesUploadSim(index, files);
-        const ids = that.store.insertPlaceholders(index, files.length)
-        // TODO: Test Image        
-        that.store.insertImages(index, [{
-          src: 'https://avatars2.githubusercontent.com/u/41531553?s=200&v=4',
-          caption: 'fuck',
-        }])
-        
-        for (let i = 0, len = files.length; i < len; i++) {
-          const file = files[i]
-          const url = URL.createObjectURL(file)
-          const id = ids[i]
-          that.store.setCoverPreview(id, url)
-        }
-      };
-    }
-    function onShareFileDemo(index: number) {
-      console.log('onShareFile: app triggers native picker', index);
-
-      // Remove old input from DOM
-      if (input && input.parentNode) {
-        input.parentNode.removeChild(input);
-      }
-      input = document.createElement('input');
-      input.type = 'file';
-      input.multiple = true;
-      input.accept = 'image/*';
-      input.onchange = makeInputOnChange(index);
-      input.style.display = 'none';
-      document.body.appendChild(input);
-      input.click();
-    }
-    onShareFileDemo(0)
+    this.fileInput!.click();
     return '';
   }
   @Emit('request-cover-upload')
@@ -178,6 +137,48 @@ export default class AmberEditor extends Vue {
 
   public created() {
     this.initialDoc = defaultMarkdownParser(AmberSchema).parse(this.initialMarkdown)
+    const handleFileInputChange = () => {
+      return (event: Event) => {
+        event.stopPropagation();
+        const input = event.target;
+        const files = (input as any).files;
+        if (!files || !files.length) return;
+        let task = this.filePortal.addTask(files[0],{
+          token: 'test token',
+          apiKey: 'test key',
+          // host: 'http://0.0.0.0:9991/upload',
+        });
+        this.filePortal.start(task.id);
+        this.filePortal.on('complete', (task: any) => {
+          console.log(task);
+          console.log('completed !!!');
+          // done();
+        });
+        this.filePortal.on('uploaded', (res: any, task: any, tasks: any) => {
+          // uploaded res解析hack一下
+          const sdosRes = JSON.parse(res.currentTarget.response)
+          this.store.insertImages(0, [{
+            src: `http://os.sundogrd.com/fetch/${sdosRes.id}`,
+            caption: '',
+          }])
+        });
+        this.filePortal.on('error', (err: any) => {
+          console.log(err);
+        });
+        // const ids = this.store.insertPlaceholders(0, files.length)
+        (event.target as any).value = null
+      };
+    }
+    if (this.fileInput && this.fileInput.parentNode) {
+      this.fileInput.parentNode.removeChild(this.fileInput);
+    }
+    this.fileInput = document.createElement('input');
+    this.fileInput.type = 'file';
+    this.fileInput.multiple = true;
+    this.fileInput.accept = 'image/*';
+    this.fileInput.onchange = handleFileInputChange();
+    this.fileInput.style.display = 'none';
+    document.body.appendChild(this.fileInput);
     // this.store.setContent(initialDoc.content);
     // this.store.on('media.block.edit.open', (blockID: any) => {
     //   // TODO expose prop for native editors?
