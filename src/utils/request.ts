@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
+import JSONBig from 'json-bigint';
 import config from '../../config'
 // import store from '../store'
 
@@ -11,7 +12,8 @@ interface IAxiosRequestCustomConfig {}
 // 创建axios实例
 const service = axios.create({
   baseURL: config.baseUrl, // api的base_url
-  timeout: 5000 // 请求超时时间
+  timeout: 5000, // 请求超时时间
+  transformResponse: data => JSONBig.parse(data),
 })
 
 // request拦截器

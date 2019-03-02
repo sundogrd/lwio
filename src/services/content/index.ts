@@ -61,3 +61,17 @@ export function createContent(req: createContentRequest) {
         },
     });
 }
+
+type getContentsRequest = {
+}
+type getContentsResponse = {
+    list: ContentInfo[],
+    total: number
+}
+
+export function getContents(req: getContentsRequest) {
+    return request<getContentsResponse>({
+        method: 'get',
+        url: `/contents`,
+    })
+}

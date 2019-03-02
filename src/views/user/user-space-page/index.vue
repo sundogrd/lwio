@@ -4,6 +4,7 @@
       <el-row :gutter='20'>
         <el-col :span='16'>
           <user-profile-card />
+          <user-list-block />
         </el-col>
         <el-col :span='8'>
           <user-achivement-card />
@@ -17,12 +18,14 @@
 import { Component, Vue } from 'vue-property-decorator'
 import UserAchivementCard from './user-achivement-card.vue'
 import UserProfileCard from './user-profile-card.vue'
+import UserListBlock from './user-list-block/index.vue'
 
 @Component({
   name: 'UserSpacePage',
   components: {
     UserProfileCard,
-    UserAchivementCard
+    UserAchivementCard,
+    UserListBlock
   }
 })
 export default class UserSpacePage extends Vue {

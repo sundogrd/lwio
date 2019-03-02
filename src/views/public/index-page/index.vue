@@ -3,6 +3,7 @@
     I am index
     <el-button @click="handleGoDetailDemo">Content Detail</el-button>
     <el-button @click="handleGoPublishDemo">Content Publish</el-button>
+    <el-button @click="handleGoUserSpaceDemo">Content List(User Space)</el-button>
   </div>
 </template>
 
@@ -26,6 +27,9 @@ export default class IndexPage extends Vue {
   }
   handleGoPublishDemo () {
     this.$router.push({name: "articlePublishPage"})
+  }
+  handleGoUserSpaceDemo () {
+    this.$router.push({name: "userSpacePage", params: {userId: 'lwyj123'}})
   }
   // fullScreen() {
   //   this.$fullscreen.toggle(this.$el.querySelector('.example'), {

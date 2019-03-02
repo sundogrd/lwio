@@ -3,7 +3,7 @@
     <h1 slot='header'>个人成就</h1>
     <div class='stat-list'>
       <div class='stat-item'>
-        <icon-svg :iconClass="thumbup" />
+        <icon-svg iconClass="thumbup" />
         <span>获得鼓掌<span class='count'>666</span>次</span>
       </div>
     </div>
