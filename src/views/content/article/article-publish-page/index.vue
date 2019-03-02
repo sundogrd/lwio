@@ -3,7 +3,7 @@
     <header>
       <el-input v-model='title' placeholder='Please Input title' />
     </header>
-    <amber-editor v-if="body" :initialMarkdown='body' :hasMenubar='true' />
+    <amber-editor v-if="body" :initialMarkdown='body' :hasMenubar='true' @change='handleBodyChange' />
     <footer>
       <el-button @click='handleSubmit'>发表</el-button>
     </footer>
@@ -41,6 +41,9 @@ export default class ArticlePublishPage extends Vue {
     }).catch(err => {
       debugger
     })
+  }
+  public handleBodyChange(content: {markdown: string, doc: any}) {
+    this.body = content.markdown
   }
 }
 </script>
