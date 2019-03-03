@@ -6,8 +6,18 @@ import ArticlePublishPage from './views/content/article/article-publish-page/ind
 import UserSpacePage from './views/user/user-space-page/index.vue'
 import UserSpaceArticle from './views/user/user-space-article/index.vue'
 import UserSpaceAudio from './views/user/user-space-audio/index.vue'
+import * as authService from './services/auth';
 
 Vue.use(Router)
+
+function hasLogined(): Promise<boolean> {
+  return authService.getI().then((res) => {
+    if(!res.name) {
+      return false
+    }
+    return true
+  })
+}
 
 export default new Router({
   mode: 'history',
@@ -32,7 +42,18 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: ArticlePublishPage
+      component: ArticlePublishPage,
+      beforeEnter: (to, from, next) => {
+        hasLogined().then(isLogined => {
+          if (isLogined) {
+            next()
+            return
+          } else {
+            window.location.href = "/api/oauth2/github/login"
+            return
+          }
+        })
+      }
     },
     {
       path: '/articles/:articleId',
