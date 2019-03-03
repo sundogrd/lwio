@@ -3,7 +3,7 @@
     <header>
       <el-input v-model='title' placeholder='Please Input title' />
     </header>
-    <amber-editor v-if="body" :initialMarkdown='body' :hasMenubar='true' @change='handleBodyChange' />
+    <amber-editor :initialMarkdown='body' :hasMenubar='true' @change='handleBodyChange' />
     <footer>
       <el-button @click='handleSubmit'>发表</el-button>
     </footer>
@@ -24,13 +24,15 @@ import * as contentService from '@/services/content'
 })
 export default class ArticlePublishPage extends Vue {
   private article = null
-  private title: string | null = null
-  private body: string | null = null
+  private title: string = ''
+  private body: string = ''
   created() {
-    this.body = `# keke`
-    this.title = '未命名'
   }
   public handleSubmit() {
+    if(this.title === '' || this.body === '') {
+       this.$message.error('请输入title和body');
+       return
+    }
     contentService.createContent({
       title: this.title!,
       body: this.body!,
@@ -39,7 +41,7 @@ export default class ArticlePublishPage extends Vue {
     }).then(res => {
       this.$router.push({name: "articleDetailPage", params: {articleId: res.content_id}})
     }).catch(err => {
-      debugger
+      this.$message.error(err.data.msg);
     })
   }
   public handleBodyChange(content: {markdown: string, doc: any}) {
