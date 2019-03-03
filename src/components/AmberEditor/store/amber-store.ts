@@ -2,7 +2,7 @@ import _ from 'lodash'
 import uuid from 'uuid'
 
 import {isMediaType} from '../convert/types'
-import {indexToPos, indexOfId} from '../util/pm'
+import {indexToPos, indexOfId, focusedIndex} from '../util/pm'
 
 import DocToGrid from '../convert/doc-to-grid'
 import IframeInfo from '../plugins/iframe-info'
@@ -349,7 +349,7 @@ export default class AmberStore {
     //   this.pm.content.blur()
     // }
   }
-  insertImages (index: number, imgs: any) {
+  insertImages (imgs: any) {
     let toInsert = []
     let ids = []
     for (let i = 0, length = imgs.length; i < length; i++) {
@@ -382,7 +382,7 @@ export default class AmberStore {
 
     const state = this.pm.state
     const dispatch = this.pm.dispatch
-    const pos = indexToPos(state.doc, index)
+    const pos = indexToPos(state.doc, focusedIndex(state))
     dispatch(
       state.tr.insert(pos, nodes)
     )

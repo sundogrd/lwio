@@ -58,7 +58,7 @@ export default class AmberEditor extends Vue {
   blockToEdit = null;
   fileInput?: HTMLInputElement;
   filePortal: FilePortal = new FilePortal({
-    host: 'http://os.sundogrd.com/upload',
+    host: '//os.sundogrd.com/upload',
     apiKey: 'keke',
     token: 'keke',
   });;
@@ -157,8 +157,8 @@ export default class AmberEditor extends Vue {
         this.filePortal.on('uploaded', (res: any, task: any, tasks: any) => {
           // uploaded res解析hack一下
           const sdosRes = JSON.parse(res.currentTarget.response)
-          this.store.insertImages(0, [{
-            src: `http://os.sundogrd.com/fetch/${sdosRes.id}`,
+          this.store.insertImages([{
+            src: `//os.sundogrd.com/fetch/${sdosRes.id}`,
             caption: '',
           }])
         });
