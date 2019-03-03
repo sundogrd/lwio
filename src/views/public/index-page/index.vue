@@ -4,6 +4,7 @@
     <el-button @click="handleGoDetailDemo">Content Detail</el-button>
     <el-button @click="handleGoPublishDemo">Content Publish</el-button>
     <el-button @click="handleGoUserSpaceDemo">Content List(User Space)</el-button>
+    <el-button @click="handleGoAudioPublishDemo">Audio Publish</el-button>
   </div>
 </template>
 
@@ -30,6 +31,11 @@ export default class IndexPage extends Vue {
   }
   handleGoUserSpaceDemo () {
     this.$router.push({name: "userSpacePage", params: {userId: 'lwyj123'}})
+  }
+  handleGoAudioPublishDemo () {
+    this.$router.push({
+      name: "audioPublishPage",
+    })
   }
   // fullScreen() {
   //   this.$fullscreen.toggle(this.$el.querySelector('.example'), {

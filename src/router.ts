@@ -6,6 +6,7 @@ import ArticlePublishPage from './views/content/article/article-publish-page/ind
 import UserSpacePage from './views/user/user-space-page/index.vue'
 import UserSpaceArticle from './views/user/user-space-article/index.vue'
 import UserSpaceAudio from './views/user/user-space-audio/index.vue'
+import AudioPublishPage from './views/content/audio/audio-publish-page/index.vue'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: ArticleDetailPage
+    },
+    {
+      path: '/audio/publish',
+      name: 'audioPublishPage',
+      component: AudioPublishPage,
     },
     {
       path: '/users/:userId',
