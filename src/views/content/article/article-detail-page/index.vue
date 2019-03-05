@@ -55,7 +55,7 @@ export default class ArticleDetailPage extends Vue {
 <style lang='less'>
 .article-container {
   margin: 20px auto;
-  max-width: 740px;
+  max-width: 980px;
   padding-left: 20px;
   padding-right: 20px;
 }
