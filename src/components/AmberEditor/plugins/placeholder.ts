@@ -1,36 +1,42 @@
-import {Plugin} from 'prosemirror-state'
-import { Decoration, DecorationSet } from 'prosemirror-view'
+/*
+* Plugin to manage `empty` class for placeholder text
+*/
 
-// function findPlaceholder(state, id) {
-//     let decos = placeholderPlugin.getState(state)
-//     let found = decos.find(null, null, spec => spec.id == id)
-//     return found.length ? found[0].from : null
-//   }
-const placeholderPlugin = new Plugin({
-    state: {
-      init() { return DecorationSet.empty },
-      apply(tr: any, set: any) {
-        // Adjust decoration positions to changes made by the transaction
-        set = set.map(tr.mapping, tr.doc)
-        // See if the transaction adds or removes any placeholders
-        let action = tr.getMeta(this)
-        if (action && action.add) {
-          let widget = document.createElement('placeholder')
-          let deco = Decoration.widget(action.add.pos, widget, {id: action.add.id})
-          set = set.add(tr.doc, [deco])
-        } else if (action && action.remove) {
-          set = set.remove(
-            set.find(null, null, (spec: any) => spec.id == action.remove.id)
-          )
-        }
-        return set
-      }
-    },
-    props: {
-      decorations(state: any): any { 
-        return (this as any).getState(state) 
-      }
+import {Decoration, DecorationSet} from 'prosemirror-view'
+
+
+function docToEmptyBlockDecorationSet (doc: any) {
+  let decorations = []
+  let pos = 0
+  for (let i = 0, len = doc.content.content.length; i < len; i++) {
+    const node = doc.content.content[i]
+    if ((node.type.name === 'paragraph' || node.type.name === 'heading') && node.textContent === '') {
+      decorations.push(Decoration.node(pos, pos + 2, {class: 'empty'}))
     }
-  })
-  
-export default placeholderPlugin
+    pos += node.nodeSize
+  }
+  return DecorationSet.create(doc, decorations)
+}
+
+export default {
+  state: {
+    init: function (config: any, state: any) {      
+      const {amber} = (this as any).spec.amberStuff
+      setTimeout(function () {
+        amber.trigger('plugin.placeholder.initialized')
+      }, 0)
+      return docToEmptyBlockDecorationSet(state.doc)
+    },
+    apply: function (transaction: any, prevDeco: any, prev: any, state: any) {
+      if (transaction.steps.length) {
+        return docToEmptyBlockDecorationSet(state.doc)
+      }
+      return prevDeco
+    },
+  },
+  props: {
+    decorations (state: any): any {
+      return (this as any).getState(state)
+    },
+  },
+}

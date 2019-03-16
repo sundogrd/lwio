@@ -1,16 +1,16 @@
 <template>
-  <div class="author-bar">
-    <div class="avatar-block">
-      <img :src="author.avatar_url" />
+  <div class='author-bar'>
+    <div class='avatar-block'>
+      <img :src='author.avatar_url' />
     </div>
-    <div class="info-block">
-      <p class="name">{{author.name}}</p>
-      <p class="caption">{{author.extra.github_home}}</p>
+    <div class='info-block'>
+      <p class='name'>{{author.name}}</p>
+      <p class='caption'>{{author.extra.github_home}}</p>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import marked from 'marked'
 import * as userService from '@/services/user'
@@ -22,7 +22,7 @@ export default class AuthorBar extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel='stylesheet/scss' lang='scss'>
 .author-bar {
   display: flex;
   margin: 24px 0;

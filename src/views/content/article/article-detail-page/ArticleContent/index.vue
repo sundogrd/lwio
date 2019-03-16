@@ -1,18 +1,18 @@
 <template>
-  <div class="article-content">
-    <h1 class="article-title">{{ article.title }}</h1>
-    <author-bar :author="article.author" />
-    <div class="article-html" v-html="contentHTML">
+  <div class='article-content'>
+    <h1 class='article-title'>{{ article.title }}</h1>
+    <author-bar :author='article.author' />
+    <div class='article-html' v-html='contentHTML'>
     </div>
-    <ul class="article-tags">
-      <li v-for="(tag, index) in tags" :key="index">
+    <ul class='article-tags'>
+      <li v-for='(tag, index) in tags' :key='index'>
         {{ tag }}
       </li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import AuthorBar from './AuthorBar.vue'
 import * as contentService from '@/services/content'
@@ -41,12 +41,12 @@ export default class ArticleDetailPage extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel='stylesheet/scss' lang='scss'>
 .article-content {
   h1.article-title {
     margin: 0;
     padding: 16px 0 0 0;
-    font-family: medium-content-title-font, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: medium-content-title-font, Georgia, Cambria, 'Times New Roman', Times, serif;
     font-weight: 400;
     font-style: normal;
     font-size: 42px;

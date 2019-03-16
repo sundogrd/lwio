@@ -8,16 +8,20 @@ declare module 'prosemirror-state' {
     export let EditorState: any;
     export let Plugin: any;
     export let NodeSelection: any;
+    export let PluginKey: any;
 }
 
-declare module 'prosemirror-markdown' {
-    export let schema: any;
-    export let defaultMarkdownParser: any;
-    export let defaultMarkdownSerializer: any;
-}
+// declare module 'prosemirror-markdown' {
+//     export let schema: any;
+//     export let defaultMarkdownParser: any;
+//     export let defaultMarkdownSerializer: any;
+// }
 
 declare module 'prosemirror-example-setup' {
     export let exampleSetup: any;
+    export let buildMenuItems: any;
+    export let buildInputRules: any;
+    export let buildKeymap: any;
 }
 
 declare module 'prosemirror-commands' {
@@ -60,6 +64,7 @@ declare module 'prosemirror-menu' {
     export let redoItem: any
     export let icons: any
     export let MenuItem: any
+    export let MenuBarView: any
 }
 
 declare module 'prosemirror-schema-list' {
@@ -67,6 +72,9 @@ declare module 'prosemirror-schema-list' {
     export let splitListItem: any
     export let liftListItem: any
     export let sinkListItem: any
+    export let orderedList: any
+    export let bulletList: any
+    export let listItem: any
 }
 
 declare module 'prosemirror-inputrules' {
@@ -77,13 +85,18 @@ declare module 'prosemirror-inputrules' {
     export let emDash: any
     export let ellipsis: any
     export let undoInputRule: any
+    export let InputRule: any
 }
 
 declare module 'prosemirror-schema-basic' {
     export let schema: any
+    export let nodes: any
+    export let marks: any
 }
 
 declare module 'prosemirror-model' {
     export let Schema: any
     export let DOMParser: any
+    export let DOMSerializer: any
+    export let Mark: any
 }

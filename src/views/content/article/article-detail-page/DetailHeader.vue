@@ -1,18 +1,18 @@
 <template>
-  <div class="detail-header" :class="{'nav-up': !show}">
-    <div class="detail-header-container">
-      <a v-if="!isLogined" href="/api/oauth2/github/login">github登录</a>
-      <h1 v-if="isLogined">Lwio</h1>
-      <div v-if="isLogined" class="user-navbar">
-        <div class="avatar" @click="handleGoUserSpace">
-          <img src="https://cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT." class="avatar-image" alt="Pearce Liang">
+  <div class='detail-header' :class="{'nav-up': !show}">
+    <div class='detail-header-container'>
+      <a v-if='!isLogined' href='/api/oauth2/github/login'>github登录</a>
+      <h1 v-if='isLogined'>Lwio</h1>
+      <div v-if='isLogined' class='user-navbar'>
+        <div class='avatar' @click='handleGoUserSpace'>
+          <img src='https://cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT.' class='avatar-image' alt='Pearce Liang'>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import * as authService from '@/services/auth'
 import _ from 'lodash'
@@ -55,7 +55,7 @@ export default class DetailHeader extends Vue {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel='stylesheet/scss' lang='scss'>
 .detail-header {
   position: sticky;
   top: 0;

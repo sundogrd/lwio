@@ -1,23 +1,23 @@
 <template>
-  <div class="content-brief-card">
-    <div class="content-brief-card--cover" :style="{ backgroundImage: 'url(' + contentBrief.cover_url + ')', backgroundPosition: '50% 50%' }" />
-    <div class="content-brief-card--brief">
-      <p class="content-brief-card--subtitle">{{subtitle}}</p>
-      <div class="content-brief-card--title">{{contentBrief.title}}</div>
-      <!-- <div class="content-brief-card--user">
-        <div class="avatar-block">
-          <img src="//cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT." />
+  <div class='content-brief-card'>
+    <div class='content-brief-card--cover' :style="{ backgroundImage: 'url(contentBrief.cover_url), backgroundPosition: 50% 50%'}" />
+    <div class='content-brief-card--brief'>
+      <p class='content-brief-card--subtitle'>{{subtitle}}</p>
+      <div class='content-brief-card--title'>{{contentBrief.title}}</div>
+      <!-- <div class='content-brief-card--user'>
+        <div class='avatar-block'>
+          <img src='//cdn-images-1.medium.com/fit/c/64/64/0*ti5WHj3RjXeMBKCT.' />
         </div>
-        <div class="info-block">
-          <p class="name">梁王</p>
-          <p class="caption">blabla</p>
+        <div class='info-block'>
+          <p class='name'>梁王</p>
+          <p class='caption'>blabla</p>
         </div>
       </div> -->
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import * as SundogDataTypes from '@/types/api.d.ts'
 
@@ -33,7 +33,7 @@ export default class ContentBriefCard extends Vue {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 .content-brief-card {
   width: 33.33333333%!important;
   height: 220px;
@@ -62,7 +62,7 @@ export default class ContentBriefCard extends Vue {
   &--title {
     cursor: pointer;
     font-weight: 600!important;
-    font-family: medium-content-sans-serif-font,"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Arial,sans-serif!important;
+    font-family: medium-content-sans-serif-font,'Lucida Grande','Lucida Sans Unicode','Lucida Sans',Geneva,Arial,sans-serif!important;
 
     overflow: hidden!important;
     height: 48px!important;

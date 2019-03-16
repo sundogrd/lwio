@@ -13,5 +13,6 @@ declare module 'vue/types/vue' {
       toggle(...args: any): any
     }
     $route: Route
+    $message: any
   }
 }

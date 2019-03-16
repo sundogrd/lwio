@@ -1,13 +1,13 @@
 <template>
-  <div class="article-page" sticky-container>
-    <!-- <button v-sticky sticky-offset="30" sticky-side="bottom" :click="fullScreen">Great</button> -->
+  <div class='article-page' sticky-container>
+    <!-- <button v-sticky sticky-offset='30' sticky-side='bottom' :click='fullScreen'>Great</button> -->
     <detail-header />
-    <transition-group name="fade" mode="out-in">
-      <div class="article-container" key="article-container">
-        <article-content :article="article" />
+    <transition-group name='fade' mode='out-in'>
+      <div class='article-container' key='article-container'>
+        <article-content :article='article' />
       </div>
     </transition-group>
-    <div class="graylight-bg">
+    <div class='graylight-bg'>
       <recommend-section />
       <article-replies />
     </div>
@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang='ts'>
 import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
@@ -52,10 +52,10 @@ export default class ArticleDetailPage extends Vue {
 }
 </script>
 
-<style lang="less">
+<style lang='less'>
 .article-container {
   margin: 20px auto;
-  max-width: 740px;
+  max-width: 980px;
   padding-left: 20px;
   padding-right: 20px;
 }
