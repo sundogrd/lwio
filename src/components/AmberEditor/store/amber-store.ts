@@ -7,6 +7,7 @@ import {indexToPos, indexOfId, focusedIndex} from '../util/pm'
 import DocToGrid from '../convert/doc-to-grid'
 import IframeInfo from '../plugins/iframe-info'
 import AmberSchema from '../schema/amber-schema'
+import { TextSelection } from 'prosemirror-state';
 
 function noop () {}
 
@@ -254,8 +255,11 @@ export default class AmberStore {
       ids.push(id)
     }
   }
-  getBlock (id: any) {
+  getBlock (id: string) {
     return this._content[id]
+  }
+  addBlock (block: any) {
+    this._content[block.id] = block
   }
   _replaceBlock (index: number, block: any) {
     if (!this.pm) {
@@ -377,15 +381,14 @@ export default class AmberStore {
           caption
         }
       )
-      nodes.push(node)
+      // nodes.push(node)
+      const state = this.pm.state
+      const dispatch = this.pm.dispatch
+      const insertedPos = state.selection.$cursor
+      dispatch(
+        state.tr.insert(insertedPos.pos, node)
+      )
     }
-
-    const state = this.pm.state
-    const dispatch = this.pm.dispatch
-    const pos = indexToPos(state.doc, focusedIndex(state))
-    dispatch(
-      state.tr.insert(pos, nodes)
-    )
 
     return ids
   }

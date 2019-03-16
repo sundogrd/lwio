@@ -13,12 +13,12 @@ import AmberSchema from '../schema/amber-schema'
 import menuImage from './menu-image'
 import makeToggleLink from './menu-link'
 import {
-    // menuCode
     // , menuLocation
     // , menuUserhtml
     // , menuCta
     // , menuQuote,
 } from './menu-media'
+import menuCode from './menu-code';
 
 const menuItems = buildMenuItems(AmberSchema)
 const { 
@@ -26,6 +26,7 @@ const {
     makeHead1,
     makeHead2,
     makeHead3,
+    wrapBlockQuote,
     wrapBulletList,
     wrapOrderedList,
     insertHorizontalRule,
@@ -78,6 +79,8 @@ export const amberCommands: { [key: string]: any } = {
     // 'heading:make1': makeHead1,
     // 'heading:make2': makeHead2,
     // 'heading:make3': makeHead3,
+    'code_block:insert': menuCode,
+    'blockquote:wrap': wrapBlockQuote,
     'bullet_list:wrap': wrapBulletList,
     'ordered_list:wrap': wrapOrderedList,
     'horizontal_rule:insert': insertHorizontalRule,
@@ -85,7 +88,6 @@ export const amberCommands: { [key: string]: any } = {
     'undo': undoItem,
     'redo': redoItem,
     'amber_upload_image': menuImage,
-    // 'ed_add_code': menuCode,
     // 'ed_add_location': menuLocation,
     // 'ed_add_userhtml': menuUserhtml,
     // 'ed_add_cta': menuCta,
@@ -105,7 +107,7 @@ const typeDropdown = new Dropdown(
 const addDropdown = new Dropdown(
     [insertHorizontalRule,
         // menuLocation,
-        // menuCode,
+        menuCode,
         // menuCta,
         // menuUserhtml,
     ]
@@ -120,11 +122,13 @@ export const amberBlockMenu = [
     ],
     [typeDropdown],
     [
+        wrapBlockQuote,
         wrapBulletList,
         wrapOrderedList,
         // menuQuote,
         liftItem,
     ],
+    [menuCode],
     [menuImage],
     [addDropdown],
 ]

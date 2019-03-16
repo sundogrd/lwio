@@ -1,5 +1,6 @@
 import { NodeSelection } from 'prosemirror-state'
 import ImageNode from './ImageNode.vue'
+import uuid from 'uuid'
 
 export const image =
 {
@@ -52,11 +53,19 @@ export class ImageNodeView {
         this.getPos = getPos
         this.amber = store
 
-        const { id } = node.attrs
+        let { id } = node.attrs
         const initialBlock = this.amber.getBlock(id)
-
         if (!initialBlock) {
             throw new Error('Block not found in content: ' + id)
+        }
+
+        // 如果是复制
+        if (document.querySelector(`div[amber-image-id='${id}']`)) {
+            id = uuid.v4()
+            this.amber.addBlock({
+                ...initialBlock,
+                id,
+            })
         }
 
         const props = {

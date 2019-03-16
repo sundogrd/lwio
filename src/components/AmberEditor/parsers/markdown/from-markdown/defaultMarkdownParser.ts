@@ -10,13 +10,12 @@ const defaultMarkdownParser = (schema: any) => {
         bullet_list: { block: "bullet_list" },
         ordered_list: { block: "ordered_list", getAttrs: (tok: any) => ({ order: +tok.attrGet('order') || 1 }) },
         heading: { block: "heading", getAttrs: (tok: any) => ({ level: +tok.tag.slice(1) }) },
-        // code_block: { block: "code_block" },
+        code_block: { block: "code_block" },
         // fence: { block: "code_block", getAttrs: (tok: any) => ({ params: tok.info || '' }) },
         hr: { node: "horizontal_rule" },
         image: {
             node: "image", 
             getAttrs: (tok: any) => {
-                debugger
                 return {
                     src: tok.attrGet("src"),
                     title: tok.attrGet("title") || null,
