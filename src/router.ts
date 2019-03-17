@@ -45,6 +45,8 @@ export default new Router({
       component: ArticlePublishPage,
       beforeEnter: (to, from, next) => {
         hasLogined().then(isLogined => {
+          next()
+          return
           if (isLogined) {
             next()
             return
