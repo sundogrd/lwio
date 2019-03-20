@@ -735,6 +735,18 @@
     tslib "^1.9.3"
     utility-types "^3.4.1"
 
+"@types/codemirror@^0.0.72":
+  version "0.0.72"
+  resolved "http://bnpm.byted.org/@types/codemirror/download/@types/codemirror-0.0.72.tgz#75e95e3b488717605d2591cd80c4d2ed88ff276e"
+  integrity sha1-deleO0iHF2BdJZHNgMTS7Yj/J24=
+  dependencies:
+    "@types/tern" "*"
+
+"@types/estree@*":
+  version "0.0.39"
+  resolved "http://bnpm.byted.org/@types/estree/download/@types/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
+  integrity sha1-4Xfmme4bjCLSMXTKqnQiZEOJUJ8=
+
 "@types/he@^1.1.0":
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/@types/he/download/@types/he-1.1.0.tgz#0ddc2ae80f0814f729f0f7e5aa77b191ab4a9598"
@@ -772,6 +784,18 @@
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-10.12.21.tgz#7e8a0c34cf29f4e17a36e9bd0ea72d45ba03908e"
   integrity sha1-fooMNM8p9OF6Num9DqctRboDkI4=
 
+"@types/orderedmap@*":
+  version "1.0.0"
+  resolved "http://bnpm.byted.org/@types/orderedmap/download/@types/orderedmap-1.0.0.tgz#807455a192bba52cbbb4517044bc82bdbfa8c596"
+  integrity sha1-gHRVoZK7pSy7tFFwRLyCvb+oxZY=
+
+"@types/prosemirror-model@^1.7.0":
+  version "1.7.0"
+  resolved "http://bnpm.byted.org/@types/prosemirror-model/download/@types/prosemirror-model-1.7.0.tgz#c9473abf509965af1717f21358c78b96743b1252"
+  integrity sha1-yUc6v1CZZa8XF/ITWMeLlnQ7ElI=
+  dependencies:
+    "@types/orderedmap" "*"
+
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "http://registry.npm.taobao.org/@types/q/download/@types/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
@@ -791,6 +815,13 @@
   version "0.0.30"
   resolved "http://registry.npm.taobao.org/@types/strip-json-comments/download/@types/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
   integrity sha1-mqMMBNshKpoGSdaub9UKzMQHSKE=
+
+"@types/tern@*":
+  version "0.23.0"
+  resolved "http://bnpm.byted.org/@types/tern/download/@types/tern-0.23.0.tgz#144326f7a53b013a7dcbf770f6026e075febbd01"
+  integrity sha1-FEMm96U7ATp9y/dw9gJuB1/rvQE=
+  dependencies:
+    "@types/estree" "*"
 
 "@types/unist@*", "@types/unist@^2.0.0":
   version "2.0.2"
@@ -2479,6 +2510,11 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "http://registry.npm.taobao.org/code-point-at/download/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
+
+codemirror@^5.44.0:
+  version "5.44.0"
+  resolved "http://bnpm.byted.org/codemirror/download/codemirror-5.44.0.tgz#80dc2a231eeb7aab25ec2405cdca37e693ccf9cc"
+  integrity sha1-gNwqIx7reqsl7CQFzco35pPM+cw=
 
 collapse-white-space@^1.0.2:
   version "1.0.4"
