@@ -21,11 +21,7 @@ import * as contentService from '@/services/content'
 import * as userService from '@/services/user'
 import * as logService from '@/services/log'
 import marked from 'marked'
-
-export type SideBarOption = {
-  clap : number
-}
-
+import { SideBarOption } from './SideBar.vue'
 @Component({
   name: 'ArticleContent',
   components: {

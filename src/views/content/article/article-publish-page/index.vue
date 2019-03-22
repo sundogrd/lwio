@@ -17,6 +17,7 @@
         </div>
       </div>
     </header>
+    <textarea placeholder="输入标题..." spellcheck="false" maxlength="80" rows="1" class="publish-title" v-model="title"></textarea>
     <amber-editor class="publish-editor" :initialMarkdown='body' :hasMenubar='true' @change='handleBodyChange' />
   </div>
 </template>
@@ -84,6 +85,28 @@ export default class ArticlePublishPage extends Vue {
         background-color: #fff;
         border-bottom: none;
         z-index: 100;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    .publish-title{
+        padding: 0;
+        font-size: 28px;
+        font-weight: 700;
+        color: #000;
+        border: none;
+        outline: none;
+        resize: none;
+        overflow: hidden;
+        position: relative;
+        max-width: 856px;
+        margin: 0 auto;
+        left: 50%;
+        transform: translateX(-50%);
+        padding-left: 40px;
+        top: 116px;
+        height: initial;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
     .publish-header{
         display: flex;
@@ -114,7 +137,7 @@ export default class ArticlePublishPage extends Vue {
             background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAjVBMV…RS3bfRSan1waGZMVXwctmrrKdPqhgt0jnVtBa+DwMDA3r8A41Ik44EoNuxAAAAAElFTkSuQmCC);
         }
         .status-text{
-            font-size: 1.334rem;
+            font-size: 18px;
             white-space: nowrap;
             color: #ddd;
             cursor: default;
@@ -152,15 +175,15 @@ export default class ArticlePublishPage extends Vue {
         }
     }
     .publish-editor{
-        padding-top: 64px;
+        margin-top: 120px;
         .ProseMirror{
-            height: calc(100vh - 100px);
+            height: calc(100vh - 184px);
         }
         .ProseMirror-content{
             margin-bottom: 0px;
             padding-bottom: 0px;
             padding-top: 0px;
-            margin-top: 30px;
+            // margin-top: 30px;
             &::-webkit-scrollbar{
                 display: none;
             }
@@ -168,7 +191,7 @@ export default class ArticlePublishPage extends Vue {
 
         .ProseMirror-menubar{
             position: fixed;
-            top: 64px;
+            top: 76px;
             z-index: 100;
             max-width: 856px;
             margin: 0 auto;

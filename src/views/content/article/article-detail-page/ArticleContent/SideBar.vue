@@ -14,9 +14,13 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import marked from 'marked'
-import {SideBarOption} from './index.vue'
 import * as logService from '@/services/log'
 import axios from 'axios'
+
+export type SideBarOption = {
+  clap : number
+}
+
 @Component({
   name: 'SideBar'
 })
