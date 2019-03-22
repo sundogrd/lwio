@@ -13,6 +13,7 @@
   "dependencies": {
     "@sundogrd/fileportal": "^1.0.3",
     "axios": "^0.18.0",
+    "codemirror": "^5.44.0",
     "crel": "^4.0.1",
     "element-ui": "^2.4.5",
     "he": "^1.2.0",
@@ -48,11 +49,13 @@
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.0",
     "@lwyj123/vue-cli-plugin-stylelint": "^1.0.1",
+    "@types/codemirror": "^0.0.72",
     "@types/he": "^1.1.0",
     "@types/jest": "^23.1.4",
     "@types/lodash": "^4.14.118",
     "@types/markdown-it": "^0.0.7",
     "@types/marked": "^0.4.2",
+    "@types/prosemirror-model": "^1.7.0",
     "@types/uuid": "^3.4.4",
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-pwa": "^3.2.0",

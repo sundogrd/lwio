@@ -6,8 +6,8 @@ const defaultMarkdownSerializer = new MarkdownSerializer({
         state.wrapBlock('> ', null, node, () => state.renderContent(node))
     },
     code_block(state: any, node: any) {
-        state.write('```' + (node.attrs.params || '') + '\n')
-        state.text(node.textContent, false)
+        state.write('```' + (node.attrs.language || '') + '\n')
+        state.text(node.attrs.text, false)
         state.ensureNewLine()
         state.write('```')
         state.closeBlock(node)
@@ -71,6 +71,15 @@ const defaultMarkdownSerializer = new MarkdownSerializer({
         }
     },
     code: {
+        open(_state: any, _mark: any, parent: any, index: number) {
+            return backticksFor(parent.child(index), -1)
+        },
+        close(_state: any, _mark: any, parent: any, index: number) {
+            return backticksFor(parent.child(index - 1), 1)
+        },
+        escape: false
+    },
+    pre: {
         open(_state: any, _mark: any, parent: any, index: number) {
             return backticksFor(parent.child(index), -1)
         },

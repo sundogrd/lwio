@@ -8,6 +8,8 @@ declare module 'prosemirror-state' {
     export let EditorState: any;
     export let Plugin: any;
     export let NodeSelection: any;
+    export let TextSelection: any;
+    export let Selection: any;
     export let PluginKey: any;
 }
 
@@ -94,9 +96,9 @@ declare module 'prosemirror-schema-basic' {
     export let marks: any
 }
 
-declare module 'prosemirror-model' {
-    export let Schema: any
-    export let DOMParser: any
-    export let DOMSerializer: any
-    export let Mark: any
-}
+// declare module 'prosemirror-model' {
+//     export let Schema: any
+//     export let DOMParser: any
+//     export let DOMSerializer: any
+//     export let Mark: any
+// }
