@@ -1,9 +1,10 @@
 <template>
   <div class='article-content'>
-    <h1 class='article-title'>{{ article.title }}</h1>
+    <h1 class='article-title'>{{ (article && article.title) || 'default title' }}</h1>
     <author-bar :author='article.author' />
     <div class='article-html' v-html='contentHTML'>
     </div>
+    <side-bar :sidebar="sidebar"></side-bar>
     <ul class='article-tags'>
       <li v-for='(tag, index) in tags' :key='index'>
         {{ tag }}
@@ -15,19 +16,25 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import AuthorBar from './AuthorBar.vue'
+import SideBar from './SideBar.vue'
 import * as contentService from '@/services/content'
 import * as userService from '@/services/user'
+import * as logService from '@/services/log'
 import marked from 'marked'
+import { SideBarOption } from './SideBar.vue'
 @Component({
   name: 'ArticleContent',
   components: {
-    AuthorBar
+    AuthorBar,
+    SideBar
   }
 })
 export default class ArticleDetailPage extends Vue {
-  public tags?: string[]
+  public tags: string[] = []
   public title = 'Loading...'
   public contentMD = 'Loading'
+  public sidebar: SideBarOption = {clap: 0}
+
   @Prop(Object) article!: contentService.ContentInfo & {
     author: userService.UserInfo
   }
@@ -36,7 +43,9 @@ export default class ArticleDetailPage extends Vue {
     return marked(this.article.body, { sanitize: true })
   }
   public async mounted () {
-    
+    const contentId = this.$route.params.articleId;
+    const logRes = await logService.getStatementById({ contentId })
+    this.sidebar.clap = 23
   }
 }
 </script>
