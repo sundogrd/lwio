@@ -20,6 +20,7 @@ import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import * as contentService from '@/services/content'
+import * as logService from '@/services/log'
 import DetailHeader from './DetailHeader.vue'
 import DetailFooter from './DetailFooter.vue'
 import ArticleContent from './ArticleContent/index.vue'
@@ -40,7 +41,8 @@ import RecommendSection from './RecommendSection/index.vue'
 export default class ArticleDetailPage extends Vue {
   private article: contentService.ContentInfo | null = null
   public async  mounted() {
-    const res = await contentService.getContentById({contentId: this.$route.params.articleId})
+    const contentId = this.$route.params.articleId;
+    const res = await contentService.getContentById({contentId: contentId})
     this.article = res
   }
   // fullScreen() {

@@ -33,6 +33,8 @@ export enum EBodyType {
 type getContentByIdRequest = {
     contentId: string
 }
+
+
 type getContentByIdResponse = {
     
 } & ContentInfo
