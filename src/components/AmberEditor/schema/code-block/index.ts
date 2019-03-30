@@ -140,7 +140,7 @@ export class CodeNodeView {
       [`${mod}-Z`]: () => undo(view.state, this.amber.pm.dispatch),
       [`Shift-${mod}-Z`]: () => redo(view.state, this.amber.pm.dispatch),
       [`${mod}-Y`]: () => redo(view.state, this.amber.pm.dispatch),
-      "Ctrl-Enter": () => {
+      [`${mod}-Enter`]: () => {
         if (exitCode(view.state, this.amber.pm.dispatch)) view.focus()
       }
     })
@@ -148,19 +148,21 @@ export class CodeNodeView {
   maybeEscape(unit: string, dir: number) {
     let pos = this.cm.getDoc().getCursor()
     if (this.cm.getDoc().somethingSelected() ||
-        pos.line != (dir < 0 ? this.cm.getDoc().firstLine() : this.cm.getDoc().lastLine()) ||
-        (unit == "char" &&
-         pos.ch != (dir < 0 ? 0 : this.cm.getDoc().getLine(pos.line).length)))
+      pos.line != (dir < 0 ? this.cm.getDoc().firstLine() : this.cm.getDoc().lastLine()) ||
+      (unit == "char" &&
+      pos.ch != (dir < 0 ? 0 : this.cm.getDoc().getLine(pos.line).length))
+    ) {
       return CodeMirror.Pass
+    }
     this.view.focus()
     let targetPos = this.getPos() + (dir < 0 ? 0 : this.node.nodeSize)
     let selection = Selection.near(this.view.state.doc.resolve(targetPos), dir)
     this.view.dispatch(this.view.state.tr.setSelection(selection).scrollIntoView())
     this.view.focus()
   }
-  selectNode() { 
-    this.cm.focus() 
-  }
+  // selectNode() { 
+  //   this.cm.focus() 
+  // }
   stopEvent() {   
     return true 
   }

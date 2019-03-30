@@ -372,7 +372,8 @@ export default class AddCover extends Vue {
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
-  height: 300px;
+  height: 100px;
+  max-height: 300px;
   color: black;
 }
 
@@ -397,6 +398,7 @@ export default class AddCover extends Vue {
   white-space: nowrap;
 }
 .CodeMirror-linenumbers {}
+
 .CodeMirror-linenumber {
   padding: 0 3px 0 5px;
   min-width: 20px;
@@ -415,15 +417,18 @@ export default class AddCover extends Vue {
   border-right: none;
   width: 0;
 }
+
 /* Shown when moving in bi-directional text */
 .CodeMirror div.CodeMirror-secondarycursor {
   border-left: 1px solid silver;
 }
+
 .cm-fat-cursor .CodeMirror-cursor {
   width: auto;
   border: 0 !important;
   background: #7e7;
 }
+
 .cm-fat-cursor div.CodeMirror-cursors {
   z-index: 1;
 }
@@ -436,16 +441,7 @@ export default class AddCover extends Vue {
   animation: blink 1.06s steps(1) infinite;
   background-color: #7e7;
 }
-@-moz-keyframes blink {
-  0% {}
-  50% { background-color: transparent; }
-  100% {}
-}
-@-webkit-keyframes blink {
-  0% {}
-  50% { background-color: transparent; }
-  100% {}
-}
+
 @keyframes blink {
   0% {}
   50% { background-color: transparent; }
@@ -462,6 +458,7 @@ export default class AddCover extends Vue {
   left: 0; right: 0; top: -50px; bottom: -20px;
   overflow: hidden;
 }
+
 .CodeMirror-ruler {
   border-left: 1px solid #ccc;
   top: 0; bottom: 0;
@@ -534,6 +531,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   outline: none; /* Prevent dragging from highlighting the element */
   position: relative;
 }
+
 .CodeMirror-sizer {
   position: relative;
   border-right: 30px solid transparent;
