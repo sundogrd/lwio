@@ -1,51 +1,48 @@
 <template>
-  <div class='article-content'>
-    <h1 class='article-title'>{{ (article && article.title) || 'default title' }}</h1>
-    <author-bar :author='article.author' />
-    <div class='article-html' v-html='contentHTML'>
-    </div>
+  <div class="article-content">
+    <h1 class="article-title">{{ (article && article.title) || 'default title' }}</h1>
+    <author-bar :author="article.author"/>
+    <div class="article-html" v-html="contentHTML"></div>
     <side-bar :sidebar="sidebar"></side-bar>
-    <ul class='article-tags'>
-      <li v-for='(tag, index) in tags' :key='index'>
-        {{ tag }}
-      </li>
+    <ul class="article-tags">
+      <li v-for="(tag, index) in tags" :key="index">{{ tag }}</li>
     </ul>
   </div>
 </template>
 
 <script lang='ts'>
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import AuthorBar from './AuthorBar.vue'
-import SideBar from './SideBar.vue'
-import * as contentService from '@/services/content'
-import * as userService from '@/services/user'
-import * as logService from '@/services/log'
-import marked from 'marked'
-import { SideBarOption } from './SideBar.vue'
+import { Component, Vue, Prop } from "vue-property-decorator";
+import AuthorBar from "./AuthorBar.vue";
+import SideBar from "./SideBar.vue";
+import * as contentService from "@/services/content";
+import * as userService from "@/services/user";
+import * as logService from "@/services/log";
+import marked from "marked";
+import { SideBarOption } from "./SideBar.vue";
 @Component({
-  name: 'ArticleContent',
+  name: "ArticleContent",
   components: {
     AuthorBar,
     SideBar
   }
 })
 export default class ArticleDetailPage extends Vue {
-  public tags: string[] = []
-  public title = 'Loading...'
-  public contentMD = 'Loading'
-  public sidebar: SideBarOption = {clap: 0}
+  public tags: string[] = [];
+  public title = "Loading...";
+  public contentMD = "Loading";
+  public sidebar: SideBarOption = { clap: 0 };
 
   @Prop(Object) article!: contentService.ContentInfo & {
-    author: userService.UserInfo
-  }
+    author: userService.UserInfo;
+  };
 
-  get contentHTML () {
-    return marked(this.article.body, { sanitize: true })
+  get contentHTML() {
+    return marked(this.article.body, { sanitize: true });
   }
-  public async mounted () {
+  public async mounted() {
     const contentId = this.$route.params.articleId;
-    const logRes = await logService.getStatementById({ contentId })
-    this.sidebar.clap = 23
+    const logRes = await logService.getStatementById({ contentId });
+    this.sidebar.clap = 23;
   }
 }
 </script>
@@ -55,7 +52,8 @@ export default class ArticleDetailPage extends Vue {
   h1.article-title {
     margin: 0;
     padding: 16px 0 0 0;
-    font-family: medium-content-title-font, Georgia, Cambria, 'Times New Roman', Times, serif;
+    font-family: medium-content-title-font, Georgia, Cambria, "Times New Roman",
+      Times, serif;
     font-weight: 400;
     font-style: normal;
     font-size: 42px;
@@ -94,12 +92,57 @@ export default class ArticleDetailPage extends Vue {
     }
 
     blockquote {
-      margin-top: 29px;
-      font-weight: 400;
+      font-size: 1em;
+      margin: 10px auto;
+      font-family: Open Sans;
       font-style: italic;
-      font-size: 21px;
-      line-height: 1.58;
-      letter-spacing: -0.003em;
+      color: #555555;
+      padding: 0.2em 30px 0.5em 35px;
+      border-left: 8px solid #78c0a8;
+      line-height: 1.4;
+      position: relative;
+      background: #ededed;
+      p {
+        font-size: 0.9em;
+      }
+
+      &::before {
+        font-family: Arial;
+        content: "\201C";
+        color: #78c0a8;
+        font-size: 3em;
+        position: absolute;
+        left: 10px;
+        top: -10px;
+
+        &::after {
+          content: "";
+        }
+
+        span {
+          display: block;
+          color: #333;
+          font-style: normal;
+          font-weight: bold;
+          margin-top: 1em;
+        }
+      }
+    }
+
+    code {
+      display: block;
+      border-radius: 3px;
+      margin: 1.64em 0;
+      padding: 7px;
+      border: none;
+      /* border-left: 3px solid #dadada; */
+      padding-left: 10px;
+      overflow: auto;
+      line-height: 1.5;
+      font-size: 0.8em;
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+      color: #fff;
+      background-color: #333;
     }
   }
 
