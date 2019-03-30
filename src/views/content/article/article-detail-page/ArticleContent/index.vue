@@ -47,7 +47,7 @@ export default class ArticleDetailPage extends Vue {
 }
 </script>
 
-<style rel='stylesheet/scss' lang='scss'>
+<style rel='stylesheet/less' lang='less'>
 .article-content {
   h1.article-title {
     margin: 0;
