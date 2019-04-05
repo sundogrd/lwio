@@ -5,7 +5,8 @@ export type LogCountInfo = {
 }
 
 type getClapCountByIdRequest = {
-    contentId: string
+    contentId?: string,
+    userId?: string
 }
 
 type getClapCountByIdResponse = {
@@ -22,14 +23,16 @@ type addClapResponse = {
     user_id:   string,
     target_id: string,
     extra:    any,
+    msg?: string,
 } 
 
 export function getStatementById(req: getClapCountByIdRequest) {
     return request<getClapCountByIdResponse>({
-        url: `/statement`,
+        url: `/log/count`,
         params: {
+            user_id: req.userId,
             target_id: req.contentId,
-            type: 'clap'
+            type: 'CLAP'
         },
     });
 }
@@ -37,11 +40,11 @@ export function getStatementById(req: getClapCountByIdRequest) {
 export function addStatement(req: addClapRequest) {
     return request<addClapResponse>({
         method: 'post',
-        url: `/statement`,
+        url: '/log',
         data: {
             target_id: req.articleId,
             user_id: req.userId,
-            type: 'clap'
+            type: 'CLAP'
         },
     });
 }

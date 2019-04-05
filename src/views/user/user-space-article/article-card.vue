@@ -9,9 +9,9 @@
     </div>
     <div class="actions">
       <span>
-        <button aria-label="点赞" type="button" class="clap-button"><icon-svg iconClass="clap_filled"/>点赞 1K</button>
+        <button aria-label="鼓掌" type="button" class="clap-button"><icon-svg iconClass="clap_filled"/>鼓掌 {{clapCount | nFormatter}}</button>
       </span>
-      <button type="button" class="action-button"><icon-svg iconClass="comment"/>124 条评论</button>
+      <button type="button" class="action-button"><icon-svg iconClass="comment"/>{{commentCount | nFormatter}} 条评论</button>
     </div>
   </module-card>
 </template>
@@ -31,8 +31,11 @@ import { ContentInfo } from '@/services/content';
 })
 export default class ArticleCard extends Vue {
   html: string = "kekekekkee"
+  clapCount: number = 0
+  commentCount: number = 0
   @Prop({ type: Object, required: true, })
   private content!: ContentInfo;
+
 }
 </script>
 

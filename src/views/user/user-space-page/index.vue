@@ -41,7 +41,7 @@ export default class UserSpacePage extends Vue {
   .user-space-container {
     padding: 30px 20px;
     margin: 0 auto;
-    max-width: 740px;
+    max-width: 960px;
   }
 }
 </style>

@@ -23,6 +23,7 @@ export default class AppMain extends Vue {
 <style lang="less">
 .app-main {
   /* 50= navbar  50  */
+  padding-top: 60px;
   min-height: calc(100vh);
   width: 100%;
   position: relative;
