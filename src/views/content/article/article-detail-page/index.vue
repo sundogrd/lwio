@@ -8,7 +8,7 @@
       </div>
     </transition-group>
     <div class='graylight-bg'>
-      <recommend-section />
+      <!-- <recommend-section /> -->
       <article-replies />
     </div>
     <detail-footer />
