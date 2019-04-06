@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import AppMain from "./components/app-main.vue";
-import YuefuPlayer from './components/yuefu-player.vue';
+import YuefuPlayer from './components/yuefu-player/index.vue';
 @Component({
   name: "Layout",
   components: {
