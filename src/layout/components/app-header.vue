@@ -1,46 +1,48 @@
 <template>
   <header>
-    <div class="header-left"><i class="logo"><img @click="$router.push('/')" src="/favicon.ico" alt="Nav_Logo"></i></div>
-    <div class="header-nav">
-      <ul class="nav navbar-nav">
-        <li class="tab index active">
-          <router-link to="/">
-            <span class="menu-text">首页</span>
-            <i class="iconfont"></i>
-          </router-link>
-        </li>
-        <li class="tab search">
-            <el-input
-              placeholder="请输入内容"
-              class="search-input"
-              :class="{focus: searchFocus}"
-              @focus="searchFocus = true"
-              @blur="searchFocus = false"
-              v-model="searchValue">
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            </el-input>
-            <div id="navbar-search-tips" v-show="searchFocus">
-              <div class="search-trending">
-                <div class="search-trending-header">
-                  <span>热门搜索</span>
+    <div class="width-limit">
+      <div class="header-left"><i class="logo"><img @click="$router.push('/')" src="/favicon.ico" alt="Nav_Logo"></i></div>
+      <div class="header-nav">
+        <ul class="nav navbar-nav">
+          <li class="tab index active">
+            <router-link to="/">
+              <span class="menu-text">首页</span>
+              <i class="iconfont"></i>
+            </router-link>
+          </li>
+          <li class="tab search">
+              <el-input
+                placeholder="请输入内容"
+                class="search-input"
+                :class="{focus: searchFocus}"
+                @focus="searchFocus = true"
+                @blur="searchFocus = false"
+                v-model="searchValue">
+                <i slot="prefix" class="el-input__icon el-icon-search"></i>
+              </el-input>
+              <div id="navbar-search-tips" v-show="searchFocus">
+                <div class="search-trending">
+                  <div class="search-trending-header">
+                    <span>热门搜索</span>
+                  </div>
+                  <ul class="search-trending-tag-wrapper">
+                    <li><a href="">test</a></li>
+                    <li><a href="">test</a></li>
+                    <li><a href="">test</a></li>
+                    <li><a href="">test</a></li>
+                  </ul>
                 </div>
-                <ul class="search-trending-tag-wrapper">
-                  <li><a href="">test</a></li>
-                  <li><a href="">test</a></li>
-                  <li><a href="">test</a></li>
-                  <li><a href="">test</a></li>
-                </ul>
               </div>
-            </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="header-right">
+        <!-- <el-button class="login header-btn" type="primary">登录</el-button> -->
+        <a href="/api/oauth2/github/login" class="login header-btn">登录</a>
+        <el-button @click="$router.push({name: 'articlePublishPage'})" class="publish header-btn" type="primary" icon="el-icon-search">写文章</el-button>
+      </div>
     </div>
-    <div class="header-right">
-      <!-- <el-button class="login header-btn" type="primary">登录</el-button> -->
-      <a href="/api/oauth2/github/login" class="login header-btn">登录</a>
-      <el-button @click="$router.push({name: 'articlePublishPage'})" class="publish header-btn" type="primary" icon="el-icon-search">写文章</el-button>
-    </div>
-    </header>
+  </header>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
@@ -66,6 +68,15 @@ header{
   background: white;
   z-index: 99999;
   border-bottom: 1px solid #f0f0f0;
+
+  .width-limit{
+    max-width: 1440px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
   .header-left{
     position: absolute;
     left: 15px;
