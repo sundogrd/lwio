@@ -40,7 +40,7 @@ export default class DetailHeader extends Vue {
   }
   public mounted () {
     authService.getI().then(res => {
-      if(res.name) {
+      if (res.name) {
         this.isLogined = true
         this.user = res.name
       }
@@ -50,7 +50,7 @@ export default class DetailHeader extends Vue {
     window.removeEventListener('scroll', this.handleScroll)
   }
   public handleGoUserSpace () {
-    this.$router.push({name: 'userSpacePage', params: {userId: '304012802987667460'}})
+    this.$router.push({ name: 'userSpacePage', params: { userId: '304012802987667460' } })
   }
 }
 </script>

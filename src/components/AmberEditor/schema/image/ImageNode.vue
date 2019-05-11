@@ -11,7 +11,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   name: 'ImageNode'
 })
 export default class ImageNode extends Vue {
-  @Prop({ type: Object, required: true})
+  @Prop({ type: Object, required: true })
   public initialBlock!: any
 }
 </script>

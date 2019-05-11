@@ -1,6 +1,6 @@
 export function focusedIndex (state: any) {
   if (!state) return 0
-  const {doc, selection} = state
+  const { doc, selection } = state
   if (!selection) return 0
   if (selection.anchor != null) {
     return doc.childBefore(selection.anchor).index
@@ -11,7 +11,7 @@ export function focusedIndex (state: any) {
 }
 
 export function isCollapsed (pm: any) {
-  const {anchor, head} = pm.selection
+  const { anchor, head } = pm.selection
   if (anchor == null) return false
   return (anchor === head)
 }

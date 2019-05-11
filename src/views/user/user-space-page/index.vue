@@ -29,7 +29,7 @@ import UserListBlock from './user-list-block/index.vue'
   }
 })
 export default class UserSpacePage extends Vue {
-  
+
 }
 </script>
 

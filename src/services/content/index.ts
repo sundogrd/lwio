@@ -34,16 +34,15 @@ type getContentByIdRequest = {
     contentId: string
 }
 
-
 type getContentByIdResponse = {
-    
+
 } & ContentInfo
-export function getContentById(req: getContentByIdRequest) {
-    return request<getContentByIdResponse>({
-        url: `/contents/${req.contentId}`,
-        params: {
-        },
-    });
+export function getContentById (req: getContentByIdRequest) {
+  return request<getContentByIdResponse>({
+    url: `/contents/${req.contentId}`,
+    params: {
+    }
+  })
 }
 
 type createContentRequest = {
@@ -54,14 +53,14 @@ type createContentRequest = {
 }
 type createContentResponse = {
 } & ContentInfo
-export function createContent(req: createContentRequest) {
-    return request<createContentResponse>({
-        method: 'post',
-        url: `/contents`,
-        data: {
-            ...req
-        },
-    });
+export function createContent (req: createContentRequest) {
+  return request<createContentResponse>({
+    method: 'post',
+    url: `/contents`,
+    data: {
+      ...req
+    }
+  })
 }
 
 type getContentsRequest = {
@@ -71,9 +70,9 @@ type getContentsResponse = {
     total: number
 }
 
-export function getContents(req: getContentsRequest) {
-    return request<getContentsResponse>({
-        method: 'get',
-        url: `/contents`,
-    })
+export function getContents (req: getContentsRequest) {
+  return request<getContentsResponse>({
+    method: 'get',
+    url: `/contents`
+  })
 }

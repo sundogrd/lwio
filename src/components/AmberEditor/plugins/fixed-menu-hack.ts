@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import {isIOS} from '../util/browser'
+import { isIOS } from '../util/browser'
 
 let lastMenuHeight = 0
 let boundSpaceContent = function () {}
@@ -64,7 +64,7 @@ export default {
           window.removeEventListener('scroll', boundOnScroll)
         }
         window.removeEventListener('resize', boundSpaceContent)
-      },
+      }
     }
-  },
+  }
 }

@@ -38,12 +38,12 @@ export default class ArticlePublishPage extends Vue {
   private article = null
   private title: string = ''
   private body: string = ''
-  created() {
+  created () {
   }
-  public handleSubmit() {
-    if(this.title === '' || this.body === '') {
-       this.$message.error('请输入title和body');
-       return
+  public handleSubmit () {
+    if (this.title === '' || this.body === '') {
+      this.$message.error('请输入title和body')
+      return
     }
     contentService.createContent({
       title: this.title!,
@@ -51,17 +51,17 @@ export default class ArticlePublishPage extends Vue {
       type: contentService.EType.TEXT,
       body_type: contentService.EBodyType.BODY_MARKDOWN
     }).then(res => {
-      this.$router.push({name: "articleDetailPage", params: {articleId: res.content_id}})
+      this.$router.push({ name: 'articleDetailPage', params: { articleId: res.content_id } })
     }).catch(err => {
-      this.$message.error(err.data.msg);
+      this.$message.error(err.data.msg)
     })
   }
-  public handleBodyChange(content: {markdown: string, doc: any}) {
+  public handleBodyChange (content: {markdown: string, doc: any}) {
     this.body = content.markdown
   }
 
   public handleGoUserSpace () {
-    this.$router.push({name: 'userSpacePage', params: {userId: '304012802987667460'}})
+    this.$router.push({ name: 'userSpacePage', params: { userId: '304012802987667460' } })
   }
 }
 </script>
@@ -198,8 +198,6 @@ export default class ArticlePublishPage extends Vue {
             padding: 0 1rem 0 2rem;
         }
     }
-
-
 
 }
 </style>

@@ -11,16 +11,16 @@
 </template>
 
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
-import AuthorBar from "./AuthorBar.vue";
-import SideBar from "./SideBar.vue";
-import * as contentService from "@/services/content";
-import * as userService from "@/services/user";
-import * as logService from "@/services/log";
-import marked from "marked";
-import { SideBarOption } from "./SideBar.vue";
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import AuthorBar from './AuthorBar.vue'
+import SideBar, { SideBarOption } from './SideBar.vue'
+import * as contentService from '@/services/content'
+import * as userService from '@/services/user'
+import * as logService from '@/services/log'
+import marked from 'marked'
+
 @Component({
-  name: "ArticleContent",
+  name: 'ArticleContent',
   components: {
     AuthorBar,
     SideBar
@@ -28,21 +28,21 @@ import { SideBarOption } from "./SideBar.vue";
 })
 export default class ArticleDetailPage extends Vue {
   public tags: string[] = [];
-  public title = "Loading...";
-  public contentMD = "Loading";
+  public title = 'Loading...';
+  public contentMD = 'Loading';
   public sidebar: SideBarOption = { clap: 0 };
 
   @Prop(Object) article!: contentService.ContentInfo & {
     author: userService.UserInfo;
   };
 
-  get contentHTML() {
-    return marked(this.article.body, { sanitize: true });
+  get contentHTML () {
+    return marked(this.article.body, { sanitize: true })
   }
-  public async mounted() {
-    const contentId = this.$route.params.articleId;
-    const logRes = await logService.getStatementById({ contentId });
-    this.sidebar.clap = logRes.count;
+  public async mounted () {
+    const contentId = this.$route.params.articleId
+    const logRes = await logService.getStatementById({ contentId })
+    this.sidebar.clap = logRes.count
   }
 }
 </script>

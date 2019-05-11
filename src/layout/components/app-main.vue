@@ -9,12 +9,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
-  name: "AppMain",
+  name: 'AppMain'
 })
 export default class AppMain extends Vue {
-  get key() {
+  get key () {
     return this.$route.fullPath
   }
 }

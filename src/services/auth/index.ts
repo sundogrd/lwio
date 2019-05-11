@@ -4,8 +4,8 @@ type getIResponse = {
     id: string,
     name: string
 }
-export function getI() {
-    return request<getIResponse>({
-        url: `/i`,
-    });
+export function getI () {
+  return request<getIResponse>({
+    url: `/i`
+  })
 }

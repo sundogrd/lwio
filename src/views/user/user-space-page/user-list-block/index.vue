@@ -9,18 +9,18 @@
 import { Component, Vue } from 'vue-property-decorator'
 import ModuleCard from '../../../../components/ModuleCard/index.vue'
 import IconSvg from '../../../../components/IconSvg/index.vue'
-import UserNavHeader from './user-nav-header/index.vue';
+import UserNavHeader from './user-nav-header/index.vue'
 
 @Component({
   name: 'UserListBlock',
   components: {
     ModuleCard,
     IconSvg,
-    UserNavHeader,
+    UserNavHeader
   }
 })
 export default class UserListBlock extends Vue {
-  
+
 }
 </script>
 

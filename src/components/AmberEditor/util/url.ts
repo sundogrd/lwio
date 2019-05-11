@@ -25,8 +25,8 @@ export function extractUrl (text: string) {
   const url = urlCheck[0]
   const rest = text.replace(url, '').trim()
   return {
-    url, 
-    rest,
+    url,
+    rest
   }
 }
 

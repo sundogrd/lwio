@@ -17,27 +17,27 @@
 </template>
 
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
-import marked from "marked";
-import * as logService from "@/services/log";
-import axios from "axios";
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import marked from 'marked'
+import * as logService from '@/services/log'
+import axios from 'axios'
 
 export type SideBarOption = {
   clap: number;
 };
 
 @Component({
-  name: "SideBar"
+  name: 'SideBar'
 })
 export default class SideBar extends Vue {
   @Prop(Object)
   sidebar!: SideBarOption;
-  
+
   private tip: string = ''
   private isShowTip: boolean = false
   public nowCount: number = this.sidebar.clap || 0;
 
-  public async clap() {
+  public async clap () {
     logService
       .addStatement({
         articleId: this.$route.params.articleId,
@@ -45,7 +45,7 @@ export default class SideBar extends Vue {
       })
       .then(res => {
         if (res.id) {
-          this.nowCount++;
+          this.nowCount++
         } else {
           this.tip = res.msg || '已经不能继续鼓掌了'
           this.isShowTip = true
@@ -53,11 +53,11 @@ export default class SideBar extends Vue {
         }
       })
       .catch(err => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   }
 
-  public mounted() {}
+  public mounted () {}
 }
 </script>
 

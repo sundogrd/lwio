@@ -20,7 +20,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import IconSvg from '../../../components/IconSvg/index.vue'
 import ModuleCard from '../../../components/ModuleCard/index.vue'
-import { ContentInfo } from '@/services/content';
+import { ContentInfo } from '@/services/content'
 
 @Component({
   name: 'ArticleCard',
@@ -30,12 +30,11 @@ import { ContentInfo } from '@/services/content';
   }
 })
 export default class ArticleCard extends Vue {
-  html: string = "kekekekkee"
+  html: string = 'kekekekkee'
   clapCount: number = 0
   commentCount: number = 0
-  @Prop({ type: Object, required: true, })
+  @Prop({ type: Object, required: true })
   private content!: ContentInfo;
-
 }
 </script>
 
