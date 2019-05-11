@@ -9,6 +9,7 @@
             src="https://pic.52112.com/icon/256/20190306/32159/1581109.png"
           >
           <span class="number-block">{{nowCount}}</span>
+          <p class="over-tip" :class="{show: isShowTip}">{{tip}}</p>
         </div>
       </li>
     </ul>
@@ -31,17 +32,25 @@ export type SideBarOption = {
 export default class SideBar extends Vue {
   @Prop(Object)
   sidebar!: SideBarOption;
-
+  
+  private tip: string = ''
+  private isShowTip: boolean = false
   public nowCount: number = this.sidebar.clap || 0;
 
   public async clap() {
     logService
       .addStatement({
         articleId: this.$route.params.articleId,
-        userId: "23232332"
+        userId: '23232'// 暂时这样
       })
       .then(res => {
-        this.nowCount++;
+        if (res.id) {
+          this.nowCount++;
+        } else {
+          this.tip = res.msg || '已经不能继续鼓掌了'
+          this.isShowTip = true
+          setTimeout(() => this.isShowTip = false, 1000)
+        }
       })
       .catch(err => {
         console.log(err);
@@ -88,6 +97,23 @@ export default class SideBar extends Vue {
       font-style: normal;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
+    }
+
+    .over-tip{
+      &.show{
+        display: inline-block;
+        opacity: 1;
+      }
+      display: none;
+      opacity: 0;
+      position: absolute;
+      top: -30px;
+      left: -30px;
+      width: 150px;
+      height: 32px;
+      background: gray;
+      line-height: 32px;
+      text-align: center;
     }
   }
 

@@ -42,7 +42,7 @@ export default class ArticleDetailPage extends Vue {
   public async mounted() {
     const contentId = this.$route.params.articleId;
     const logRes = await logService.getStatementById({ contentId });
-    this.sidebar.clap = 23;
+    this.sidebar.clap = logRes.count;
   }
 }
 </script>

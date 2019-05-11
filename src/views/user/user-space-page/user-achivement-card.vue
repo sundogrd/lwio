@@ -4,7 +4,7 @@
     <div class='stat-list'>
       <div class='stat-item'>
         <icon-svg iconClass="thumbup" />
-        <span>获得鼓掌<span class='count'>666</span>次</span>
+        <span>获得鼓掌<span class='count'>{{clapCount}}</span>次</span>
       </div>
     </div>
   </module-card>
@@ -14,6 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import ModuleCard from '../../../components/ModuleCard/index.vue'
 import IconSvg from '../../../components/IconSvg/index.vue'
+import * as logService from "@/services/log";
 
 @Component({
   name: 'UserAchivementCard',
@@ -23,7 +24,13 @@ import IconSvg from '../../../components/IconSvg/index.vue'
   }
 })
 export default class UserAchivementCard extends Vue {
-  
+
+  clapCount: number = 0
+  public async mounted () {
+    const userId = '23232' // this.$route.params.userId;
+    const logRes = await logService.getStatementById({ userId });
+    this.clapCount = logRes.count
+  }
 }
 </script>
 
