@@ -1,7 +1,6 @@
-import {MenuItem, icons} from 'prosemirror-menu'
-import {focusedIndex} from '../util/pm'
-import {key} from '../plugins/store-ref'
-
+import { MenuItem, icons } from 'prosemirror-menu'
+import { focusedIndex } from '../util/pm'
+import { key } from '../plugins/store-ref'
 
 // function makeMenu (label: any, type: any, widgetType?: any) {
 //   function run (state: any, onAction?: any) {

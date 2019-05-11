@@ -14,7 +14,7 @@ const blockMetaSchema: {[ket: string]: any} =
     author: true,
     publisher: true,
     via: true,
-    makeHtml: makeImage,
+    makeHtml: makeImage
   },
   video: {
     title: true,
@@ -26,7 +26,7 @@ const blockMetaSchema: {[ket: string]: any} =
     removeCover: false,
     author: true,
     publisher: true,
-    via: true,
+    via: true
   },
   article: {
     title: true,
@@ -39,7 +39,7 @@ const blockMetaSchema: {[ket: string]: any} =
     author: true,
     publisher: true,
     via: true,
-    makeHtml: makeArticle,
+    makeHtml: makeArticle
   },
   quote: {
     title: false,
@@ -52,13 +52,13 @@ const blockMetaSchema: {[ket: string]: any} =
     author: true,
     publisher: true,
     via: true,
-    makeHtml: makeQuote,
+    makeHtml: makeQuote
   },
   cta: {
     label: true,
     link: true,
     canFrame: true,
-    makeHtml: makeCTA,
+    makeHtml: makeCTA
   },
   default: {
     title: true,
@@ -70,11 +70,11 @@ const blockMetaSchema: {[ket: string]: any} =
     removeCover: false,
     author: true,
     publisher: true,
-    via: true,
-  },
+    via: true
+  }
 }
 
-function makeImage(block: any) {
+function makeImage (block: any) {
   const { metadata, cover } = block
   let htmlString = '<img'
   if (cover && cover.src) {
@@ -104,7 +104,7 @@ function makeImage(block: any) {
 //   return `<blockquote>${encode(metadata.description)}</blockquote>`
 // }
 
-function makeArticle(block: any) {
+function makeArticle (block: any) {
   const { metadata, cover } = block
   let htmlString = '<article>'
   if (cover && cover.src) {
@@ -115,7 +115,7 @@ function makeArticle(block: any) {
   return htmlString
 }
 
-function makeTitleDescription(tag: string | null, metadata: any) {
+function makeTitleDescription (tag: string | null, metadata: any) {
   let htmlString = ''
   if (metadata && metadata.title) {
     htmlString += `<h1>${encode(metadata.title)}</h1>`
@@ -129,7 +129,7 @@ function makeTitleDescription(tag: string | null, metadata: any) {
   return htmlString
 }
 
-function makeCTA(block: any) {
+function makeCTA (block: any) {
   const { url } = block
   let { label } = block
   const dataString = makeDataString(block)
@@ -140,7 +140,7 @@ function makeCTA(block: any) {
   return `<button data-role="cta"${dataString}>${encode(label)}</button>`
 }
 
-function makeDataString(block: any) {
+function makeDataString (block: any) {
   const fields = ['cta', 'price'] // TODO type? item?
   let str = ''
   for (let i = 0, len = fields.length; i < len; i++) {
@@ -151,7 +151,7 @@ function makeDataString(block: any) {
   return str
 }
 
-function makeQuote(block: any) {
+function makeQuote (block: any) {
   if (block.metadata && block.metadata.hasOwnProperty('description')) {
     return `<blockquote>${encode(block.metadata.description)}</blockquote>`
   }

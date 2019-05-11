@@ -1,4 +1,4 @@
-import {isMediaType} from './types'
+import { isMediaType } from './types'
 
 export default function spaceContent (items: any) {
   let spacedItems = []
@@ -25,7 +25,6 @@ export default function spaceContent (items: any) {
   return spacedItems
 }
 
-
 function makeEmptyTextBlock () {
-  return {type: 'text', html: '<p></p>'}
+  return { type: 'text', html: '<p></p>' }
 }

@@ -9,7 +9,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import * as contentService from '@/services/content'
 import ArticleCard from './article-card.vue'
 
-
 @Component({
   name: 'UserSpaceArticle',
   components: {
@@ -18,9 +17,9 @@ import ArticleCard from './article-card.vue'
 })
 export default class UserSpaceArticle extends Vue {
   private contents: contentService.ContentInfo[] = []
-  public async mounted() {
+  public async mounted () {
     const res = await contentService.getContents({})
-    this.contents = res.list;
+    this.contents = res.list
   }
 }
 </script>

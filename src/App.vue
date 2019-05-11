@@ -5,16 +5,16 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  export default {
-    name: 'APP',
-    computed: {
-      ...mapGetters([
-        'app',
-        'user'
-      ])
-    }
+import { mapGetters } from 'vuex'
+export default {
+  name: 'APP',
+  computed: {
+    ...mapGetters([
+      'app',
+      'user'
+    ])
   }
+}
 </script>
 
 <style lang='scss'>

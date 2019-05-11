@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
-import JSONBig from 'json-bigint';
+import JSONBig from 'json-bigint'
 import config from '../../config'
 // import store from '../store'
 
@@ -13,7 +13,7 @@ interface IAxiosRequestCustomConfig {}
 const service = axios.create({
   baseURL: config.baseUrl, // api的base_url
   timeout: 5000, // 请求超时时间
-  transformResponse: data => JSONBig.parse(data),
+  transformResponse: data => JSONBig.parse(data)
 })
 
 // request拦截器
@@ -34,15 +34,14 @@ service.interceptors.response.use(
   }
 )
 
-export { service };
+export { service }
 
 export const requestRaw = <T>(
-    config: AxiosRequestConfig & IAxiosRequestCustomConfig,
-) => service.request<T>(config);
+  config: AxiosRequestConfig & IAxiosRequestCustomConfig
+) => service.request<T>(config)
 
-// tslint:disable-next-line:no-any
-export default function request<T = any>(
-    config: AxiosRequestConfig & IAxiosRequestCustomConfig,
+export default function request<T = any> (
+  config: AxiosRequestConfig & IAxiosRequestCustomConfig
 ) {
-    return requestRaw<T>(config).then(ret => ret.data);
+  return requestRaw<T>(config).then(ret => ret.data)
 }

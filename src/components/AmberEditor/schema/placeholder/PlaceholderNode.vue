@@ -10,7 +10,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   name: 'PlaceholderNode'
 })
 export default class PlaceholderNode extends Vue {
-  @Prop({ type: Object, required: true})
+  @Prop({ type: Object, required: true })
   public initialBlock!: any
 }
 </script>

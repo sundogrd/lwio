@@ -6,7 +6,7 @@ const inputCode =
     const index = focusedIndex(pm)
     if (index == null) return
     clearNode(pm, pos)
-    pm.amber.routeChange('ADD_MEDIA', {index, type: 'code'})
+    pm.amber.routeChange('ADD_MEDIA', { index, type: 'code' })
   })
 
 function clearNode (pm: any, pos: any) {

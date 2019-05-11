@@ -1,14 +1,24 @@
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const path = require('path')
 
 const productionGzipExtensions = ['js', 'css']
 
 module.exports = {
   configureWebpack: config => {
+    config.resolve = {
+      ...config.resolve,
+      extensions: ['.js', '.ts', '.vue', '.json'],
+      mainFiles: ['index'],
+      alias: {
+        ...config.resolve.alias,
+        '@': path.resolve(__dirname, 'src/')
+      }
+    }
     config.devServer = {
       disableHostCheck: true,
       clientLogLevel: 'info',
       watchOptions: {
-          poll: true
+        poll: true
       }
     }
 

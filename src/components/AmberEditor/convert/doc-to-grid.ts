@@ -1,12 +1,11 @@
-import {DOMSerializer} from 'prosemirror-model'
+import { DOMSerializer } from 'prosemirror-model'
 import AmberSchema from '../schema/amber-schema'
 
-import {isMediaType} from './types'
+import { isMediaType } from './types'
 import BlockMetaSchema from '../schema/block-meta'
 import _ from 'lodash'
 
 const serializer = DOMSerializer.fromSchema(AmberSchema)
-
 
 export default function (doc: any, apiContentMap: any) {
   const fragment = serializer.serializeFragment(doc.content)
@@ -31,7 +30,7 @@ export default function (doc: any, apiContentMap: any) {
 
     let apiBlock = apiContentMap[id as any]
     if (!apiBlock) {
-      apiBlock = isMedia ? {id, type} : {type}
+      apiBlock = isMedia ? { id, type } : { type }
     }
     if (!isMedia) {
       apiBlock.html = child.outerHTML
@@ -63,31 +62,30 @@ export default function (doc: any, apiContentMap: any) {
   return currentContent
 }
 
-
 function trimContent (content: any) {
   return _.map(content, function (item) {
     let cleaned = _.pick(item
-    , [ 'id',
-      'type',
-      'item',
-      'html',
-      'text',
-      'metadata',
-      'cover',
-      'cta',
-      'price',
-      'label',
-      'url',
-      'height',
-    ]
+      , [ 'id',
+        'type',
+        'item',
+        'html',
+        'text',
+        'metadata',
+        'cover',
+        'cta',
+        'price',
+        'label',
+        'url',
+        'height'
+      ]
     )
     if (cleaned.cover) {
       cleaned.cover = _.pick(cleaned.cover
-      , [ 'src',
-        'width',
-        'height',
-        'unsalvageable',
-      ]
+        , [ 'src',
+          'width',
+          'height',
+          'unsalvageable'
+        ]
       )
     }
     return cleaned

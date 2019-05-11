@@ -1,16 +1,16 @@
 declare module 'prosemirror-view' {
-    export let EditorView: any;
-    export let Decoration: any;
-    export let DecorationSet: any;
+    export let EditorView: any
+    export let Decoration: any
+    export let DecorationSet: any
 }
 
 declare module 'prosemirror-state' {
-    export let EditorState: any;
-    export let Plugin: any;
-    export let NodeSelection: any;
-    export let TextSelection: any;
-    export let Selection: any;
-    export let PluginKey: any;
+    export let EditorState: any
+    export let Plugin: any
+    export let NodeSelection: any
+    export let TextSelection: any
+    export let Selection: any
+    export let PluginKey: any
 }
 
 // declare module 'prosemirror-markdown' {
@@ -20,32 +20,32 @@ declare module 'prosemirror-state' {
 // }
 
 declare module 'prosemirror-example-setup' {
-    export let exampleSetup: any;
-    export let buildMenuItems: any;
-    export let buildInputRules: any;
-    export let buildKeymap: any;
+    export let exampleSetup: any
+    export let buildMenuItems: any
+    export let buildInputRules: any
+    export let buildKeymap: any
 }
 
 declare module 'prosemirror-commands' {
-    export let baseKeymap: any;
-    export let wrapIn: any;
-    export let setBlockType: any;
-    export let chainCommands: any;
-    export let toggleMark: any;
-    export let exitCode: any;
-    export let joinUp: any;
-    export let joinDown: any;
-    export let lift: any;
-    export let selectParentNode: any;
+    export let baseKeymap: any
+    export let wrapIn: any
+    export let setBlockType: any
+    export let chainCommands: any
+    export let toggleMark: any
+    export let exitCode: any
+    export let joinUp: any
+    export let joinDown: any
+    export let lift: any
+    export let selectParentNode: any
 }
 
 declare module 'prosemirror-history' {
-    export let history: any;
-    export let redo: any;
-    export let undo: any;
+    export let history: any
+    export let redo: any
+    export let undo: any
 }
 declare module 'prosemirror-keymap' {
-    export let keymap: any;
+    export let keymap: any
 }
 declare module 'prosemirror-dropcursor' {
     export let dropCursor: any

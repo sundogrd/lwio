@@ -41,7 +41,7 @@ const auth = {
   },
 
   actions: {
-    async setToken({ commit }, token) {
+    async setToken ({ commit }, token) {
       const tokenPayload = JSON.parse(atob(token.split('.')[1]))
       commit('SET_TOKEN', {
         accessToken: token,
@@ -52,14 +52,14 @@ const auth = {
       })
       return true
     },
-    async getUserInfo({ commit, state }) {
+    async getUserInfo ({ commit, state }) {
       const user = await getUserInfoAPI(state.user.username)
       commit('SET_USER', {
         ...user
       })
       return user
     },
-    async signoutAction({ commit }) {
+    async signoutAction ({ commit }) {
       commit('CLEAR_USER')
       commit('CLEAR_TOKEN')
     }

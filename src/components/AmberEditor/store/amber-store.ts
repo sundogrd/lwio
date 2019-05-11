@@ -1,16 +1,15 @@
 import _ from 'lodash'
 import uuid from 'uuid'
 
-import {isMediaType} from '../convert/types'
-import {indexToPos, indexOfId, focusedIndex} from '../util/pm'
+import { isMediaType } from '../convert/types'
+import { indexToPos, indexOfId, focusedIndex } from '../util/pm'
 
 import DocToGrid from '../convert/doc-to-grid'
 import IframeInfo from '../plugins/iframe-info'
 import AmberSchema from '../schema/amber-schema'
-import { TextSelection } from 'prosemirror-state';
+import { TextSelection } from 'prosemirror-state'
 
 function noop () {}
-
 
 export default class AmberStore {
   editableView: any
@@ -87,9 +86,9 @@ export default class AmberStore {
         this.trigger('change')
         break
       case 'PLUGIN_URL':
-        const {index, id, block, url} = payload
+        const { index, id, block, url } = payload
         this._replaceBlock(index, block)
-        this.onShareUrl({block: id, url})
+        this.onShareUrl({ block: id, url })
         break
       case 'EDITABLE_CHANGE':
         this.trigger('change')
@@ -157,7 +156,7 @@ export default class AmberStore {
       events[i](payload)
     }
   }
-  _updateFieldByPath ({id, path, value}: any) {
+  _updateFieldByPath ({ id, path, value }: any) {
     let block = this.getBlock(id)
     if (!block) {
       throw new Error('Can not update this block')
@@ -266,7 +265,7 @@ export default class AmberStore {
       throw new Error('pm not ready')
     }
 
-    const {type, id, metadata} = block
+    const { type, id, metadata } = block
     let widget
     if (metadata && metadata.widget) {
       widget = metadata.widget
@@ -293,7 +292,7 @@ export default class AmberStore {
       { id,
         type,
         widget,
-        initialHeight,
+        initialHeight
         // initialFocus,
       }
     )
@@ -322,7 +321,7 @@ export default class AmberStore {
 
     for (let i = 0, len = blocks.length; i < len; i++) {
       const block = blocks[i]
-      const {type, id, metadata} = block
+      const { type, id, metadata } = block
       let widget
       if (metadata && metadata.widget) {
         widget = metadata.widget
@@ -335,7 +334,7 @@ export default class AmberStore {
       const node = AmberSchema.nodes.media.create(
         { id,
           type,
-          widget,
+          widget
         }
       )
       nodes.push(node)
@@ -360,10 +359,10 @@ export default class AmberStore {
       const id = uuid.v4()
       ids.push(id)
       const block =
-        { 
+        {
           id,
           src: imgs[i].src,
-          caption: imgs[i].caption,
+          caption: imgs[i].caption
         }
       toInsert.push(block)
     }
@@ -373,9 +372,9 @@ export default class AmberStore {
 
     for (let i = 0, len = toInsert.length; i < len; i++) {
       const block = toInsert[i]
-      const { id, src, caption } = block      
+      const { id, src, caption } = block
       const node = AmberSchema.nodes.image.create(
-        { 
+        {
           id,
           src,
           caption
@@ -400,7 +399,7 @@ export default class AmberStore {
       const id = uuid.v4()
       ids.push(id)
       const block =
-        { id,
+        { id
           // metadata: {starred},
         }
       toInsert.push(block)
@@ -413,8 +412,8 @@ export default class AmberStore {
       const block = toInsert[i]
       const { id } = block
       const node = AmberSchema.nodes.placeholder.create(
-        { 
-          id,
+        {
+          id
         }
       )
       nodes.push(node)
@@ -451,7 +450,7 @@ export default class AmberStore {
       this._progressInfo[id] = {}
     }
     const meta = this._progressInfo[id]
-    const {status, progress, failed} = metadata
+    const { status, progress, failed } = metadata
     if (status !== undefined) meta.status = status
     if (progress !== undefined) meta.progress = progress
     if (failed !== undefined) meta.failed = failed
@@ -503,7 +502,7 @@ export default class AmberStore {
   _applyTransform (content: any) {
     for (let i = 0, len = content.length; i < len; i++) {
       const block = content[i]
-      const {id, type} = block
+      const { id, type } = block
       if (!isMediaType(type)) {
         continue
       }

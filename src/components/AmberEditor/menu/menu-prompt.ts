@@ -4,7 +4,7 @@
 
 const prefix = 'ProseMirror-prompt'
 
-export function openMenuPrompt(options: any) {
+export function openMenuPrompt (options: any) {
   const { menuEl, buttonEl } = options
   let wrapper = document.createElement('div')
   menuEl.appendChild(wrapper)
@@ -85,7 +85,7 @@ export function openMenuPrompt(options: any) {
   }
 }
 
-function getValues(fields: any, domFields: any) {
+function getValues (fields: any, domFields: any) {
   let result = Object.create(null)
   let i = 0
   for (let name in fields) {
@@ -102,7 +102,7 @@ function getValues(fields: any, domFields: any) {
   return result
 }
 
-function reportInvalid(dom: any, message: string) {
+function reportInvalid (dom: any, message: string) {
   // FIXME this is awful and needs a lot more work
   let parent = dom.parentNode
   let msg = parent.appendChild(document.createElement('div'))
@@ -132,7 +132,7 @@ class Field {
   // **`validate`**`: ?(any) → ?string`
   //   : A function to validate the given value. Should return an
   //     error message if it is not valid.
-  constructor(options: any) {
+  constructor (options: any) {
     this.options = options
   }
 
@@ -141,31 +141,31 @@ class Field {
 
   // :: (dom.Node) → any
   // Read the field's value from its DOM node.
-  read(dom: Element) { 
-    return dom.querySelector('input')!.value 
+  read (dom: Element) {
+    return dom.querySelector('input')!.value
   }
 
   // :: (any) → ?string
   // A field-type-specific validation function.
-  validateType(_value: any): any {
+  validateType (_value: any): any {
 
   }
 
-  validate(value: any) {
+  validate (value: any) {
     if (!value && this.options.required) {
       return 'Required field'
     }
     return this.validateType(value) || (this.options.validate && this.options.validate(value))
   }
 
-  clean(value: any) {
+  clean (value: any) {
     return this.options.clean ? this.options.clean(value) : value
   }
 }
 
 // ::- A field class for single-line text fields.
 export class TextField extends Field {
-  render() {
+  render () {
     const label = document.createElement('label')
     const labellabel = document.createElement('span')
     const input = document.createElement('input')

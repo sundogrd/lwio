@@ -12,17 +12,17 @@ export default class AddCover extends Vue {
 
   @Inject() store!: any
 
-  mounted() {
+  mounted () {
     this.store.on('plugin.contenthints', this.updateHints)
   }
-  destroyed() {
+  destroyed () {
     this.store.off('plugin.contenthints', this.updateHints)
   }
-  
-  public updateHints(hints: any) {
+
+  public updateHints (hints: any) {
     this.hasCover = hints.hasCover
   }
-  public handleAddImage() {
+  public handleAddImage () {
     this.store.routeChange('ADD_IMAGE_TOP')
   }
 }
