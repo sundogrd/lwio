@@ -5,8 +5,12 @@
       <div class='top'>
         <h1 class='username'>梁王</h1>
       </div>
-      <div class='position'><span class='content'><span>web前端工程师</span><span class="split"></span><span>宇宙条</span></span></div>
-      <div class='intro'><span class='content'>RGVhZCBob3VzZQ==</span></div></div>
+      <div class='position'>
+        <span class='content'><span>web前端工程师</span><span class="split"></span><span>宇宙条</span></span>
+      </div>
+      <div class='intro'>
+        <span class='content'>RGVhZCBob3VzZQ==</span>
+      </div>
     </div>
     <div class='action-box'>
 
@@ -22,7 +26,7 @@ import ModuleCard from '../../../components/ModuleCard/index.vue'
 @Component({
   name: 'UserProfileCard',
   components: {
-    ModuleCard,
+    ModuleCard
     // IconSvg
   }
 })

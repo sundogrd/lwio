@@ -19,7 +19,7 @@ export default class Widget extends Vue {
   @Prop({ type: String, required: false })
   public subtitle?: string
 
-  public get componentClass() {
+  public get componentClass () {
     return `WidgetView WidgetView-${this.initialBlock.type}`
   }
 }

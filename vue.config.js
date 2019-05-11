@@ -7,18 +7,18 @@ module.exports = {
   configureWebpack: config => {
     config.resolve = {
       ...config.resolve,
-      // extensions: ["js", "vue", "json"],
-      // mainFiles: ['index'],
+      extensions: ['.js', '.ts', '.vue', '.json'],
+      mainFiles: ['index'],
       alias: {
         ...config.resolve.alias,
-        "@": path.resolve(__dirname, 'src/'),
+        '@': path.resolve(__dirname, 'src/')
       }
     }
     config.devServer = {
       disableHostCheck: true,
       clientLogLevel: 'info',
       watchOptions: {
-          poll: true
+        poll: true
       }
     }
 

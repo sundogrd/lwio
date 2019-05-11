@@ -4,7 +4,6 @@
 
 import _ from 'lodash'
 
-
 // The plugin
 
 export default class PluginContentHints {
@@ -31,9 +30,9 @@ export default class PluginContentHints {
     let hasCover = false
     let hasFold = false
     doc.forEach(function (node: any, offset: number, index: number) {
-      const {name} = node.type
+      const { name } = node.type
       if (name === 'media') {
-        const {type} = node.attrs
+        const { type } = node.attrs
         if (type === 'image' || type === 'placeholder') {
           hasCover = true
         }
@@ -42,7 +41,7 @@ export default class PluginContentHints {
         hasFold = true
       }
     })
-    this.amber.trigger('plugin.contenthints', {hasCover, hasFold})
+    this.amber.trigger('plugin.contenthints', { hasCover, hasFold })
 
     // Signal widgets initialized if first
     if (!this.initialized) {

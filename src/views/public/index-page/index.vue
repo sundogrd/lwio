@@ -4,6 +4,7 @@
     <el-button @click="handleGoDetailDemo">Content Detail</el-button>
     <el-button @click="handleGoPublishDemo">Content Publish</el-button>
     <el-button @click="handleGoUserSpaceDemo">Content List(User Space)</el-button>
+    <el-button @click="handleGoSearchDemo">Search</el-button>
   </div>
 </template>
 
@@ -19,17 +20,20 @@ import { mapGetters } from 'vuex'
 })
 
 export default class IndexPage extends Vue {
-  public mounted() {
-    
+  public mounted () {
+
   }
   handleGoDetailDemo () {
-    this.$router.push({name: "articleDetailPage", params: {articleId: '309464524321198080'}})
+    this.$router.push({ name: 'articleDetailPage', params: { articleId: '309464524321198080' } })
   }
   handleGoPublishDemo () {
-    this.$router.push({name: "articlePublishPage"})
+    this.$router.push({ name: 'articlePublishPage' })
   }
   handleGoUserSpaceDemo () {
-    this.$router.push({name: "userSpacePage", params: {userId: 'lwyj123'}})
+    this.$router.push({ name: 'userSpacePage', params: { userId: 'lwyj123' } })
+  }
+  handleGoSearchDemo () {
+    this.$router.push({ name: 'searchPage', query: { q: 'demo' } })
   }
   // fullScreen() {
   //   this.$fullscreen.toggle(this.$el.querySelector('.example'), {

@@ -40,9 +40,9 @@ import RecommendSection from './RecommendSection/index.vue'
 
 export default class ArticleDetailPage extends Vue {
   private article: contentService.ContentInfo | null = null
-  public async  mounted() {
-    const contentId = this.$route.params.articleId;
-    const res = await contentService.getContentById({contentId: contentId})
+  public async mounted () {
+    const contentId = this.$route.params.articleId
+    const res = await contentService.getContentById({ contentId: contentId })
     this.article = res
   }
   // fullScreen() {

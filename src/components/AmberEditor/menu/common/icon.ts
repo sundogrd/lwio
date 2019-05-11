@@ -3,14 +3,13 @@ const XLINK = 'http://www.w3.org/1999/xlink'
 
 const prefix = 'ProseMirror-icon'
 
-function hashPath(path: string) {
+function hashPath (path: string) {
   let hash = 0
-  for (let i = 0; i < path.length; i++)
-    hash = (((hash << 5) - hash) + path.charCodeAt(i)) | 0
+  for (let i = 0; i < path.length; i++) { hash = (((hash << 5) - hash) + path.charCodeAt(i)) | 0 }
   return hash
 }
 
-export function getIcon(icon: any) {
+export function getIcon (icon: any) {
   let node = document.createElement('div')
   node.className = prefix
   if (icon.path) {
@@ -25,13 +24,13 @@ export function getIcon(icon: any) {
   } else {
     node.appendChild(document.createElement('span')).textContent = icon.text || ''
     if (icon.css) {
-        (node as any).firstChild.style.cssText = icon.css
+      (node as any).firstChild.style.cssText = icon.css
     }
   }
   return node
 }
 
-function buildSVG(name: string, data: any) {
+function buildSVG (name: string, data: any) {
   let collection = document.getElementById(prefix + '-collection')
   if (!collection) {
     collection = document.createElementNS(SVG, 'svg') as any

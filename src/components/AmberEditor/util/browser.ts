@@ -7,7 +7,7 @@ export function pseudoFixedStyle () {
       top: window.scrollY,
       left: 0,
       width: '100vw',
-      height: '100vh',
+      height: '100vh'
     }
   } else {
     return {
@@ -15,7 +15,7 @@ export function pseudoFixedStyle () {
       top: 0,
       right: 0,
       left: 0,
-      bottom: 0,
+      bottom: 0
     }
   }
 }

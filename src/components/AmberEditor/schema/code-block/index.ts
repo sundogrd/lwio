@@ -3,46 +3,46 @@ import CodeMirror from 'codemirror'
 import { Selection, TextSelection } from 'prosemirror-state'
 import { redo, undo } from 'prosemirror-history'
 import { exitCode } from 'prosemirror-commands'
-import AmberSchema from '../amber-schema';
+import AmberSchema from '../amber-schema'
 
 export const codeBlock = {
-  group: "block",
+  group: 'block',
   attrs: {
-    text: { default: "" },
-    language: { default: "text/plain" }
+    text: { default: '' },
+    language: { default: 'text/plain' }
   },
-  parseDOM: [{ 
-    tag: "pre", 
+  parseDOM: [{
+    tag: 'pre',
     getAttrs: (dom: any) => {
       debugger
-      return { 
-        text: dom.textContent, 
-        language: dom.getAttribute("data-language") || "text/plain" 
+      return {
+        text: dom.textContent,
+        language: dom.getAttribute('data-language') || 'text/plain'
       }
     }
   }],
-  toDOM(node: any) {
+  toDOM (node: any) {
     const { language, text } = node.attrs
     debugger
-    return ["pre", { "data-language": language }, text]
+    return ['pre', { 'data-language': language }, text]
   }
 }
 
-function computeChange(oldVal: any, newVal: any) {
+function computeChange (oldVal: any, newVal: any) {
   if (oldVal == newVal) return null
-  let start = 0, oldEnd = oldVal.length, newEnd = newVal.length
+  let start = 0; let oldEnd = oldVal.length; let newEnd = newVal.length
   while (start < oldEnd && oldVal.charCodeAt(start) == newVal.charCodeAt(start)) {
     ++start
   }
   while (oldEnd > start && newEnd > start &&
     oldVal.charCodeAt(oldEnd - 1) == newVal.charCodeAt(newEnd - 1)
-  ) { 
-    oldEnd--; 
-    newEnd--; 
+  ) {
+    oldEnd--
+    newEnd--
   }
   return {
-    from: start, 
-    to: oldEnd, 
+    from: start,
+    to: oldEnd,
     text: newVal.slice(start, newEnd)
   }
 }
@@ -59,13 +59,13 @@ export class CodeNodeView {
   dom: any;
   select: any;
   mounted: any;
-  constructor(node: any, view: any, getPos: any, store: any) {
+  constructor (node: any, view: any, getPos: any, store: any) {
     // Store for later
     this.node = node
     this.view = view
     this.getPos = getPos
     this.incomingChanges = false
-    this.amber = store;
+    this.amber = store
 
     // Create a CodeMirror instance
     // @ts-ignore
@@ -85,12 +85,12 @@ export class CodeNodeView {
     // inner editor
     this.updating = false
     // Track whether changes are have been made but not yet propagated
-    this.cm.on("beforeChange", () => this.incomingChanges = true)
+    this.cm.on('beforeChange', () => this.incomingChanges = true)
     // Propagate updates from the code editor to ProseMirror
     // this.cm.on("cursorActivity", () => {
     //   if (!this.updating && !this.incomingChanges) this.forwardSelection()
     // })
-    this.cm.on("changes", () => {
+    this.cm.on('changes', () => {
       if (!this.updating) {
         this.valueChanged()
         // this.forwardSelection()
@@ -99,8 +99,8 @@ export class CodeNodeView {
     })
     // this.cm.on("focus", () => this.forwardSelection())
   }
-  
-  forwardSelection() {
+
+  forwardSelection () {
     if (!this.cm.hasFocus()) return
     let state = this.view.state
     // let selection = this.asProseMirrorSelection(state.doc)
@@ -108,35 +108,35 @@ export class CodeNodeView {
     //   this.view.dispatch(state.tr.setSelection(selection))
     // }
   }
-  asProseMirrorSelection(doc: any) {
+  asProseMirrorSelection (doc: any) {
     let offset = this.getPos() + 1
-    let anchor = this.cm.getDoc().indexFromPos(this.cm.getDoc().getCursor("anchor")) + offset
-    let head = this.cm.getDoc().indexFromPos(this.cm.getDoc().getCursor("head")) + offset
+    let anchor = this.cm.getDoc().indexFromPos(this.cm.getDoc().getCursor('anchor')) + offset
+    let head = this.cm.getDoc().indexFromPos(this.cm.getDoc().getCursor('head')) + offset
     return TextSelection.create(doc, anchor, head)
   }
-  valueChanged() {
+  valueChanged () {
     let change = computeChange(this.node.textContent, this.cm.getValue())
     if (change) {
       let start = this.getPos() + 1
-      console.log("codeblock, replaceWith")
+      console.log('codeblock, replaceWith')
       let tr = this.view.state.tr.replaceWith(
-        start - 1, 
+        start - 1,
         start + 1,
         change.text ? AmberSchema.nodes.code_block.create({
           language: this.node.attrs.language,
-          text: change.text,
+          text: change.text
         }) : null)
       this.view.dispatch(tr)
     }
   }
-  codeMirrorKeymap() {
+  codeMirrorKeymap () {
     let view = this.view
-    let mod = /Mac/.test(navigator.platform) ? "Cmd" : "Ctrl"
+    let mod = /Mac/.test(navigator.platform) ? 'Cmd' : 'Ctrl'
     return (CodeMirror as any).normalizeKeyMap({
-      Up: () => this.maybeEscape("line", -1),
-      Left: () => this.maybeEscape("char", -1),
-      Down: () => this.maybeEscape("line", 1),
-      Right: () => this.maybeEscape("char", 1),
+      Up: () => this.maybeEscape('line', -1),
+      Left: () => this.maybeEscape('char', -1),
+      Down: () => this.maybeEscape('line', 1),
+      Right: () => this.maybeEscape('char', 1),
       [`${mod}-Z`]: () => undo(view.state, this.amber.pm.dispatch),
       [`Shift-${mod}-Z`]: () => redo(view.state, this.amber.pm.dispatch),
       [`${mod}-Y`]: () => redo(view.state, this.amber.pm.dispatch),
@@ -145,11 +145,11 @@ export class CodeNodeView {
       }
     })
   }
-  maybeEscape(unit: string, dir: number) {
+  maybeEscape (unit: string, dir: number) {
     let pos = this.cm.getDoc().getCursor()
     if (this.cm.getDoc().somethingSelected() ||
       pos.line != (dir < 0 ? this.cm.getDoc().firstLine() : this.cm.getDoc().lastLine()) ||
-      (unit == "char" &&
+      (unit == 'char' &&
       pos.ch != (dir < 0 ? 0 : this.cm.getDoc().getLine(pos.line).length))
     ) {
       return CodeMirror.Pass
@@ -160,14 +160,14 @@ export class CodeNodeView {
     this.view.dispatch(this.view.state.tr.setSelection(selection).scrollIntoView())
     this.view.focus()
   }
-  // selectNode() { 
-  //   this.cm.focus() 
+  // selectNode() {
+  //   this.cm.focus()
   // }
-  stopEvent() {   
-    return true 
+  stopEvent () {
+    return true
   }
-  update(node: any) {
-    console.log("codeblock update")
+  update (node: any) {
+    console.log('codeblock update')
     debugger
     if (node.type.name != this.node.type.name) {
       return false

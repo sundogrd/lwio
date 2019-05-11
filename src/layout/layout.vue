@@ -7,12 +7,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
-import AppHeader from './components/app-header.vue';
-import AppMain from "./components/app-main.vue";
-import YuefuPlayer from './components/yuefu-player/index.vue';
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import AppHeader from './components/app-header.vue'
+import AppMain from './components/app-main.vue'
+import YuefuPlayer from './components/yuefu-player/index.vue'
 @Component({
-  name: "Layout",
+  name: 'Layout',
   components: {
     AppMain,
     YuefuPlayer,
@@ -20,7 +20,7 @@ import YuefuPlayer from './components/yuefu-player/index.vue';
   }
 })
 export default class Layout extends Vue {
-  get classObj() {
+  get classObj () {
     return {}
   }
 }

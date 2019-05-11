@@ -1,4 +1,4 @@
-export function isDragFileEvent(event: Event) {
+export function isDragFileEvent (event: Event) {
   if (!event) {
     return false
   }
@@ -24,7 +24,7 @@ export function isDragFileEvent(event: Event) {
   return false
 }
 
-export function isDropFileEvent(event: Event) {
+export function isDropFileEvent (event: Event) {
   if (!event) return false
   const { dataTransfer } = event as DragEvent
   if (!dataTransfer) return false

@@ -27,10 +27,10 @@ import {
   Watch,
   Provide,
   Emit
-} from 'vue-property-decorator';
-import { EditorView } from 'prosemirror-view';
-import { EditorState } from 'prosemirror-state';
-import FilePortal from '@sundogrd/fileportal';
+} from 'vue-property-decorator'
+import { EditorView } from 'prosemirror-view'
+import { EditorState } from 'prosemirror-state'
+import FilePortal from '@sundogrd/fileportal'
 // import {
 //   schema,
 //   defaultMarkdownParser,
@@ -38,12 +38,12 @@ import FilePortal from '@sundogrd/fileportal';
 // } from 'prosemirror-markdown';
 import defaultMarkdownSerializer from './parsers/markdown/to-markdown/defaultMarkdownSerializer'
 import defaultMarkdownParser from './parsers/markdown/from-markdown/defaultMarkdownParser'
-import Editable from './views-components/Editable/index.vue';
+import Editable from './views-components/Editable/index.vue'
 // import WidgetEdit from './views-components/WidgetEdit/index.vue'
 // import Modal from './views-components/Modal/index.vue'
-import AmberStore from './store/amber-store';
-import { amberCommands } from './menu/amber-menu';
-import AmberSchema from './schema/amber-schema';
+import AmberStore from './store/amber-store'
+import { amberCommands } from './menu/amber-menu'
+import AmberSchema from './schema/amber-schema'
 
 // import { exampleSetup } from './setup'
 
@@ -60,7 +60,7 @@ export default class AmberEditor extends Vue {
   filePortal: FilePortal = new FilePortal({
     host: '//os.sundogrd.com/upload',
     apiKey: 'keke',
-    token: 'keke',
+    token: 'keke'
   });;
 
   @Provide() store: any = new AmberStore({
@@ -85,100 +85,100 @@ export default class AmberEditor extends Vue {
   private widgetPath!: string;
   @Prop({
     type: Object,
-    default: function() {
-      return {};
+    default: function () {
+      return {}
     }
   })
   private coverPrefs!: any;
 
   @Emit('mount')
-  emitMount() {
-    return;
+  emitMount () {
+
   }
 
   @Emit('change')
-  emitChange(val: string) {
+  emitChange (val: string) {
     const markdown = defaultMarkdownSerializer.serialize(this.store.pm.state.doc)
     return {
       markdown: markdown,
-      doc: this.store.pm.state.doc,
-    };
+      doc: this.store.pm.state.doc
+    }
   }
   @Emit('share-url')
-  emitShareUrl(val: string) {
-    return '';
+  emitShareUrl (val: string) {
+    return ''
   }
   @Emit('share-file')
-  emitShareFile(val: string) {
-    const that = this;
-    this.fileInput!.click();
-    return '';
+  emitShareFile (val: string) {
+    const that = this
+    this.fileInput!.click()
+    return ''
   }
   @Emit('request-cover-upload')
-  emitRequestCoverUpload() {
-    return;
+  emitRequestCoverUpload () {
+
   }
   @Emit('request-link')
-  emitRequestLink() {
-    return;
+  emitRequestLink () {
+
   }
   @Emit('drop-files')
-  emitDropFiles() {
-    return;
+  emitDropFiles () {
+
   }
   @Emit('drop-file-on-block')
-  emitDropFileOnBlock() {
-    return;
+  emitDropFileOnBlock () {
+
   }
   @Emit('commands-changed')
-  emitCommandsChanged() {
-    return;
+  emitCommandsChanged () {
+
   }
 
-  public created() {
+  public created () {
     this.initialDoc = defaultMarkdownParser(AmberSchema).parse(this.initialMarkdown)
     const handleFileInputChange = () => {
       return (event: Event) => {
-        event.stopPropagation();
-        const input = event.target;
-        const files = (input as any).files;
-        if (!files || !files.length) return;
-        let task = this.filePortal.addTask(files[0],{
+        event.stopPropagation()
+        const input = event.target
+        const files = (input as any).files
+        if (!files || !files.length) return
+        let task = this.filePortal.addTask(files[0], {
           token: 'test token',
-          apiKey: 'test key',
+          apiKey: 'test key'
           // host: 'http://0.0.0.0:9991/upload',
-        });
-        this.filePortal.start(task.id);
+        })
+        this.filePortal.start(task.id)
         this.filePortal.on('complete', (task: any) => {
-          console.log(task);
-          console.log('completed !!!');
+          console.log(task)
+          console.log('completed !!!')
           // done();
-        });
+        })
         this.filePortal.on('uploaded', (res: any, task: any, tasks: any) => {
           // uploaded res解析hack一下
           const sdosRes = JSON.parse(res.currentTarget.response)
           this.store.insertImages([{
             src: `//os.sundogrd.com/fetch/${sdosRes.id}`,
-            caption: '',
+            caption: ''
           }])
-        });
+        })
         this.filePortal.on('error', (err: any) => {
-          console.log(err);
+          console.log(err)
         });
         // const ids = this.store.insertPlaceholders(0, files.length)
         (event.target as any).value = null
-      };
+      }
     }
     if (this.fileInput && this.fileInput.parentNode) {
-      this.fileInput.parentNode.removeChild(this.fileInput);
+      this.fileInput.parentNode.removeChild(this.fileInput)
     }
-    this.fileInput = document.createElement('input');
-    this.fileInput.type = 'file';
-    this.fileInput.multiple = true;
-    this.fileInput.accept = 'image/*';
-    this.fileInput.onchange = handleFileInputChange();
-    this.fileInput.style.display = 'none';
-    document.body.appendChild(this.fileInput);
+    this.fileInput = document.createElement('input')
+    this.fileInput.type = 'file'
+    this.fileInput.multiple = true
+    this.fileInput.accept = 'image/*'
+    this.fileInput.onchange = handleFileInputChange()
+    this.fileInput.style.display = 'none'
+    document.body.appendChild(this.fileInput)
     // this.store.setContent(initialDoc.content);
     // this.store.on('media.block.edit.open', (blockID: any) => {
     //   // TODO expose prop for native editors?
@@ -190,60 +190,60 @@ export default class AmberEditor extends Vue {
     // });
   }
 
-  mounted() {
-    window.addEventListener('dragover', this.handleDragOver);
-    window.addEventListener('drop', this.handleDrop);
-    this.emitMount();
+  mounted () {
+    window.addEventListener('dragover', this.handleDragOver)
+    window.addEventListener('drop', this.handleDrop)
+    this.emitMount()
   }
 
-  public closeMediaBlockModal() {
-    this.blockToEdit = null;
+  public closeMediaBlockModal () {
+    this.blockToEdit = null
   }
-  public blur() {
+  public blur () {
     this.store.pm.dom.blur();
-    window.getSelection().removeAllRanges();
+    (window as any).getSelection().removeAllRanges()
   }
-  public getContent() {
-    return this.store.getContent();
+  public getContent () {
+    return this.store.getContent()
   }
-  public setContent(content: any) {
-    return this.store.setContent(content);
+  public setContent (content: any) {
+    return this.store.setContent(content)
   }
-  public execCommand(commandName: string, attrs: any) {
-    const item = amberCommands[commandName];
+  public execCommand (commandName: string, attrs: any) {
+    const item = amberCommands[commandName]
     if (!item) {
-      throw new Error('commandName not found');
+      throw new Error('commandName not found')
     }
-    const view = this.store.pm.editor;
-    item.spec.run(view.state, view.dispatch, view, attrs);
+    const view = this.store.pm.editor
+    item.spec.run(view.state, view.dispatch, view, attrs)
   }
-  public insertPlaceholders(index: number, count: number) {
-    return this.store.insertPlaceholders(index, count);
+  public insertPlaceholders (index: number, count: number) {
+    return this.store.insertPlaceholders(index, count)
   }
-  public updateProgress(id: any, metadata: any) {
-    this.store.updateProgress(id, metadata);
+  public updateProgress (id: any, metadata: any) {
+    this.store.updateProgress(id, metadata)
   }
-  public setCoverPreview(id: any, src: any) {
-    this.store.setCoverPreview(id, src);
+  public setCoverPreview (id: any, src: any) {
+    this.store.setCoverPreview(id, src)
   }
-  public setCover(id: any, cover: any) {
-    this.store.setCover(id, cover);
+  public setCover (id: any, cover: any) {
+    this.store.setCover(id, cover)
   }
-  public indexOfFold() {
-    return this.store.indexOfFold();
+  public indexOfFold () {
+    return this.store.indexOfFold()
   }
 
-  private handleDragOver(event: DragEvent) {
+  private handleDragOver (event: DragEvent) {
     // Listening to window
-    event.preventDefault();
+    event.preventDefault()
   }
-  private handleDrop(event: DragEvent) {
+  private handleDrop (event: DragEvent) {
     // Listening to window, for drops not caught by content
-    event.preventDefault();
+    event.preventDefault()
   }
 
-  private handleEditableChange(action: { name: string; vc: any }) {
-    this.store.routeChange(action.name, action.vc);
+  private handleEditableChange (action: { name: string; vc: any }) {
+    this.store.routeChange(action.name, action.vc)
   }
 }
 </script>

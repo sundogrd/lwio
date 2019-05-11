@@ -14,7 +14,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import ModuleCard from '../../../components/ModuleCard/index.vue'
 import IconSvg from '../../../components/IconSvg/index.vue'
-import * as logService from "@/services/log";
+import * as logService from '@/services/log'
 
 @Component({
   name: 'UserAchivementCard',
@@ -24,11 +24,10 @@ import * as logService from "@/services/log";
   }
 })
 export default class UserAchivementCard extends Vue {
-
   clapCount: number = 0
   public async mounted () {
     const userId = '23232' // this.$route.params.userId;
-    const logRes = await logService.getStatementById({ userId });
+    const logRes = await logService.getStatementById({ userId })
     this.clapCount = logRes.count
   }
 }

@@ -2,8 +2,7 @@
 * Plugin to manage `empty` class for placeholder text
 */
 
-import {Decoration, DecorationSet} from 'prosemirror-view'
-
+import { Decoration, DecorationSet } from 'prosemirror-view'
 
 function docToEmptyBlockDecorationSet (doc: any) {
   let decorations = []
@@ -11,7 +10,7 @@ function docToEmptyBlockDecorationSet (doc: any) {
   for (let i = 0, len = doc.content.content.length; i < len; i++) {
     const node = doc.content.content[i]
     if ((node.type.name === 'paragraph' || node.type.name === 'heading') && node.textContent === '') {
-      decorations.push(Decoration.node(pos, pos + 2, {class: 'empty'}))
+      decorations.push(Decoration.node(pos, pos + 2, { class: 'empty' }))
     }
     pos += node.nodeSize
   }
@@ -20,8 +19,8 @@ function docToEmptyBlockDecorationSet (doc: any) {
 
 export default {
   state: {
-    init: function (config: any, state: any) {      
-      const {amber} = (this as any).spec.amberStuff
+    init: function (config: any, state: any) {
+      const { amber } = (this as any).spec.amberStuff
       setTimeout(function () {
         amber.trigger('plugin.placeholder.initialized')
       }, 0)
@@ -32,11 +31,11 @@ export default {
         return docToEmptyBlockDecorationSet(state.doc)
       }
       return prevDeco
-    },
+    }
   },
   props: {
     decorations (state: any): any {
       return (this as any).getState(state)
-    },
-  },
+    }
+  }
 }

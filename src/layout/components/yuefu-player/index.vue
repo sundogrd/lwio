@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import IconSvg from '@/components/IconSvg/index.vue'
-import Yuefu from "yuefu";
+import Yuefu from 'yuefu'
 @Component({
-  name: "YuefuPlayer",
+  name: 'YuefuPlayer',
   components: {
     IconSvg
   }
@@ -23,43 +23,43 @@ export default class YuefuPlayer extends Vue {
   yuefu: Yuefu | undefined;
   playing: boolean = false;
 
-  public mounted() {
+  public mounted () {
     this.yuefu = new Yuefu({
-      container: document.getElementById("yuefu-player") as Element
-    });
+      container: document.getElementById('yuefu-player') as Element
+    })
 
-    this.yuefu.install(Yuefu.imports["progress"], {
+    this.yuefu.install(Yuefu.imports['progress'], {
       // timeFormat: 'MM:ss'
     })
-    this.yuefu.install(Yuefu.imports["list"], {
+    this.yuefu.install(Yuefu.imports['list'], {
       audios: [
         {
-          name: "Counting Stars",
-          artist: "OneRepublic",
-          type: "normal",
-          url: "http://music.163.com/song/media/outer/url?id=26060065.mp3",
-          cover: "",
-          lrc: "http://cdn.lwio.me/yuefu/lrc/demo.lrc"
+          name: 'Counting Stars',
+          artist: 'OneRepublic',
+          type: 'normal',
+          url: 'http://music.163.com/song/media/outer/url?id=26060065.mp3',
+          cover: '',
+          lrc: 'http://cdn.lwio.me/yuefu/lrc/demo.lrc'
         },
         {
-          name: "胖子非野子",
-          artist: "JAKI",
-          type: "normal",
-          url: "http://music.163.com/song/media/outer/url?id=401723037.mp3",
-          cover: "",
-          lrc: "http://cdn.lwio.me/yuefu/lrc/demo2.lrc"
+          name: '胖子非野子',
+          artist: 'JAKI',
+          type: 'normal',
+          url: 'http://music.163.com/song/media/outer/url?id=401723037.mp3',
+          cover: '',
+          lrc: 'http://cdn.lwio.me/yuefu/lrc/demo2.lrc'
         }
       ]
-    });
+    })
 
-    this.yuefu.install(Yuefu.imports["lrc"], {});
+    this.yuefu.install(Yuefu.imports['lrc'], {})
   }
 
-  handleClick() {
+  handleClick () {
     if (!this.yuefu) {
       return
     }
-    this.playing = true;
+    this.playing = true
     console.log(this.yuefu.modules)
 
     // @ts-ignore

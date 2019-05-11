@@ -1,4 +1,4 @@
-import React, {createElement as el} from 'react'
+import React, { createElement as el } from 'react'
 
 import Button from 'rebass/dist/Button'
 import ButtonOutline from 'rebass/dist/ButtonOutline'
@@ -12,22 +12,21 @@ import AttributionView from './attribution-view'
 
 import blockMetaSchema from '../schema/block-meta'
 
-const titleStyle = {fontSize: '100%', margin: '0 0 1rem 0'}
-const descriptionStyle = {fontSize: '80%', margin: '0 0 1rem 0'}
-
+const titleStyle = { fontSize: '100%', margin: '0 0 1rem 0' }
+const descriptionStyle = { fontSize: '80%', margin: '0 0 1rem 0' }
 
 class WidgetView extends React.Component {
   constructor (props, context) {
     super(props, context)
-    const {id} = props
-    const {store} = context
+    const { id } = props
+    const { store } = context
     this.onUploadRequest = () => {
       store.routeChange('MEDIA_BLOCK_REQUEST_COVER_UPLOAD', id)
     }
   }
   render () {
-    const {initialBlock} = this.props
-    const {type} = initialBlock
+    const { initialBlock } = this.props
+    const { type } = initialBlock
 
     return el('div',
       {
@@ -37,24 +36,24 @@ class WidgetView extends React.Component {
           borderRadius: 2,
           padding: '1rem',
           backgroundColor: 'white',
-          whiteSpace: 'normal',
-        },
+          whiteSpace: 'normal'
+        }
       },
       this.renderType(),
       this.renderUnsalvageable(),
       this.renderFailed(),
       this.renderProgress(),
-      el('div', {style: {display: 'flex'}},
+      el('div', { style: { display: 'flex' } },
         this.renderCover(),
         this.renderFields()
       ),
-      this.renderEdit(),
+      this.renderEdit()
     )
   }
   renderType () {
     const block = this.props.initialBlock
     if (!block || !block.type) return
-    const {type} = block
+    const { type } = block
 
     let typeEl = el('span',
       {
@@ -62,9 +61,9 @@ class WidgetView extends React.Component {
           color: 'silver',
           textTransform: 'uppercase',
           marginRight: '0.5rem',
-          verticalAlign: 'middle',
+          verticalAlign: 'middle'
         },
-        spellcheck: 'no',
+        spellcheck: 'no'
       },
       type
     )
@@ -73,7 +72,7 @@ class WidgetView extends React.Component {
       case 'interactive':
       case 'video':
       case 'audio':
-        iconEl = el(Icon, {icon: 'play'})
+        iconEl = el(Icon, { icon: 'play' })
         break
       // case 'quote':
       //   iconEl = el('span', {style: {
@@ -84,7 +83,7 @@ class WidgetView extends React.Component {
       //   }}, '“')
       //   break
       default:
-        iconEl = el(Icon, {icon: 'link'})
+        iconEl = el(Icon, { icon: 'link' })
         break
     }
 
@@ -98,17 +97,17 @@ class WidgetView extends React.Component {
           style: {
             color: 'gray',
             textDecoration: 'none',
-            textTransform: 'uppercase',
-          },
+            textTransform: 'uppercase'
+          }
         },
         typeEl,
-        iconEl,
+        iconEl
       )
     }
 
     return el('div',
       {
-        style: descriptionStyle,
+        style: descriptionStyle
       },
       typeEl
     )
@@ -116,7 +115,7 @@ class WidgetView extends React.Component {
   canChangeCover () {
     const block = this.props.initialBlock
     if (!block) return false
-    const {type} = block
+    const { type } = block
     const schema = blockMetaSchema[type] || blockMetaSchema.default
     return schema.changeCover
   }
@@ -131,22 +130,22 @@ class WidgetView extends React.Component {
           onClick: this.onUploadRequest,
           rounded: true,
           color: 'error',
-          backgroundColor: 'white',
+          backgroundColor: 'white'
         },
         'Upload New Image'
       )
     }
 
     return el(Message,
-      {theme: 'error'},
+      { theme: 'error' },
       'We were unable to measure this image.',
-      el(Space, {auto: true}),
+      el(Space, { auto: true }),
       upload
     )
   }
   renderFailed () {
-    const {id} = this.props
-    const {store} = this.context
+    const { id } = this.props
+    const { store } = this.context
     const meta = store.getProgressInfo(id)
     if (!meta || !meta.failed) return
 
@@ -157,41 +156,41 @@ class WidgetView extends React.Component {
           onClick: this.onUploadRequest,
           rounded: true,
           color: 'error',
-          backgroundColor: 'white',
+          backgroundColor: 'white'
         },
         'Upload New Image'
       )
     }
 
     return el(Message,
-      {theme: 'error'},
+      { theme: 'error' },
       'Upload failed, please try again.',
-      el(Space, {auto: true}),
+      el(Space, { auto: true }),
       upload
     )
   }
   renderProgress () {
-    const {id} = this.props
-    const {store} = this.context
+    const { id } = this.props
+    const { store } = this.context
     const meta = store.getProgressInfo(id)
     if (!meta) return
-    const {progress, failed} = meta
+    const { progress, failed } = meta
     if (progress == null) return
 
     const color = (failed === true ? 'error' : 'info')
     return el(Progress,
       {
         value: progress / 100,
-        style: {margin: '8px 0'},
-        color,
+        style: { margin: '8px 0' },
+        color
       }
     )
   }
   renderCover () {
     const block = this.props.initialBlock
     if (!block) return
-    const {id, cover, metadata} = block
-    const {store} = this.context
+    const { id, cover, metadata } = block
+    const { store } = this.context
     const preview = store.getCoverPreview(id)
     if (!cover && !preview) return
     if (cover && cover.unsalvageable) return
@@ -208,13 +207,13 @@ class WidgetView extends React.Component {
       src = preview
     }
     if (!src) return
-    let props = {src, width, height, title}
+    let props = { src, width, height, title }
     return el('div',
       {
         style: {
           flex: '1',
-          padding: '0 1rem 1rem 0',
-        },
+          padding: '0 1rem 1rem 0'
+        }
       },
       el(Image, props)
     )
@@ -222,34 +221,34 @@ class WidgetView extends React.Component {
   renderFields () {
     const block = this.props.initialBlock
     if (!block) return
-    const {metadata} = block
+    const { metadata } = block
     if (!metadata) return
-    const {title, description, caption} = metadata
+    const { title, description, caption } = metadata
     return el('div',
-      {style: {flex: '2'}},
-      (title && el('h1', {style: titleStyle}, title)),
-      (description && el('p', {style: descriptionStyle}, description)),
-      (caption && (description !== caption) && el('p', {style: descriptionStyle}, caption)),
+      { style: { flex: '2' } },
+      (title && el('h1', { style: titleStyle }, title)),
+      (description && el('p', { style: descriptionStyle }, description)),
+      (caption && (description !== caption) && el('p', { style: descriptionStyle }, caption)),
       el('div',
         {
           style: {
             fontSize: '80%',
             margin: '0 0 1rem 0',
-            opacity: 0.5,
-          },
+            opacity: 0.5
+          }
         },
-        el(AttributionView, {metadata})
+        el(AttributionView, { metadata })
       )
     )
   }
   renderEdit () {
     return el('div',
       {
-        style: {clear: 'both'},
+        style: { clear: 'both' }
       },
       el(ButtonOutline,
         {
-          onClick: this.props.onClickEdit,
+          onClick: this.props.onClickEdit
         },
         'Edit'
       )
@@ -259,7 +258,7 @@ class WidgetView extends React.Component {
 WidgetView.propTypes =
 { initialBlock: React.PropTypes.object.isRequired,
   id: React.PropTypes.string.isRequired,
-  onClickEdit: React.PropTypes.func,
+  onClickEdit: React.PropTypes.func
 }
 WidgetView.contextTypes =
   { store: React.PropTypes.object }

@@ -6,14 +6,15 @@ import ArticlePublishPage from './views/content/article/article-publish-page/ind
 import UserSpacePage from './views/user/user-space-page/index.vue'
 import UserSpaceArticle from './views/user/user-space-article/index.vue'
 import UserSpaceAudio from './views/user/user-space-audio/index.vue'
+import SearchPage from './views/search/search-page'
 import Layout from './layout/layout.vue'
-import * as authService from './services/auth';
+import * as authService from './services/auth'
 
 Vue.use(Router)
 
-function hasLogined(): Promise<boolean> {
+function hasLogined () {
   return authService.getI().then((res) => {
-    if(!res.name) {
+    if (!res.name) {
       return false
     }
     return true
@@ -53,10 +54,8 @@ export default new Router({
             hasLogined().then(isLogined => {
               if (isLogined) {
                 next()
-                return
               } else {
-                window.location.href = "/api/oauth2/github/login"
-                return
+                window.location.href = '/api/oauth2/github/login'
               }
             })
           }
@@ -79,14 +78,19 @@ export default new Router({
             // when /user/:id/profile is matched
             path: 'article',
             name: 'userSpaceArticle',
-            component: UserSpaceArticle,
+            component: UserSpaceArticle
           }, {
             path: 'audio',
             name: 'userSpaceAudio',
-            component: UserSpaceAudio,
+            component: UserSpaceAudio
           }]
+        },
+        {
+          path: '/search',
+          name: 'searchPage',
+          component: SearchPage
         }
       ]
-    },
+    }
   ]
 })

@@ -7,30 +7,30 @@
 
 <script lang='ts'>
 import { Component, Vue, Prop, Inject, Emit } from 'vue-property-decorator'
-import {EditorState, Plugin, NodeSelection} from 'prosemirror-state'
-import {history as pluginHistory} from 'prosemirror-history'
+import { EditorState, Plugin, NodeSelection } from 'prosemirror-state'
+import { history as pluginHistory } from 'prosemirror-history'
 // import {dropCursor as pluginDropCursor} from 'prosemirror-dropcursor'
 
 import { MenuBarView } from 'prosemirror-menu'
-import {amberMenuPlugin, amberMenuEmptyPlugin} from '../../menu/amber-menu'
+import { amberMenuPlugin, amberMenuEmptyPlugin } from '../../menu/amber-menu'
 
 // import GridToDoc from '../../convert/grid-to-doc'
 import AmberSchema from '../../schema/amber-schema'
 // import {MediaNodeView} from '../../schema/media'
-import {ImageNodeView} from '../../schema/image'
-import {CodeNodeView} from '../../schema/code-block'
-import {PlaceholderNodeView} from '../../schema/placeholder'
-import {amberInputRules, amberBaseKeymap, amberKeymap} from '../../inputrules/amber-input-rules'
-import {posToIndex} from '../../util/pm'
-import {isDropFileEvent} from '../../util/drop'
+import { ImageNodeView } from '../../schema/image'
+import { CodeNodeView } from '../../schema/code-block'
+import { PlaceholderNodeView } from '../../schema/placeholder'
+import { amberInputRules, amberBaseKeymap, amberKeymap } from '../../inputrules/amber-input-rules'
+import { posToIndex } from '../../util/pm'
+import { isDropFileEvent } from '../../util/drop'
 
 import PluginShareUrl from '../../plugins/share-url'
 // import PluginContentHints from '../plugins/content-hints'
 import PluginPlaceholder from '../../plugins/placeholder'
 import PluginFixedMenuHack from '../../plugins/fixed-menu-hack'
 import PluginCommandsInterface from '../../plugins/commands-interface'
-import {PluginStoreRef} from '../../plugins/store-ref'
-import { EditorView } from 'prosemirror-view';
+import { PluginStoreRef } from '../../plugins/store-ref'
+import { EditorView } from 'prosemirror-view'
 @Component({
   name: 'Editable'
 })
@@ -41,47 +41,48 @@ export default class AddCover extends Vue {
   @Inject() store!: any
 
   @Emit('commands-changed')
-  emitCommandsChanged() {
-    return
+  emitCommandsChanged () {
+
   }
   @Emit('change')
-  emitChange(name: string, vueComponent: any) {
+  emitChange (name: string, vueComponent: any) {
     return {
       name,
-      vc: vueComponent,
+      vc: vueComponent
     }
   }
   @Emit('drop-files')
-  emitDropFiles(index: any, files: any) {
+  emitDropFiles (index: any, files: any) {
     return {
       index,
-      files,
+      files
     }
   }
 
-  @Prop({type: Object})
+  @Prop({ type: Object })
   private initialDoc!: any
-  @Prop({type: Boolean, default: true})
+  @Prop({ type: Boolean, default: true })
   private hasMenuBar!: boolean
-  @Prop({type: String, default: './node_modules/'})
+  @Prop({ type: String, default: './node_modules/' })
   private widgetPath!: string
-  @Prop({type: Object, default: function() {
-    return {}
-  }})
+  @Prop({ type: Object,
+    default: function () {
+      return {}
+    } })
   private coverPrefs!: any
 
-  mounted() {
+  mounted () {
     const { mirror, plugins } = this.$refs
     let amberPlugins = [
       pluginHistory(),
       amberInputRules,
       amberKeymap,
-      amberBaseKeymap,
+      amberBaseKeymap
     ]
     let amberPluginClasses: any[] = [
       PluginStoreRef,
       PluginShareUrl,
-      PluginPlaceholder,
+      PluginPlaceholder
     ]
     if (this.hasMenuBar) {
       amberPlugins.push(amberMenuPlugin)
@@ -98,7 +99,7 @@ export default class AddCover extends Vue {
       elMirror: mirror,
       elPlugins: plugins,
       widgetPath: this.widgetPath,
-      coverPrefs: this.coverPrefs,
+      coverPrefs: this.coverPrefs
     }
 
     amberPluginClasses.forEach(function (plugin: any) {
@@ -113,13 +114,13 @@ export default class AddCover extends Vue {
       schema: AmberSchema,
       doc: this.initialDoc,
       plugins: amberPlugins,
-      amber: this.store,
+      amber: this.store
     })
 
     let view: any
     // PM setup
     let pmOptions =
-      { 
+      {
         state,
         autoInput: true,
         spellcheck: true,
@@ -142,19 +143,19 @@ export default class AddCover extends Vue {
           },
           code_block: (node: any, view: any, getPos: any) => {
             return new CodeNodeView(node, view, getPos, this.store)
-          },
+          }
         },
         editable: function (state: any) { return true },
         attributes: { class: 'ProseMirror-content' },
         handleDOMEvents: {
-          drop: this.handleDrop,
+          drop: this.handleDrop
         },
         // Don't type over node selection
         handleTextInput: function (view: any, from: number, to: number, text: string) {
           if (view.state.selection instanceof NodeSelection) {
             return true
           }
-        },
+        }
       }
 
     view = this.pm = new EditorView(mirror, pmOptions)
@@ -162,15 +163,15 @@ export default class AddCover extends Vue {
 
     this.emitChange('EDITABLE_INITIALIZE', this)
   }
-  destroyed() {
+  destroyed () {
     this.pm.destroy()
   }
 
-  public handleDrop(editor: any, event: DragEvent) {
+  public handleDrop (editor: any, event: DragEvent) {
     if (!isDropFileEvent(event)) {
       return
     }
-    const {pos} = this.pm.posAtCoords({left: event.clientX, top: event.clientY})
+    const { pos } = this.pm.posAtCoords({ left: event.clientX, top: event.clientY })
     if (pos == null) {
       return
     }
@@ -182,7 +183,6 @@ export default class AddCover extends Vue {
     event.stopPropagation()
     this.emitDropFiles(index, (event as any).dataTransfer.files)
   }
-
 }
 </script>
 

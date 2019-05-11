@@ -1,5 +1,4 @@
-import {amberCommands} from '../menu/amber-menu'
-
+import { amberCommands } from '../menu/amber-menu'
 
 function makeCommands (state: any) {
   let commands: any = {}
@@ -32,7 +31,7 @@ function makeCommand (item: any, state: any) {
 export default {
   state: {
     init: function (config: any, state: any) {
-      const {amber} = (this as any).spec.amberStuff
+      const { amber } = (this as any).spec.amberStuff
       if (!amber.onCommandsChanged) {
         throw new Error('Should not init this plugin without Ed onCommandsChanged option.')
       }
@@ -45,6 +44,6 @@ export default {
       const commands = makeCommands(state)
       amber.onCommandsChanged(commands)
       return transaction
-    },
-  },
+    }
+  }
 }
