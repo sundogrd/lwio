@@ -1,18 +1,18 @@
 <template>
   <div class='recommend-section'>
-    <content-brief-card :contentBrief="{title: 'Making Sense of React Hooks', cover_url: 'https://cdn-images-1.medium.com/fit/c/800/240/1*_XMyHqfFSyw03BiNjBoV3Q.jpeg'}" :subtitle="'More from Sundogrd'"/>
-    <content-brief-card :contentBrief="{title: 'Making Sense of React Hooks', cover_url: 'https://cdn-images-1.medium.com/fit/c/800/240/1*_XMyHqfFSyw03BiNjBoV3Q.jpeg'}" :subtitle="'More from Sundogrd'"/>
-    <content-brief-card :contentBrief="{title: 'Making Sense of React Hooks', cover_url: 'https://cdn-images-1.medium.com/fit/c/800/240/1*_XMyHqfFSyw03BiNjBoV3Q.jpeg'}" :subtitle="'More from Sundogrd'"/>
+    <recommend-content-card :contentBrief="{title: 'Making Sense of React Hooks', cover_url: 'https://cdn-images-1.medium.com/fit/c/800/240/1*_XMyHqfFSyw03BiNjBoV3Q.jpeg'}" :subtitle="'More from Sundogrd'"/>
+    <recommend-content-card :contentBrief="{title: 'Making Sense of React Hooks', cover_url: 'https://cdn-images-1.medium.com/fit/c/800/240/1*_XMyHqfFSyw03BiNjBoV3Q.jpeg'}" :subtitle="'More from Sundogrd'"/>
+    <recommend-content-card :contentBrief="{title: 'Making Sense of React Hooks', cover_url: 'https://cdn-images-1.medium.com/fit/c/800/240/1*_XMyHqfFSyw03BiNjBoV3Q.jpeg'}" :subtitle="'More from Sundogrd'"/>
   </div>
 </template>
 
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator'
-import ContentBriefCard from '@/components/ContentBriefCard/index.vue'
+import RecommandContentCard from './RecommendContentCard.vue'
 @Component({
   name: 'RecommendSection',
   components: {
-    ContentBriefCard
+    RecommandContentCard
   }
 })
 export default class RecommendSection extends Vue {

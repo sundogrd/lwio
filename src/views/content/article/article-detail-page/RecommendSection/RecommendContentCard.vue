@@ -22,9 +22,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import * as SundogDataTypes from '@/types/api.d.ts'
 
 @Component({
-  name: 'ContentBriefCard'
+  name: 'RecommendContentCard'
 })
-export default class ContentBriefCard extends Vue {
+export default class RecommendContentCard extends Vue {
   @Prop({ type: Object, required: true })
   public contentBrief!: SundogDataTypes.ContentBrief
 

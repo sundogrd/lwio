@@ -1,9 +1,24 @@
 <template>
-  <p>{{ greeting }} World!</p>
+  <div class='search-page'>
+    <div class='search-page-container'>
+      <el-row :gutter='20'>
+        <el-col :span='16'>
+          <search-result-card />
+        </el-col>
+        <el-col :span='8'>
+          <module-card />
+        </el-col>
+      </el-row>
+    </div>
+  </div>
 </template>
 
 <script>
-module.exports = {
+import SearchResultCard from './search-result-card.vue'
+export default {
+  components: {
+    SearchResultCard
+  },
   data: function () {
     return {
       greeting: 'Hello'
@@ -12,9 +27,15 @@ module.exports = {
 }
 </script>
 
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
+<style lang="less" scoped>
+.search-page {
+  background: #fafafa;
+  min-height: 100vh;
+
+  .search-page-container {
+    padding: 30px 20px;
+    margin: 0 auto;
+    max-width: 960px;
+  }
 }
 </style>
