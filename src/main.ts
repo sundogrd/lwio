@@ -4,8 +4,10 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import './plugins/element.js'
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css'// Progress 进度条 样式
+import NProgress from 'nprogress'; // Progress 进度条
+import 'nprogress/nprogress.css';// Progress 进度条 样式
+import * as filters from './filters'; // 全局vue filter
+
 
 Vue.config.productionTip = false
 
