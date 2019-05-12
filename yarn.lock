@@ -2,19 +2,6 @@
 # yarn lockfile v1
 
 
-"@ascendancyy/vue-cli-plugin-stylelint@^1.1.0":
-  version "1.1.2"
-  resolved "http://r.cnpmjs.org/@ascendancyy/vue-cli-plugin-stylelint/download/@ascendancyy/vue-cli-plugin-stylelint-1.1.2.tgz#29cdb2d5007093d89241d286185a48bc733d80e1"
-  integrity sha1-Kc2y1QBwk9iSQdKGGFpIvHM9gOE=
-  dependencies:
-    chalk "^2.4.2"
-    inquirer "^6.2.1"
-    javascript-stringify "^1.6.0"
-    micromatch "^3.1.10"
-    stylelint "^9.10.1"
-    stylelint-codeframe-formatter "^1.0.4"
-    stylelint-webpack-plugin "^0.10.5"
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.0.0-beta.35":
   version "7.0.0"
   resolved "http://r.cnpmjs.org/@babel/code-frame/download/@babel/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"

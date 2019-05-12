@@ -48,7 +48,6 @@
     "yuefu": "^2.0.5"
   },
   "devDependencies": {
-    "@ascendancyy/vue-cli-plugin-stylelint": "^1.1.0",
     "@lwyj123/vue-cli-plugin-stylelint": "^1.0.1",
     "@types/codemirror": "^0.0.72",
     "@types/he": "^1.1.0",
