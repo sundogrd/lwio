@@ -1,6 +1,6 @@
 <template>
   <span class="operations" v-show="show">
-      <div class="spot" @click="showOperation"></div>
+      <div class="spot" @click="showOperation"><icon-svg iconClass="i-more" /></div>
       <div class="operation" v-show="showOpt && focus" @mouseenter="focus = true" @mouseleave="focus = false">
           <ul>
               <li class="btn-hover">加入黑名单</li>
@@ -12,9 +12,13 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import IconSvg from '@/components/IconSvg/index.vue'
 
 @Component({
-  name: 'CommentOperation'
+  name: 'CommentOperation',
+  components: {
+    IconSvg
+  }
 })
 export default class SundogComment extends Vue {
   public showOpt: boolean = false
@@ -51,8 +55,7 @@ export default class SundogComment extends Vue {
     width: 18px;
     height: 18px;
     cursor: pointer;
-    background: url('../../assets/icons-comment.png') no-repeat;
-    background-position: -151px -280px;
+    font-size: 16px;
   }
   .operation{
     // display: none;

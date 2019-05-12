@@ -40,7 +40,7 @@ type sendCommentResponse = {
   commentId: string
 }
 
-export function getComments(req: getCommentsRequest) {
+export function getComments (req: getCommentsRequest) {
   return request<getCommentsResponse>({
     url: `/comments`,
     params: {
@@ -51,7 +51,7 @@ export function getComments(req: getCommentsRequest) {
   })
 }
 
-export function sendComment(req: sendCommentRequest) {
+export function sendComment (req: sendCommentRequest) {
   return request<sendCommentResponse>({
     method: 'post',
     url: '/comments',

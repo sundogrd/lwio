@@ -169,7 +169,7 @@ export class CodeNodeView {
   update (node: any) {
     console.log('codeblock update')
     debugger
-    if (node.type.name != this.node.type.name) {
+    if (node.type.name !== this.node.type.name) {
       return false
     }
     if (node.attrs.text === this.node.attrs.text) {

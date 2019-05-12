@@ -8,8 +8,8 @@
           <span class="floor">#{{comment.floor}}</span>
           <span class="platform">{{comment.extra.platform}}</span>
           <span class="time">{{comment.create_time | formatTime}}</span>
-          <span class="like"><i></i><span>{{comment.like}}</span></span>
-          <span class="hate"><i></i><span>{{comment.hate}}</span></span>
+          <span class="like"><icon-svg iconClass="thumbup"></icon-svg><span>{{comment.like}}</span></span>
+          <span class="hate"><icon-svg iconClass="cai"/><span>{{comment.hate}}</span></span>
           <span class="reply btn-hover">回复</span>
           <comment-operation></comment-operation>
       </div>
@@ -46,6 +46,7 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import * as SundogDataTypes from '@/types/api.d.ts'
 import { formatTime } from '@/utils/index.js'
 import { watch } from 'fs'
+import IconSvg from '@/components/IconSvg/index.vue'
 import commentOperation from './operation.vue'
 @Component({
   name: 'Comment',
@@ -53,7 +54,8 @@ import commentOperation from './operation.vue'
     formatTime
   },
   components: {
-    commentOperation
+    commentOperation,
+    IconSvg
   }
 })
 export default class SundogComment extends Vue {
@@ -219,31 +221,21 @@ export default class SundogComment extends Vue {
         .time{
         }
 
+        .hate,
         .like{
             cursor: pointer;
-            i{
+            svg{
               display: inline-block;
               width: 14px;
               height: 14px;
+              font-size: 14px;
               vertical-align: text-top;
               margin-right: 5px;
-              background: url('../../assets/icons-comment.png') no-repeat;
-              background-position: -153px -25px;
             }
         }
 
         .hate{
             margin-right: 15px;
-            cursor: pointer;
-            i{
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-              vertical-align: text-top;
-              margin-right: 5px;
-              background: url('../../assets/icons-comment.png') no-repeat;
-              background-position: -153px -153px;
-            }
         }
 
         .operation{
