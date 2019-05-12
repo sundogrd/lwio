@@ -11,7 +11,7 @@
       <!-- <recommend-section /> -->
       <article-replies />
     </div>
-    <div class="comment-wrapper">
+    <div class="comment-wrapper" style="margin-bottom: 300px; padding: 0 100px">
       <sundog-comment :comment="comment"></sundog-comment>
     </div>
     <detail-footer />
@@ -46,10 +46,27 @@ import SundogComment from '@/components/Comment/index.vue'
 
 export default class ArticleDetailPage extends Vue {
   private article: contentService.ContentInfo | null = null
+
   public async mounted () {
     const contentId = this.$route.params.articleId
     const res = await contentService.getContentById({ contentId: contentId })
     this.article = res
+  }
+
+  private genSubComments (): any {
+    return Array.from({ length: 20 }, (_, v) => {
+      return {
+        id: Math.random().toString().slice(2),
+        creator: {
+          nick: String.fromCodePoint(Math.round(Math.random() * 20901) + 19968),
+          img_url: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+          id: Math.random().toString().slice(2)
+        },
+        create_time: 1556812800000,
+        content: v + '测试评论回复',
+        like: ~~(100 * Math.random())
+      }
+    })
   }
 
   public comment: SundogDataTypes.Comment = {
@@ -67,7 +84,8 @@ export default class ArticleDetailPage extends Vue {
       platform: '客户端'
     },
     create_time: 1556812800000,
-    content: '这是一条测试评论，不用管他哈哈哈哈啊哈哈哈哈哈哈。。。。'
+    content: '这是一条测试评论，不用管他哈哈哈哈啊哈哈哈哈哈哈。。。。',
+    subComments: this.genSubComments()
   }
   // fullScreen() {
   //   this.$fullscreen.toggle(this.$el.querySelector('.example'), {

@@ -42,7 +42,7 @@ const defaultMarkdownSerializer = new MarkdownSerializer({
   },
   hard_break (state: any, node: any, parent: any, index: number) {
     for (let i = index + 1; i < parent.childCount; i++) {
-      if (parent.child(i).type != node.type) {
+      if (parent.child(i).type !== node.type) {
         state.write('\\\n')
         return
       }
@@ -93,7 +93,7 @@ const defaultMarkdownSerializer = new MarkdownSerializer({
 
 function backticksFor (node: any, side: any) {
   let ticks = /`+/g; let m; let len = 0
-  if (node.isText) while (m = ticks.exec(node.text)) len = Math.max(len, m[0].length)
+  if (node.isText) while ((m = ticks.exec(node.text)) !== null) len = Math.max(len, m[0].length)
   let result = len > 0 && side > 0 ? ' `' : '`'
   for (let i = 0; i < len; i++) result += '`'
   if (len > 0 && side < 0) result += ' '
@@ -103,8 +103,8 @@ function backticksFor (node: any, side: any) {
 function isPlainURL (link: any, parent: any, index: any, side: any) {
   if (link.attrs.title) return false
   let content = parent.child(index + (side < 0 ? -1 : 0))
-  if (!content.isText || content.text != link.attrs.href || content.marks[content.marks.length - 1] != link) return false
-  if (index == (side < 0 ? 1 : parent.childCount - 1)) return true
+  if (!content.isText || content.text !== link.attrs.href || content.marks[content.marks.length - 1] !== link) return false
+  if (index === (side < 0 ? 1 : parent.childCount - 1)) return true
   let next = parent.child(index + (side < 0 ? -2 : 1))
   return !link.isInSet(next.marks)
 }
