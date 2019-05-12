@@ -10,7 +10,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component({
-  name: 'ContentBriefCard'
+  name: 'Widget'
 })
 export default class Widget extends Vue {
   @Prop({ type: Object, required: true })

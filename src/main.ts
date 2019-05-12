@@ -6,8 +6,10 @@ import './registerServiceWorker'
 import './plugins/element.js'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条 样式
+import ModuleCard from '@/components/ModuleCard/index.vue'
 
 Vue.config.productionTip = false
+Vue.component('module-card', ModuleCard)
 
 new Vue({
   router,
