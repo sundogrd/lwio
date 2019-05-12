@@ -51,10 +51,10 @@ export function parseTime (time, cFormat) {
   return time_str
 }
 
-export function formatTime(time, option) {
+export function formatTime (time, option) {
   debugger
-  const d = new Date(time);
-  const now = Date.now();
+  const d = new Date(time)
+  const now = Date.now()
 
   const diff = (now - d) / 1000
 

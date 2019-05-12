@@ -91,11 +91,11 @@ function attrs (spec: any, token: any) {
 // Code content is represented as a single token with a `content`
 // property in Markdown-it.
 function noOpenClose (type: string) {
-  return type == 'code_inline' || type == 'code_block' || type == 'fence'
+  return type === 'code_inline' || type === 'code_block' || type === 'fence'
 }
 
 function withoutTrailingNewline (str: string) {
-  return str[str.length - 1] == '\n' ? str.slice(0, str.length - 1) : str
+  return str[str.length - 1] === '\n' ? str.slice(0, str.length - 1) : str
 }
 
 function noOp () { }

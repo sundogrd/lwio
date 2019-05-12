@@ -23,8 +23,8 @@ type CommentCreator = {
 }
 
 type CommentExtra = {
-    platform: string,   // 平台
-    device?: string      // 设备
+    platform: string, // 平台
+    device?: string // 设备
 }
 
 export type Comment = {
