@@ -16,6 +16,13 @@ module.exports = {
     }
     config.devServer = {
       disableHostCheck: true,
+      proxy: {
+        '/api': {
+          target: 'https://lwio.sundogrd.com',
+          secure: false,
+          changeOrigin: true
+        }
+      },
       clientLogLevel: 'info',
       watchOptions: {
         poll: true
