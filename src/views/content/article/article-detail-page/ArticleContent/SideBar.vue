@@ -49,7 +49,9 @@ export default class SideBar extends Vue {
         } else {
           this.tip = res.msg || '已经不能继续鼓掌了'
           this.isShowTip = true
-          setTimeout(() => this.isShowTip = false, 1000)
+          setTimeout(() => {
+            this.isShowTip = false
+          }, 1000)
         }
       })
       .catch(err => {

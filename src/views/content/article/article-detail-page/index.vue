@@ -11,6 +11,9 @@
       <!-- <recommend-section /> -->
       <article-replies />
     </div>
+    <div class="comment-wrapper" style="margin-bottom: 300px; padding: 0 100px">
+      <sundog-comment :comment="comment"></sundog-comment>
+    </div>
     <detail-footer />
   </div>
 </template>
@@ -19,6 +22,7 @@
 import { Component } from 'vue-property-decorator'
 import Vue from 'vue'
 import { mapGetters } from 'vuex'
+import * as SundogDataTypes from '@/types/api.d.ts'
 import * as contentService from '@/services/content'
 import * as logService from '@/services/log'
 import DetailHeader from './DetailHeader.vue'
@@ -26,6 +30,7 @@ import DetailFooter from './DetailFooter.vue'
 import ArticleContent from './ArticleContent/index.vue'
 import ArticleReplies from './ArticleReplies/index.vue'
 import RecommendSection from './RecommendSection/index.vue'
+import SundogComment from '@/components/Comment/index.vue'
 
 @Component({
   name: 'ArticleDetailPage',
@@ -34,16 +39,53 @@ import RecommendSection from './RecommendSection/index.vue'
     DetailFooter,
     ArticleContent,
     ArticleReplies,
-    RecommendSection
+    RecommendSection,
+    SundogComment
   }
 })
 
 export default class ArticleDetailPage extends Vue {
   private article: contentService.ContentInfo | null = null
+
   public async mounted () {
     const contentId = this.$route.params.articleId
     const res = await contentService.getContentById({ contentId: contentId })
     this.article = res
+  }
+
+  private genSubComments (): any {
+    return Array.from({ length: 20 }, (_, v) => {
+      return {
+        id: Math.random().toString().slice(2),
+        creator: {
+          nick: String.fromCodePoint(Math.round(Math.random() * 20901) + 19968),
+          img_url: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+          id: Math.random().toString().slice(2)
+        },
+        create_time: 1556812800000,
+        content: v + '测试评论回复',
+        like: ~~(100 * Math.random())
+      }
+    })
+  }
+
+  public comment: SundogDataTypes.Comment = {
+    id: '12232323',
+    creator: {
+      nick: 'luffylv',
+      img_url: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+      id: '2323211'
+    },
+    target_id: '122323',
+    like: 23,
+    hate: 12,
+    floor: 1,
+    extra: {
+      platform: '客户端'
+    },
+    create_time: 1556812800000,
+    content: '这是一条测试评论，不用管他哈哈哈哈啊哈哈哈哈哈哈。。。。',
+    subComments: this.genSubComments()
   }
   // fullScreen() {
   //   this.$fullscreen.toggle(this.$el.querySelector('.example'), {

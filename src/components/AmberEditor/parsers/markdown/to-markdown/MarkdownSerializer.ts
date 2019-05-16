@@ -151,7 +151,7 @@ export class MarkdownSerializerState {
         var startOfLine = this.atBlank() || this.closed
         this.write()
         this.out += escape !== false ? this.esc(lines[i], startOfLine) : lines[i]
-        if (i != lines.length - 1) this.out += '\n'
+        if (i !== lines.length - 1) this.out += '\n'
       }
     }
 
@@ -185,7 +185,7 @@ export class MarkdownSerializerState {
         // identify nodes that serialize as hard breaks)
         if (node && node.type.name === 'hard_break') {
           marks = marks.filter((m: any) => {
-            if (index + 1 == parent.childCount) return false
+            if (index + 1 === parent.childCount) return false
             let next = parent.child(index + 1)
             return m.isInSet(next.marks) && (!next.isText || /\S/.test(next.text))
           })
