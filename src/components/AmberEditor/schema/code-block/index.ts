@@ -29,13 +29,13 @@ export const codeBlock = {
 }
 
 function computeChange (oldVal: any, newVal: any) {
-  if (oldVal == newVal) return null
+  if (oldVal === newVal) return null
   let start = 0; let oldEnd = oldVal.length; let newEnd = newVal.length
-  while (start < oldEnd && oldVal.charCodeAt(start) == newVal.charCodeAt(start)) {
+  while (start < oldEnd && oldVal.charCodeAt(start) === newVal.charCodeAt(start)) {
     ++start
   }
   while (oldEnd > start && newEnd > start &&
-    oldVal.charCodeAt(oldEnd - 1) == newVal.charCodeAt(newEnd - 1)
+    oldVal.charCodeAt(oldEnd - 1) === newVal.charCodeAt(newEnd - 1)
   ) {
     oldEnd--
     newEnd--
@@ -148,9 +148,9 @@ export class CodeNodeView {
   maybeEscape (unit: string, dir: number) {
     let pos = this.cm.getDoc().getCursor()
     if (this.cm.getDoc().somethingSelected() ||
-      pos.line != (dir < 0 ? this.cm.getDoc().firstLine() : this.cm.getDoc().lastLine()) ||
-      (unit == 'char' &&
-      pos.ch != (dir < 0 ? 0 : this.cm.getDoc().getLine(pos.line).length))
+      pos.line !== (dir < 0 ? this.cm.getDoc().firstLine() : this.cm.getDoc().lastLine()) ||
+      (unit === 'char' &&
+      pos.ch !== (dir < 0 ? 0 : this.cm.getDoc().getLine(pos.line).length))
     ) {
       return CodeMirror.Pass
     }

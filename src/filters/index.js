@@ -52,6 +52,7 @@ export function parseTime (time, cFormat) {
 }
 
 export function formatTime (time, option) {
+  debugger
   const d = new Date(time)
   const now = Date.now()
 

@@ -1,4 +1,4 @@
-import store from 'store'
+// import store from 'store'
 
 export function parseTime (time, cFormat) {
   if (arguments.length === 0) {

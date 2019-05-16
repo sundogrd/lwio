@@ -89,7 +89,7 @@ export class MenuBarView {
     if (this.floating) {
       this.updateScrollCursor()
     } else {
-      if (this.menu.offsetWidth != this.widthForMaxHeight) {
+      if (this.menu.offsetWidth !== this.widthForMaxHeight) {
         this.widthForMaxHeight = this.menu.offsetWidth
         this.maxHeight = 0
       }
@@ -151,8 +151,8 @@ export class MenuBarView {
 
 // Not precise, but close enough
 function selectionIsInverted (selection: any) {
-  if (selection.anchorNode == selection.focusNode) return selection.anchorOffset > selection.focusOffset
-  return selection.anchorNode.compareDocumentPosition(selection.focusNode) == Node.DOCUMENT_POSITION_FOLLOWING
+  if (selection.anchorNode === selection.focusNode) return selection.anchorOffset > selection.focusOffset
+  return selection.anchorNode.compareDocumentPosition(selection.focusNode) === Node.DOCUMENT_POSITION_FOLLOWING
 }
 
 function findWrappingScrollable (node: any) {
