@@ -1,19 +1,19 @@
 import request from '@/utils/request'
 
 export type Comment = {
-  CommentId: string
-  TargetId: string
-  CreatorId: string
-  ParentId: string
-  ReCommentId: string
-  Content: string
-  Extra: string
-  Like: number
-  Hate: number
-  State: number
-  CreatedAt: number
-  ModifiedAt: number
-  Floor: number
+  commentId: string
+  targetId: string
+  creatorId: string
+  parentId?: string
+  reCommentId?: string
+  content: string
+  extra: string
+  like: number
+  hate: number
+  state: number
+  createdAt: number
+  modifiedAt?: number
+  floor: number
 }
 
 export type SundogComment = {
@@ -21,9 +21,10 @@ export type SundogComment = {
 }
 
 type getCommentsRequest = {
-  contentId?: string,
+  contentId: string,
+  targetId?: string,
   page?: number
-  pageSize: number
+  pageSize?: number
 }
 
 type getCommentsResponse = {
@@ -32,32 +33,77 @@ type getCommentsResponse = {
 }
 
 type sendCommentRequest = {
+  contentId: string,
   targetId: string,
   content: string,
+  reCommentId?: string,
 }
 
 type sendCommentResponse = {
   commentId: string
 }
 
+type likeCommentRequest = {
+  id: string
+}
+
+type likeCommentResponse = {
+  id: string
+}
+
+type hateCommentRequest = {
+  id: string
+}
+
+type hateCommentResponse = {
+  id: string
+}
+
 export function getComments (req: getCommentsRequest) {
+  const params = {
+    content_id: req.contentId,
+    page: req.page || 1,
+    pageSize: req.pageSize || 10,
+    target_id: req.targetId || 0
+  }
+
   return request<getCommentsResponse>({
-    url: `/comments`,
-    params: {
-      content_id: req.contentId,
-      page: req.page || 1,
-      pageSize: 20
-    }
+    // url: `/comments`,
+    url: 'http://localhost:8086/comments',
+    params
   })
 }
 
 export function sendComment (req: sendCommentRequest) {
   return request<sendCommentResponse>({
     method: 'post',
-    url: '/comments',
+    // url: '/comments',
+    url: 'http://localhost:8086/comments',
     data: {
-      target_id: req.targetId,
-      content: req.content
+      content_id: req.contentId, // 文章id
+      parent_id: req.targetId, // 评论id
+      content: req.content,
+      re_comment_id: req.reCommentId || '' // 回复id
+    }
+  })
+}
+
+export function likeComment (req: likeCommentRequest) {
+  return request<likeCommentResponse>({
+    method: 'post',
+    url: 'http://localhost:8086/comments',
+    data: {
+      comment_id: req.id
+    }
+  })
+}
+
+export function hateComment (req: hateCommentRequest) {
+  return request<hateCommentResponse>({
+    method: 'post',
+    url: 'http://localhost:8086/comments',
+    data: {
+      comment_id: req.id
     }
   })
 }

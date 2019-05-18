@@ -1,29 +1,29 @@
 <template>
   <div class='sundog-comment'>
-    <div class='sundog-comment--cover' :style="{ backgroundImage: `url(${comment.creator.img_url})`}" />
+    <div class='sundog-comment--cover' :style="{ backgroundImage: `url(${comment.creator.imgUrl})`}" />
     <div class='sundog-comment--card'>
       <p class='sundog-comment--creator'>{{comment.creator.nick}}</p>
       <div class='sundog-comment--content'>{{comment.content}}</div>
       <div class="sundog-comment--extra">
           <span class="floor">#{{comment.floor}}</span>
-          <span class="platform">{{comment.extra.platform}}</span>
-          <span class="time">{{comment.create_time | formatTime}}</span>
-          <span class="like"><icon-svg iconClass="thumbup"></icon-svg><span>{{comment.like}}</span></span>
-          <span class="hate"><icon-svg iconClass="cai"/><span>{{comment.hate}}</span></span>
-          <span class="reply btn-hover">回复</span>
+          <span class="platform" v-if="comment.extra && comment.extra.platform">{{comment.extra.platform}}</span>
+          <span class="time">{{comment.createTime | formatTime}}</span>
+          <span class="like" @click="proxyLike(comment.commentId)"><icon-svg iconClass="thumbup"></icon-svg><span>{{comment.like}}</span></span>
+          <span class="hate" @click="proxyHate(comment.commentId)"><icon-svg iconClass="cai"/><span>{{comment.hate}}</span></span>
+          <span class="reply btn-hover" @click="handleReply(comment.commentId)">回复</span>
           <comment-operation></comment-operation>
       </div>
       <div class="sundog-comment--subcomments" v-if="comment.subComments && comment.subComments.length" >
           <div class="subcomment-item" :date-index="index" v-for="(subComment, index) in listData" :key="index" v-show="isShow(index, currentPage)">
-              <a href=""><img :src="subComment.creator && subComment.creator.img_url" alt="image"></a>
+              <a href=""><img :src="subComment.creator && subComment.creator.imgUrl" alt="image"></a>
               <div class="subcomment-item--wrapper">
                   <span class="subcomment-item--name">{{subComment.creator && subComment.creator.nick}}</span>
                   <span class="subcomment-item--content">{{subComment.content}}</span>
               </div>
               <div class="subcomment-item--info">
-                    <span class="time">{{subComment.create_time | formatTime}}</span>
-                    <span class="like">{{subComment.like}}</span>
-                    <span class="reply btn-hover">回复</span>
+                    <span class="time">{{subComment.createTime | formatTime}}</span>
+                    <span class="like" @click="proxyLike(subComment.commentId)"><icon-svg iconClass="thumbup"></icon-svg>{{subComment.like}}</span>
+                    <span class="reply btn-hover" @click="handleReply(comment.commentId, subComment.commentId, true)">回复</span>
                     <comment-operation></comment-operation>
               </div>
           </div>
@@ -36,6 +36,15 @@
           <span class="prev" :style="{display: currentPage !== 1 ? 'inline-block' : 'none'}" @click="goPage(currentPage -1 )">上一页</span>
           <a class="page-number" :class="{cur: currentPage === +idx}" v-for="idx in this.pages" :key="idx" @click="goPage(+idx)">{{idx}}</a>
           <span class="next" :style="{display: currentPage !== pages ? 'inline-block' : 'none'}" @click="goPage(currentPage + 1 >= pages ? pages : currentPage + 1 )">下一页</span>
+      </div>
+      <div class="sundog-comment--sender" v-show="showSender">
+        <div class="user-face">
+          <img :src="avatar ? avatar : 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4'" alt="">
+        </div>
+        <div class="textarea-container">
+          <textarea name="msg" v-model="replyContent" cols="80" rows="5" :placeholder="`回复 @${replyUserName}:`"></textarea>
+          <button class="comment-sender-btn" @click="send">发表评论</button>
+        </div>
       </div>
     </div>
   </div>
@@ -73,6 +82,10 @@ export default class SundogComment extends Vue {
 
   @Prop({ type: String, required: false, default: 'local', validator: (v) => ['local', 'remote'].indexOf(v) > -1 })
   public mode!: string
+
+  // 发送者头像
+  @Prop({ type: String, required: false })
+  public avatar!: string
 
   @Watch('currentPage')
   async onPageChanged (val: number, oldVal: number) {
@@ -121,12 +134,61 @@ export default class SundogComment extends Vue {
     }
   }
 
-  public goPrevPage () {
+  public send () {
+    // 获取content
+    let content = this.replyContent
+    if (this.replyType === 1) {
+      return this.proxyReplyReComment(this.replyId, this.replyTargetId, content)
+    }
+    return this.proxyReplyComment(this.replyId, content)
+  }
 
+  // 处理回复
+  public handleReply (id:string | number, subId: string | number, isSubReply: boolean = false) {
+    this.showSender = !this.showSender
+    if (isSubReply) {
+      this.replyType = 1
+      this.replyId = id
+      this.replyTargetId = subId
+    } else {
+      this.replyType = 0
+      this.replyId = id
+    }
   }
 
   public viewMore () {
     this.isFirst = false
+  }
+
+  // 回复主评论
+  public proxyReplyComment (commentId: string | number, comment: string) {
+    this.$emit('reply', {
+      commentId,
+      comment
+    })
+  }
+
+  // 回复子评论
+  public proxyReplyReComment (commentId: string | number, replyId: string | number, comment: string) {
+    this.$emit('replySub', {
+      commentId: commentId,
+      replyId: replyId,
+      comment
+    })
+  }
+
+  // 赞
+  public proxyLike (id: string |number) {
+    this.$emit('like', {
+      id
+    })
+  }
+
+  // 踩
+  public proxyHate (id: string |number) {
+    this.$emit('hate', {
+      id
+    })
   }
 
   public pages: number = this.__getSubLen() // 总页数
@@ -134,6 +196,12 @@ export default class SundogComment extends Vue {
   public isFirst: boolean = true // 是否第一次进入
   public listData: SundogDataTypes.Comment[] = (this.comment.subComments || []).slice(0, this.pageSize) || []
   public showMore: boolean = !!(((this.comment.subComments && this.comment.subComments.length) || 0) > this.maxCount)// 是否展示更多
+  public replyUserName: string = ''
+  public showSender: boolean = false // 是否展示发送框
+  public replyId: string | number = '' // 回复评论id
+  public replyTargetId: string | number = '' // 回复对象id, 如果回复的就是评论则没有这个，如果回复的是回复的话才有这个字段
+  public replyType: number = 0 // 回复类型 0 父评论， 1 子回复
+  public replyContent: string = '' // 回复内容
 }
 </script>
 
@@ -205,6 +273,7 @@ export default class SundogComment extends Vue {
             color: #99a2aa;
             line-height: 26px;
             font-size: 12px;
+            user-select: none;
             & > span{
                 margin-right: 20px;
             }
@@ -306,6 +375,7 @@ export default class SundogComment extends Vue {
             line-height: 26px;
             font-size: 12px;
             margin-left: 34px;
+            user-select: none;
             & > span{
               margin-right: 20px;
             }
@@ -323,6 +393,7 @@ export default class SundogComment extends Vue {
         }
 
         .sundog-comment--pagenation{
+          user-select: none;
           font-size: 12px;
           .result{
             padding-right: 10px;
@@ -341,6 +412,66 @@ export default class SundogComment extends Vue {
             margin: 0 4px;
             text-decoration: none;
             line-height: 26px;
+          }
+        }
+
+        .sundog-comment--sender{
+          margin: 10px 0;
+
+          .user-face{
+            margin: 7px 0 0 5px;
+            float: left;
+            position: relative;
+            img{
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+            }
+          }
+
+          .textarea-container{
+            position: relative;
+            margin-left: 85px;
+            margin-right: 80px;
+
+            textarea{
+              font-size: 12px;
+              display: inline-block;
+              box-sizing: border-box;
+              background-color: #f4f5f7;
+              border: 1px solid #e5e9ef;
+              overflow: auto;
+              border-radius: 4px;
+              color: #555;
+              width: 100%!important;
+              height: 65px;
+              transition: 0s;
+              padding: 5px 10px;
+              line-height: normal;
+              outline: none;
+              resize: none;
+            }
+          }
+
+          button{
+            width: 70px;
+            height: 64px;
+            position: absolute;
+            right: -80px;
+            top: 0;
+            padding: 4px 15px;
+            font-size: 14px;
+            color: #fff;
+            border-radius: 4px;
+            text-align: center;
+            min-width: 60px;
+            vertical-align: top;
+            cursor: pointer;
+            background-color: #00a1d6;
+            border: 1px solid #00a1d6;
+            transition: .1s;
+            user-select: none;
+            outline: none;
           }
         }
     }
