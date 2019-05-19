@@ -11,8 +11,8 @@
       <!-- <recommend-section /> -->
       <article-replies />
     </div>
-    <div class="comment-wrapper" style="margin-bottom: 300px; padding: 0 100px" v-for="(comment, idx) in comments" :key="idx">
-      <sundog-comment :comment="comment" @like="handleLike()" @hate="handleHate" @reply="handleReply" @replySub="handleSubReply" ></sundog-comment>
+    <div class="comment-wrapper" style="margin-bottom: 300px; padding: 0 100px">
+      <sundog-comment :targetId="'1111'" :sendUrl="'http://localhost:8086/comments'" :subUrl="'http://localhost:8086/subcomments'" :mainUrl="'http://localhost:8086/comments'" :hateUrl="'http://localhost:8086/comments/hate'" :likeUrl="'http://localhost:8086/comments/like'" ></sundog-comment>
     </div>
     <detail-footer />
   </div>
@@ -58,46 +58,46 @@ export default class ArticleDetailPage extends Vue {
       contentId: CONTENT_ID
     })
 
-    this.comments = await Promise.all(commentsRes.list.map(this.handleComment))
-    console.log(this.comments)
+    // this.comments = await Promise.all(commentsRes.list.map(this.handleComment))
+    // console.log(this.comments)
   }
 
-  private __handleComment (comment: any) {
-    let cmt = {
-      commentId: comment.comment_id.toString(),
-      creator: {
-        nick: 'luffylv',
-        imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
-        id: comment.creator_id
-      },
-      targetId: comment.target_id,
-      like: comment.like || 0,
-      hate: comment.hate || 0,
-      floor: comment.floor,
-      state: comment.state,
-      extra: comment.extra && JSON.parse(comment.extra),
-      createTime: +comment.created_at,
-      content: comment.content,
-      subComments: []
-    }
-    return cmt
-  }
+  // private __handleComment (comment: any) {
+  //   let cmt = {
+  //     commentId: comment.comment_id.toString(),
+  //     creator: {
+  //       nick: 'luffylv',
+  //       imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+  //       id: comment.creator_id
+  //     },
+  //     targetId: comment.target_id,
+  //     like: comment.like || 0,
+  //     hate: comment.hate || 0,
+  //     floor: comment.floor,
+  //     state: comment.state,
+  //     extra: comment.extra && JSON.parse(comment.extra),
+  //     createTime: +comment.created_at,
+  //     content: comment.content,
+  //     subComments: []
+  //   }
+  //   return cmt
+  // }
 
   // comment服务数据是不完整的，人物信息并没有，自己mock
-  public async handleComment (comment: any) {
-    let cmt = this.__handleComment(comment)
-    let subComments = await this.getSubComments(cmt.commentId)
-    cmt.subComments = subComments
-    return cmt
-  }
+  // public async handleComment (comment: any) {
+  //   let cmt = this.__handleComment(comment)
+  //   let subComments = await this.getSubComments(cmt.commentId)
+  //   cmt.subComments = subComments
+  //   return cmt
+  // }
 
-  public async getSubComments (id: string): Promise<any> {
-    let subCommentsRes = await commentService.getComments({
-      contentId: CONTENT_ID,
-      targetId: id
-    })
-    return subCommentsRes.list.map(this.__handleComment)
-  }
+  // public async getSubComments (id: string): Promise<any> {
+  //   let subCommentsRes = await commentService.getComments({
+  //     contentId: CONTENT_ID,
+  //     targetId: id
+  //   })
+  //   return subCommentsRes.list.map(this.__handleComment)
+  // }
 
   private genSubComments (id: string | number): any {
 
