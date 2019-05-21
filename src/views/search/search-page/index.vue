@@ -3,7 +3,7 @@
     <div class='search-page-container'>
       <el-row :gutter='20'>
         <el-col :span='16'>
-          <search-result-card />
+          <search-result-page />
         </el-col>
         <el-col :span='8'>
           <module-card />
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import SearchResultCard from './search-result-card.vue'
+import SearchResultPage from './search-result-page.vue'
 export default {
   components: {
-    SearchResultCard
+    SearchResultPage
   },
   data: function () {
     return {
