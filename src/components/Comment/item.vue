@@ -37,7 +37,7 @@
           <a class="page-number" :class="{cur: currentPage === +idx}" v-for="idx in this.pages" :key="idx" @click="goPage(+idx)">{{idx}}</a>
           <span class="next" :style="{display: currentPage !== pages ? 'inline-block' : 'none'}" @click="goPage(currentPage + 1 >= pages ? pages : currentPage + 1 )">下一页</span>
       </div>
-      <comment-sender :show="showSender"  @send="handleSend"></comment-sender>
+      <comment-sender :show="showSender"  @send="handleSend" :isLogin="isLogin"></comment-sender>
     </div>
   </div>
 </template>
@@ -79,6 +79,9 @@ export default class SundogCommentItem extends Vue {
   @Prop({ type: Function, required: false })
   public getPage!: (page: number)=> Promise<Comment[]>
 
+  @Prop({ type: Boolean, required: true, default: false })
+  public isLogin!: boolean
+
   // @Prop({ type: String, required: false, default: 'local', validator: (v) => ['local', 'remote'].indexOf(v) > -1 })
   // public mode!: string
 
@@ -116,8 +119,6 @@ export default class SundogCommentItem extends Vue {
   @Inject() sendLink!: string
   @Inject() likeLink!: string
   @Inject() hateLink!: string
-  @Inject() isLogin!: boolean
-  @Inject() loginUser!: any
 
   public async mounted () {
     // console.log(this.comment)
@@ -130,11 +131,16 @@ export default class SundogCommentItem extends Vue {
 
     // console.log(res)
     this.subComments = res.list.map(v => {
+      let tmpUser = {
+        imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+        id: '354657',
+        nick: '佛系玩家'
+      }
       return {
         id: v.comment_id.toString(),
         creator: {
-          nick: this.loginUser ? this.loginUser.nick : 'luffylv',
-          imgUrl: this.loginUser ? this.loginUser.imgUrl : '',
+          nick: tmpUser ? tmpUser.nick : 'luffylv',
+          imgUrl: tmpUser ? tmpUser.imgUrl : '',
           id: v.creator_id.toString()
         },
         commentId: v.parent_id.toString(),
@@ -145,8 +151,6 @@ export default class SundogCommentItem extends Vue {
         createTime: +v.created_at
       }
     })
-
-    console.log(this.subComments, 'subComment')
   }
 
   public isShow (idx: number, current: number): boolean {

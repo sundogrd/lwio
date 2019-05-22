@@ -1,6 +1,6 @@
 <template>
   <div class='comment-list'>
-    <comment-item v-for="(comment,idx) in comments" :comment="comment" :key="idx"></comment-item>
+    <comment-item :isLogin="$parent.user ? true : false" v-for="(comment,idx) in comments" :comment="comment" :key="idx"></comment-item>
   </div>
 </template>
 

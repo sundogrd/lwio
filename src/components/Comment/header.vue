@@ -17,7 +17,7 @@
         <span class="next">下一页</span>
       </div>
     </div>
-    <comment-sender :level="level" @send="handleSend"></comment-sender>
+    <comment-sender :level="level" @send="handleSend" @login="handleLogin"></comment-sender>
   </div>
 </template>
 
@@ -45,6 +45,11 @@ export default class SundogCommentHeader extends Vue {
       content: data.content
     })
     console.log('发送文章评论结果', res)
+  }
+
+  public async handleLogin () {
+    console.log('login action here')
+    this.$parent.$data.isLogin = true
   }
 }
 </script>

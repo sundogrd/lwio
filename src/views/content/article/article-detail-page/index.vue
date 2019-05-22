@@ -12,7 +12,7 @@
       <article-replies />
     </div>
     <div class="comment-wrapper" style="margin-bottom: 300px; padding: 0 100px">
-      <sundog-comment :targetId="'1111'" :sendUrl="'http://localhost:8086/comments'" :subUrl="'http://localhost:8086/subcomments'" :mainUrl="'http://localhost:8086/comments'" :hateUrl="'http://localhost:8086/comments/hate'" :likeUrl="'http://localhost:8086/comments/like'" ></sundog-comment>
+      <sundog-comment @login="user=loginedUser" :targetId="'1111'" :user="user" :sendUrl="'http://localhost:8086/comments'" :subUrl="'http://localhost:8086/subcomments'" :mainUrl="'http://localhost:8086/comments'" :hateUrl="'http://localhost:8086/comments/hate'" :likeUrl="'http://localhost:8086/comments/like'" ></sundog-comment>
     </div>
     <detail-footer />
   </div>
@@ -49,6 +49,13 @@ const CONTENT_ID = '1111' // 测试用的
 export default class ArticleDetailPage extends Vue {
   private article: contentService.ContentInfo | null = null
   private comments: any = null
+  private user = null
+
+  private loginedUser = {
+    nick: 'luffylv',
+    imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+    id: '2323211'
+  }
 
   public async mounted () {
     const contentId = this.$route.params.articleId

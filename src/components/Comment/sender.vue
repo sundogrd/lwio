@@ -1,11 +1,12 @@
 <template>
   <div class="sundog-comment--sender" v-show="show">
     <div class="user-face">
-      <img :src="loginUser ? loginUser.imgUrl : 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4'" alt="">
+      <img :src="user ? user.imgUrl : defaultUrl" alt="">
     </div>
     <div class="textarea-container">
-      <textarea name="msg" v-model="content" cols="80" rows="5" :placeholder="`回复 @${loginUser.nick}:`"></textarea>
-      <button class="comment-sender-btn" @click="send">发表评论</button>
+      <textarea name="msg" :disabled="!isLogin" v-model="content" cols="80" rows="5" :placeholder="isLogin ? (level !== LEVEL_TARGET ? `回复 @${user.nick}:` : '请输入合法的评论') : '你需要登录才能发表评论'"></textarea>
+      <button class="comment-sender-btn" :class="{disabled: !isLogin}" :disabled="!isLogin" @click="send">发表评论</button>
+      <button class="comment-sender-login" v-show="!isLogin" @click="login">登录</button>
     </div>
   </div>
 </template>
@@ -13,25 +14,67 @@
 <script lang="ts">
 import { Component, Vue, Prop, Watch, Inject } from 'vue-property-decorator'
 import { CommentCreator } from './types/comment'
-
+import { LEVEL_TARGET, LEVEL_COMMENT, LEVEL_REPLY } from './constant'
+import EventBus from './eventbus'
+import { setTimeout } from 'timers'
 @Component({
   name: 'CommentSender'
 
 })
 export default class SundogCommentHeader extends Vue {
+  // 是否展示
   @Prop({ type: Boolean, required: false, default: true })
   public show!: boolean
+  // 等级
+  @Prop({ type: Number, required: false, default: 1 })
+  public level!: number
 
-  @Inject() loginUser!: CommentCreator
-
+  private defaultUrl: string = 'https://www.google.com.hk/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'
   public content: string = '' // 回复内容
+  public LEVEL_TARGET = LEVEL_TARGET
+  public LEVEL_COMMENT = LEVEL_COMMENT
+  public LEVEL_REPLY = LEVEL_REPLY
+
+  get isLogin () {
+    if (this.user) {
+      return true
+    }
+    return false
+  }
+
+  get user () {
+    let data
+    let deep = 4
+    let target = this.$parent
+    while (deep) {
+      if (!target) {
+        return null
+      }
+      if ('user' in target.$data) {
+        data = target.$data.user
+        break
+      } else {
+        target = target.$parent
+      }
+      deep--
+    }
+    return data
+  }
 
   public send () {
     console.log('发送评论啊。。。')
+    if (!this.content) {
+      EventBus.$emit('showToast', {
+        content: '评论不能为空'
+      })
+    }
     this.$emit('send', {
-      content: this.content,
-      creatorId: this.loginUser.id
+      content: this.content
     })
+  }
+
+  public login () {
+    EventBus.$emit('login')
   }
 }
 </script>
@@ -74,7 +117,7 @@ export default class SundogCommentHeader extends Vue {
     }
   }
 
-  button{
+  .comment-sender-btn{
     width: 70px;
     height: 64px;
     position: absolute;
@@ -93,6 +136,30 @@ export default class SundogCommentHeader extends Vue {
     transition: .1s;
     user-select: none;
     outline: none;
+    &.disabled{
+      cursor: not-allowed;
+      background-color: #00a1d6b3;
+      border-color: #00a1d6b3;
+    }
+  }
+
+  .comment-sender-login{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 26px;
+    width: 50px;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: blue;
+    background: white;
+    vertical-align: middle;
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid blue;
   }
 }
 </style>
