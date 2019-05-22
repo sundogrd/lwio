@@ -19,7 +19,6 @@ import EventBus from './eventbus'
 import { setTimeout } from 'timers'
 @Component({
   name: 'CommentSender'
-
 })
 export default class SundogCommentHeader extends Vue {
   // 是否展示

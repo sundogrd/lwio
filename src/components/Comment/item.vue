@@ -8,13 +8,13 @@
           <span class="floor">#{{comment.floor}}</span>
           <span class="platform" v-if="comment.extra && comment.extra.platform">{{comment.extra.platform}}</span>
           <span class="time">{{comment.createTime | formatTime}}</span>
-          <span class="like" @click="proxyLike(comment.id, $event)"><icon-svg iconClass="thumbup"></icon-svg><span>{{comment.like}}</span></span>
-          <span class="hate" @click="proxyHate(comment.id, $event)"><icon-svg iconClass="cai"/><span>{{comment.hate}}</span></span>
+          <span class="like" @click="proxyLike(comment.id, 0, $event)"><icon-svg iconClass="thumbup"></icon-svg><span>{{comment.like}}</span></span>
+          <span class="hate" @click="proxyHate(comment.id, 0, $event)"><icon-svg iconClass="cai"/><span>{{comment.hate}}</span></span>
           <span class="reply btn-hover" @click="handleReply(comment.id)">回复</span>
           <comment-operation></comment-operation>
       </div>
-      <div class="sundog-comment--subcomments" v-show="subComments && subComments.length" >
-          <div class="subcomment-item" :date-index="index" v-for="(subComment, index) in subComments" :key="index">
+      <div class="sundog-comment--subcomments" @click="proxyLike('', 1, $event)" v-show="subComments && subComments.length" >
+          <div class="subcomment-item" :date-sub-index="index" v-for="(subComment, index) in listData" :key="index">
               <a href=""><img :src="subComment.creator && subComment.creator.imgUrl" alt="image"></a>
               <div class="subcomment-item--wrapper">
                   <span class="subcomment-item--name">{{subComment.creator && subComment.creator.nick}}</span>
@@ -22,20 +22,20 @@
               </div>
               <div class="subcomment-item--info">
                     <span class="time">{{subComment.createTime | formatTime}}</span>
-                    <span class="like" @click="proxyLike(subComment.id, $event)"><icon-svg iconClass="thumbup"></icon-svg>{{subComment.like}}</span>
-                    <span class="reply btn-hover" @click="handleReply(comment.id, subComment.commentId)">回复</span>
+                    <span class="like" :data-sub-id="subComment.id && subComment.id.toString()"><icon-svg iconClass="thumbup"></icon-svg><span>{{subComment.like}}</span></span>
+                    <span class="reply btn-hover" @click="handleReply(comment.id, subComment.id)">回复</span>
                     <comment-operation></comment-operation>
               </div>
           </div>
-          <div class="subcomment-item--more" v-show="showMore && isFirst">
-            共<b>{{subComments.length}}</b>条回复， <a href="javascript:;;" @click="viewMore" class="btn-more">点击查看</a>
+          <div class="subcomment-item--more" v-show="showMore">
+            共<b>{{totalSubCount}}</b>条回复， <a href="javascript:;;" @click="viewMore" class="btn-more">点击查看</a>
           </div>
       </div>
-      <div class="sundog-comment--pagenation" v-show="!isFirst && pages > 1">
-          <span class="result">共{{this.pages}}页</span>
+      <div class="sundog-comment--pagenation" v-show="!isFirst && pageCount > 1">
+          <span class="result">共{{pageCount}}页</span>
           <span class="prev" :style="{display: currentPage !== 1 ? 'inline-block' : 'none'}" @click="goPage(currentPage -1 )">上一页</span>
-          <a class="page-number" :class="{cur: currentPage === +idx}" v-for="idx in this.pages" :key="idx" @click="goPage(+idx)">{{idx}}</a>
-          <span class="next" :style="{display: currentPage !== pages ? 'inline-block' : 'none'}" @click="goPage(currentPage + 1 >= pages ? pages : currentPage + 1 )">下一页</span>
+          <a class="page-number" :class="{cur: currentPage === +idx}" v-for="idx in pageCount" :key="idx" @click="goPage(+idx)">{{idx}}</a>
+          <span class="next" :style="{display: currentPage !== pageCount ? 'inline-block' : 'none'}" @click="goPage(currentPage + 1 >= pageCount ? pageCount : currentPage + 1 )">下一页</span>
       </div>
       <comment-sender :show="showSender"  @send="handleSend" :isLogin="isLogin"></comment-sender>
     </div>
@@ -54,6 +54,12 @@ import commentOperation from './operation.vue'
 import commentSender from './sender.vue'
 import { getSubComments, likeComment, hateComment, sendComment } from './service'
 import { LEVEL_TARGET, LEVEL_COMMENT, LEVEL_REPLY } from './constant'
+
+type SubCommentsResponse = {
+  list: SubComment[],
+  total: number
+}
+
 @Component({
   name: 'CommentItem',
   filters!: {
@@ -82,55 +88,45 @@ export default class SundogCommentItem extends Vue {
   @Prop({ type: Boolean, required: true, default: false })
   public isLogin!: boolean
 
-  // @Prop({ type: String, required: false, default: 'local', validator: (v) => ['local', 'remote'].indexOf(v) > -1 })
-  // public mode!: string
-
-  // // 发送者头像
-  // @Prop({ type: String, required: false })
-  // public avatar!: string
-
-  @Watch('currentPage')
-  async onPageChanged (val: number, oldVal: number) {
-    this.listData = await this.__getData(val) || []
-  }
-
-  // @Watch('subComments')
-  // onCommentsChanged (val: any, oldVal: any) {
-  //   this.listData = this.__getData(val) || []
-  // }
-
   // 子评论
   public subComments: SubComment[] = []
+  // 子评论数目
+  public totalSubCount: number = 0
   // 回复等级
   public level: number = LEVEL_TARGET
-  // showSender
+  // 是否展示发送框
   public showSender: boolean = false
-
+  // 评论id 回复id
   public commentId: string | number = ''
   public reCommentId: string | number = ''
 
-  public pages: number = this.__getSubLen() // 总页数
   public currentPage: number = 1 // 当前页
   public isFirst: boolean = true // 是否第一次进入
-  public listData: SubComment[] = (this.subComments || []).slice(0, this.pageSize) || [] // 展示条数
-  public showMore: boolean = !!(((this.subComments && this.subComments.length) || 0) > this.maxCount)// 是否展示更多
 
   @Inject() subLink!: string
   @Inject() sendLink!: string
   @Inject() likeLink!: string
   @Inject() hateLink!: string
 
-  public async mounted () {
-    // console.log(this.comment)
-    let res = await getSubComments(this.subLink, {
-      page: 1,
-      pageSize: this.pageSize,
-      targetId: this.comment.targetId.toString(),
-      commentId: this.comment.id.toString()
-    })
+  // 获取需要展示评论数据
+  get listData () {
+    // console.log(t)
+    return this.subComments.length ? this.getListData(this.subComments) : []
+  }
 
-    // console.log(res)
-    this.subComments = res.list.map(v => {
+  // 是否展示更多
+  get showMore () {
+    return this.isFirst && this.subComments.length > this.maxCount
+  }
+
+  // 页数
+  get pageCount () {
+    return Math.ceil(this.totalSubCount / this.pageSize) || 1
+  }
+
+  // 做个转化
+  private commentMapper (comments: SubComment[]): SubComment[] {
+    return comments.map(v => {
       let tmpUser = {
         imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
         id: '354657',
@@ -153,20 +149,38 @@ export default class SundogCommentItem extends Vue {
     })
   }
 
-  public isShow (idx: number, current: number): boolean {
-    // 第一页时
-    if (current === 1 && this.isFirst) {
-      if (idx >= this.maxCount) {
-        console.log(`idx is ${idx}, current page is ${current}, page size is ${this.pageSize}, page max count is ${this.maxCount}, total pages is ${this.pages}`)
-        return false
-      }
-    }
-    return true
-    // console.log(`idx is ${idx}, current page is ${current}, page size is ${this.pageSize}, page max count is ${this.maxCount}, total pages is ${this.pages}`)
+  public async mounted () {
+    await this.getSubComments(1)
   }
 
-  public __getSubLen (): number {
-    return Math.floor(((this.subComments && this.subComments.length) || 0) / this.pageSize) || 1
+  // 获取子评论
+  private async getSubComments (page: number) {
+    let res = await getSubComments(this.subLink, {
+      page: page,
+      pageSize: this.pageSize,
+      targetId: this.comment.targetId.toString(),
+      commentId: this.comment.id.toString()
+    })
+    this.subComments = this.commentMapper(res.list)
+    this.totalSubCount = res.total
+    this.totalSubCount && console.log(`成功获取评论${this.comment.id}的子评论， 总共有${this.totalSubCount}条`)
+    if (this.totalSubCount === 1) {
+      debugger
+    }
+  }
+
+  // 获取展示列表数据
+  private getListData (comments: SubComment[]) : SubComment[] {
+    if (this.isFirst) {
+      if (this.maxCount < this.subComments.length) {
+        let temp : SubComment[] = []
+        for (let i = 0; i < this.maxCount; i++) {
+          temp.push(this.subComments[i])
+        }
+        return temp
+      }
+    }
+    return comments
   }
 
   // 发送处理
@@ -191,26 +205,13 @@ export default class SundogCommentItem extends Vue {
     }
   }
 
-  private async __getData (page: number = 0) {
-    // if (this.mode === 'remote') {
-    //   await this.getPage(page)
-    // } else {
-    const start = (page - 1) * this.pageSize
-    const end = page * this.pageSize
-    const copy: SubComment[] = [...(this.subComments || [])]
-    if (copy.length && copy.length > start && copy.length >= end) {
-      return copy.splice(start, this.pageSize)
-    }
-    return []
-    // }
-  }
-
-  private goPage (page: number) {
-    if (page >= 1 && page <= this.pages) {
+  private async goPage (page: number) {
+    if (page >= 1 && page <= this.pageCount) {
       this.currentPage = page
     } else {
       this.currentPage = 1
     }
+    await this.getSubComments(this.currentPage)
   }
 
   // 处理回复
@@ -234,18 +235,51 @@ export default class SundogCommentItem extends Vue {
   }
 
   // 赞
-  public async proxyLike (id: string |number) {
-    let res = await likeComment(this.likeLink, { id: id.toString() })
-    if (res) {
-      console.log('点赞成功')
+  public async proxyLike (id: string |number, level: number, evt: any) {
+    if (level) {
+      // 事件委托
+      if (evt.target) {
+        let curTargetDom = evt.target
+        let curTarget = curTargetDom.closest('.subcomment-item--info .like')
+        if (curTarget) {
+          // 获取id
+          let subId = curTarget.dataset['subId']
+          // 点赞
+          let res = await likeComment(this.likeLink, { id: subId })
+          if (res) {
+            console.log('点赞成功')
+          }
+          // 手动更改
+          let target = curTarget.querySelector('span')
+          let nowCount = +target.innerText
+          target.innerText = nowCount + 1
+        }
+      }
+    } else {
+      let res = await likeComment(this.likeLink, { id: id.toString() })
+      if (res) {
+        console.log('点赞成功')
+      }
+      let targetDom = evt.target
+      if (targetDom) {
+        let target = targetDom.closest('.like').querySelector('span')
+        let nowCount = +target.innerText
+        target.innerText = nowCount + 1
+      }
     }
   }
 
   // 踩
-  public async proxyHate (id: string |number) {
+  public async proxyHate (id: string |number, level: number, evt: any) {
     let res = await hateComment(this.hateLink, { id: id.toString() })
+    // 成功手动更改dom 好挫
     if (res) {
-      console.log('踩成功')
+      let targetDom = evt.target
+      if (targetDom) {
+        let target = targetDom.closest('.hate').querySelector('span')
+        let nowCount = +target.innerText
+        target.innerText = nowCount + 1
+      }
     }
   }
 }
