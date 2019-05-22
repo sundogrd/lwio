@@ -164,9 +164,6 @@ export default class SundogCommentItem extends Vue {
     this.subComments = this.commentMapper(res.list)
     this.totalSubCount = res.total
     this.totalSubCount && console.log(`成功获取评论${this.comment.id}的子评论， 总共有${this.totalSubCount}条`)
-    if (this.totalSubCount === 1) {
-      debugger
-    }
   }
 
   // 获取展示列表数据
@@ -200,9 +197,9 @@ export default class SundogCommentItem extends Vue {
         content: data.content,
         reCommentId: this.reCommentId.toString()
       })
-
       console.log('发送结果 ', res)
     }
+    await this.getSubComments(this.currentPage)
   }
 
   private async goPage (page: number) {
