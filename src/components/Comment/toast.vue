@@ -11,18 +11,27 @@ export default class SundogCommentHeader extends Vue {
   public show:boolean = false
   public content: string = '我是toast哟yoooo~~~'
 
-  public mounted () {
-    EventBus.$on('showToast', ({ content } : {content: string}) => {
-      this.show = true
-      this.content = content
-      setTimeout(() => {
-        this.show = false
-      }, 1500)
-    })
-
-    EventBus.$on('hideToast', () => {
+  private __showToast ({ content } : {content: string}) {
+    this.show = true
+    this.content = content
+    setTimeout(() => {
       this.show = false
-    })
+    }, 1500)
+  }
+
+  private __hideToast () {
+    this.show = false
+  }
+
+  public mounted () {
+    EventBus.$on('showToast', this.__showToast)
+
+    EventBus.$on('hideToast', this.__hideToast)
+  }
+
+  public beforeDestroy () {
+    EventBus.$off('hideToast', this.__hideToast)
+    EventBus.$off('showToast', this.__showToast)
   }
 }
 </script>

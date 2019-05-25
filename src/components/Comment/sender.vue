@@ -25,7 +25,7 @@ export default class SundogCommentHeader extends Vue {
   @Prop({ type: Boolean, required: false, default: true })
   public show!: boolean
   // 等级
-  @Prop({ type: Number, required: false, default: 1 })
+  @Prop({ type: Number, required: false, default: LEVEL_COMMENT })
   public level!: number
 
   private defaultUrl: string = 'https://www.google.com.hk/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png'

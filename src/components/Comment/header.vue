@@ -26,6 +26,7 @@ import { Component, Vue, Prop, Watch, Inject } from 'vue-property-decorator'
 import CommentSender from './sender.vue'
 import { LEVEL_TARGET } from './constant'
 import { sendComment } from './service'
+import EventBus from './eventbus'
 @Component({
   name: 'CommentHeader',
   components: {
@@ -45,6 +46,7 @@ export default class SundogCommentHeader extends Vue {
       content: data.content
     })
     console.log('发送文章评论结果', res)
+    this.$emit('send')
   }
 
   public async handleLogin () {

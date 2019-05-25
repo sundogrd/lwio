@@ -1,6 +1,6 @@
 <template>
   <div id='sundog-comment'>
-    <comment-header></comment-header>
+    <comment-header @send="refreshData"></comment-header>
     <comment-list :comments="datas"></comment-list>
     <!-- <comment-footer></comment-footer> -->
     <comment-toast></comment-toast>
@@ -66,13 +66,21 @@ export default class SundogComment extends Vue {
   @Provide() contentId = this.targetId // 文章id
 
   public async mounted () {
+    this.datas = await this.__fetch()
+  }
+
+  public async refreshData () {
+    this.datas = await this.__fetch()
+  }
+
+  private async __fetch () {
     let res = await getMainComments(this.mainUrl, {
       page: 1,
       pageSize: this.size,
       targetId: this.targetId.toString()
     })
 
-    this.datas = res.list.map(v => {
+    return res.list.map(v => {
       let tmpUser = {
         imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
         id: '354657',
