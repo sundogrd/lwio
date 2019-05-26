@@ -17,6 +17,7 @@
                 :class="{focus: searchFocus}"
                 @focus="searchFocus = true"
                 @blur="searchFocus = false"
+                @keyup.enter.native="handleSearch"
                 v-model="searchValue">
                 <i slot="prefix" class="el-input__icon el-icon-search"></i>
               </el-input>
@@ -44,14 +45,21 @@
     </div>
   </header>
 </template>
-<script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
-@Component({
-  name: 'AppHeader'
-})
-export default class AppHeader extends Vue {
-  searchValue:string = ''
-  searchFocus: boolean = false
+<script>
+
+export default {
+  data () {
+    return {
+      searchValue: '',
+      searchFocus: false
+    }
+  },
+  methods: {
+    handleSearch () {
+      console.log('[app-header] handleSearch: ', this.searchValue)
+      this.$router.push({ name: 'searchPage', query: { q: this.searchValue } })
+    }
+  }
 }
 </script>
 

@@ -1,32 +1,21 @@
 <template>
   <div class="search-result-page">
-    <div class="search-toolbar">
-      <ul class="search-tabs">
-        <page-tab
-          v-for="tab in tabs"
-          v-bind:key="tab.key"
-          v-bind:tab="tab.name"
-          v-on:selectTab="currentTab = tab.key"
-        >
-          {{ tab.name }}
-        </page-tab>
-      </ul>
-    </div>
-    <keep-alive>
-      <tab-article v-if="currentTab == 'article'"></tab-article>
-    </keep-alive>
+    <tabs animation="slide" :only-fade="false" @tab-selected="handleTabSelected">
+      <tab-pane label="article">
+        <search-article-list></search-article-list>
+      </tab-pane>
+    </tabs>
   </div>
 </template>
 
 <script>
-import PageTab from './page-tab'
-import TabArticle from './tab-article'
-import TabUser from './tab-user'
+import { Tabs, TabPane } from '@/components/Tabs'
+import SearchArticleList from './SearchArticleList.vue'
 export default {
   components: {
-    PageTab,
-    TabArticle
-    // TabUser
+    Tabs,
+    TabPane,
+    SearchArticleList
   },
   data () {
     return {
@@ -37,6 +26,11 @@ export default {
   computed: {
     currentTabComponent: function () {
       return 'tab-' + this.currentTab.toLowerCase()
+    }
+  },
+  methods: {
+    handleTabSelected (key) {
+      console.log('[Search-Result-Card] tab change: ', key)
     }
   }
 }
