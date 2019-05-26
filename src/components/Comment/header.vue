@@ -1,20 +1,19 @@
 <template>
   <div class="comment-header">
-    <div class="comment-header--title"><span>45465</span>评论</div>
+    <div class="comment-header--title"><span>{{total}}</span>评论</div>
     <div class="comment-header--bar">
       <div class="bar-tabs">
         <ul>
           <li>全部评论</li>
-          <li class="active">按热度排序</li>
-          <li>按时间排序</li>
+          <li class="active">按时间排序</li>
+          <li>按热度排序</li>
         </ul>
       </div>
       <div class="bar-pagenation">
-        <span class="result">共192页</span>
-        <span class="prev">上一页</span>
-        <span class="current">1</span>
-        <span class="page">2</span>
-        <span class="next">下一页</span>
+        <span class="result">共{{Math.ceil(total / pageSize)}}页</span>
+        <span class="prev" :style="{display: page !== 1 ? 'inline-block' : 'none'}" @click="goPage(page - 1)">上一页</span>
+        <span class="page" v-for="idx in Math.ceil(total / pageSize)" :class="{current: page === +idx}" :key="idx" @click="goPage(+idx)">{{idx}}</span>
+        <span class="next" :style="{display: page !== Math.ceil(total / pageSize) ? 'inline-block' : 'none'}" @click="goPage(page + 1)">下一页</span>
       </div>
     </div>
     <comment-sender :level="level" @send="handleSend" @login="handleLogin"></comment-sender>
@@ -36,6 +35,15 @@ import EventBus from './eventbus'
 export default class SundogCommentHeader extends Vue {
   public level:number = LEVEL_TARGET
 
+  @Prop({ type: Number, required: true })
+  public page!:number
+
+  @Prop({ type: Number, required: true })
+  public pageSize!:number
+
+  @Prop({ type: Number, required: true })
+  public total!:number
+
   @Inject() contentId!: string
   @Inject() sendLink!: string
 
@@ -52,6 +60,11 @@ export default class SundogCommentHeader extends Vue {
   public async handleLogin () {
     console.log('login action here')
     this.$parent.$data.isLogin = true
+  }
+
+  public async goPage (page: number) {
+    console.log('you will go to page ', page)
+    this.$emit('goto', page)
   }
 }
 </script>
@@ -126,10 +139,7 @@ export default class SundogCommentHeader extends Vue {
       .result{
         padding-right: 10px;
       }
-      .current{
-        color: #00a1d6;
-        font-weight: 700;
-      }
+      .prev,
       .next,
       .page{
         color: #222;
@@ -138,6 +148,10 @@ export default class SundogCommentHeader extends Vue {
         margin: 0 4px;
         text-decoration: none;
         line-height: 26px;
+      }
+      .current{
+        color: #00a1d6;
+        font-weight: 700;
       }
     }
   }

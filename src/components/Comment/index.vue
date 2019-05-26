@@ -1,6 +1,6 @@
 <template>
   <div id='sundog-comment'>
-    <comment-header @send="refreshData"></comment-header>
+    <comment-header @send="refreshData" :total="total" :page="page" :pageSize="pageSize" @goto="refreshData"></comment-header>
     <comment-list :comments="datas"></comment-list>
     <!-- <comment-footer></comment-footer> -->
     <comment-toast></comment-toast>
@@ -26,8 +26,6 @@ import EventBus from './eventbus'
   }
 })
 export default class SundogComment extends Vue {
-  public datas: Comment[] = []
-
   // 目标id
   @Prop({ type: [String, Number], required: true })
   public targetId!: number
@@ -58,6 +56,14 @@ export default class SundogComment extends Vue {
   // 分页大小
   @Prop({ type: Number, required: false, default: 10 })
   public size!: number
+  // 评论数据
+  public datas: Comment[] = []
+  // 总评论数
+  public total: number = 0
+  // 当前页码
+  public page: number = 1
+  // 页大小
+  public pageSize: number = this.size
 
   @Provide() subLink = this.subUrl
   @Provide() likeLink = this.likeUrl
@@ -66,21 +72,21 @@ export default class SundogComment extends Vue {
   @Provide() contentId = this.targetId // 文章id
 
   public async mounted () {
-    this.datas = await this.__fetch()
+    await this.refreshData()
   }
 
-  public async refreshData () {
-    this.datas = await this.__fetch()
-  }
-
-  private async __fetch () {
+  private async refreshData (page: number = 1) {
     let res = await getMainComments(this.mainUrl, {
-      page: 1,
+      page: page,
       pageSize: this.size,
       targetId: this.targetId.toString()
     })
 
-    return res.list.map(v => {
+    this.total = res.total
+    this.page = res.page
+    this.pageSize = res.page_size
+
+    this.datas = res.list.map(v => {
       let tmpUser = {
         imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
         id: '354657',

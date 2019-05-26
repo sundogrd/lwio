@@ -16,14 +16,14 @@ type getCommentsResponse = {
   list: Comment[]
   total: number
   page: number
-  pageCount: number
+  page_size: number
 }
 
 type getSubCommentsResponse = {
   list: SubComment[]
   total: number
   page: number
-  pageCount: number
+  page_size: number
 }
 
 type sendCommentRequest = {
