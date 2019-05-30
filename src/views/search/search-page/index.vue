@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import SearchResultCard from './search-result-card.vue'
+import SearchResultCard from './search-result-card'
 export default {
   components: {
     SearchResultCard
@@ -36,6 +36,18 @@ export default {
     padding: 30px 20px;
     margin: 0 auto;
     max-width: 960px;
+    /deep/.tabs {
+      padding: 20px;
+      border-bottom: 1px solid #f0f2f7;
+      background-color: #fff;
+      border-radius: 2px;
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      [role="tab"] {
+        &.is-active {
+          color: #007fff;
+        }
+      }
+    }
   }
 }
 </style>

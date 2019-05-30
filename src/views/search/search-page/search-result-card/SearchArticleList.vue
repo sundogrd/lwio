@@ -1,15 +1,11 @@
 <template>
-  <module-card class='search-result-card'>
-    <div class="search-toolbar">
-      <ul class="search-tabs">
-        <li>文章</li>
-        <li>用户</li>
-      </ul>
-    </div>
     <div class="search-result-container">
-      <content-brief-card v-for="content in contents" :key="content.content_id.toString()" :content="content" />
+      <content-brief-card
+        v-for="content in contents"
+        :key="content.content_id.toString()"
+        :content="content"
+      />
     </div>
-  </module-card>
 </template>
 
 <script>
@@ -32,7 +28,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.search-result-card {
+.search-result-page {
   border-bottom: 1px solid #f0f2f7;
   .search-toolbar {
     padding: 20px;
