@@ -61,9 +61,9 @@ export default class ArticleDetailPage extends Vue {
     const contentId = this.$route.params.articleId
     const res = await contentService.getContentById({ contentId: contentId })
     this.article = res
-    const commentsRes = await commentService.getComments({
-      contentId: CONTENT_ID
-    })
+    // const commentsRes = await commentService.getMainComments({
+    //   contentId: CONTENT_ID
+    // })
 
     // this.comments = await Promise.all(commentsRes.list.map(this.handleComment))
     // console.log(this.comments)
@@ -108,19 +108,6 @@ export default class ArticleDetailPage extends Vue {
 
   private genSubComments (id: string | number): any {
 
-    // return Array.from({ length: 20 }, (_, v) => {
-    //   return {
-    //     id: Math.random().toString().slice(2),
-    //     creator: {
-    //       nick: String.fromCodePoint(Math.round(Math.random() * 20901) + 19968),
-    //       img_url: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
-    //       id: Math.random().toString().slice(2)
-    //     },
-    //     create_time: 1556812800000,
-    //     content: v + '测试评论回复',
-    //     like: ~~(100 * Math.random())
-    //   }
-    // })
   }
 
   public handleLike () {
@@ -132,21 +119,21 @@ export default class ArticleDetailPage extends Vue {
   }
 
   public async handleReply ({ commentId, comment } : {commentId: string, comment: string}) {
-    let res = await commentService.sendComment({
-      contentId: CONTENT_ID,
-      targetId: commentId,
-      content: comment
-    })
-    console.log(res)
+    // let res = await commentService.sendComment({
+    //   contentId: CONTENT_ID,
+    //   targetId: commentId,
+    //   content: comment
+    // })
+    // console.log(res)
   }
 
   public async handleSubReply ({ commentId, replyId, comment }: {commentId: string, comment: string, replyId: string}) {
-    let res = await commentService.sendComment({
-      contentId: CONTENT_ID,
-      targetId: commentId,
-      content: comment,
-      reCommentId: replyId
-    })
+    // let res = await commentService.sendComment({
+    //   contentId: CONTENT_ID,
+    //   targetId: commentId,
+    //   content: comment,
+    //   reCommentId: replyId
+    // })
   }
 
   // public comment: SundogDataTypes.Comment = {
