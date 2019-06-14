@@ -372,8 +372,8 @@ export default class AddCover extends Vue {
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
-  height: 100px;
-  max-height: 300px;
+  // height: 100px;
+  // max-height: 300px;
   color: black;
 }
 
