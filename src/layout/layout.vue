@@ -2,7 +2,7 @@
   <div :class="classObj" class="app-wrapper">
     <app-header/>
     <app-main/>
-    <yuefu-player />
+    <!-- <yuefu-player /> -->
   </div>
 </template>
 

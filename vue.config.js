@@ -3,6 +3,20 @@ const path = require('path')
 
 const productionGzipExtensions = ['js', 'css']
 
+const readCookie = cookieFile => {
+  try {
+    if (!cookieFile) {
+      return null
+    }
+    const content = fs.readFileSync(cookieFile, {
+      encoding: 'utf8'
+    })
+    return content
+  } catch (ex) {
+    return null
+  }
+}
+
 module.exports = {
   configureWebpack: config => {
     config.resolve = {
@@ -20,7 +34,10 @@ module.exports = {
         '/api': {
           target: 'https://lwio.sundogrd.com',
           secure: false,
-          changeOrigin: true
+          changeOrigin: true,
+          headers: {
+            cookie: readCookie(path.join(__dirname, '.cookie'))
+          }
         }
       },
       clientLogLevel: 'info',
