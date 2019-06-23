@@ -44,23 +44,6 @@ export default new Router({
         //   component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
         // },
         {
-          path: '/articles/publish',
-          name: 'articlePublishPage',
-          // route level code-splitting
-          // this generates a separate chunk (about.[hash].js) for this route
-          // which is lazy-loaded when the route is visited.
-          component: ArticlePublishPage,
-          beforeEnter: (to, from, next) => {
-            hasLogined().then(isLogined => {
-              if (isLogined) {
-                next()
-              } else {
-                window.location.href = '/api/oauth2/github/login'
-              }
-            })
-          }
-        },
-        {
           path: '/articles/:articleId',
           name: 'articleDetailPage',
           // route level code-splitting
@@ -91,6 +74,23 @@ export default new Router({
           component: SearchPage
         }
       ]
+    },
+    {
+      path: '/articles/publish',
+      name: 'articlePublishPage',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: ArticlePublishPage,
+      beforeEnter: (to, from, next) => {
+        hasLogined().then(isLogined => {
+          if (isLogined) {
+            next()
+          } else {
+            window.location.href = '/api/oauth2/github/login'
+          }
+        })
+      }
     }
   ]
 })
