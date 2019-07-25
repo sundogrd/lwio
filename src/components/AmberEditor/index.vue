@@ -30,7 +30,8 @@ import {
 } from 'vue-property-decorator'
 import { EditorView } from 'prosemirror-view'
 import { EditorState } from 'prosemirror-state'
-import FilePortal from '@sundogrd/fileportal'
+import { UploaderBuilder, Uploader } from 'qiniu4js'
+// import FilePortal from '@sundogrd/fileportal'
 // import {
 //   schema,
 //   defaultMarkdownParser,
@@ -56,12 +57,88 @@ import AmberSchema from './schema/amber-schema'
 export default class AmberEditor extends Vue {
   className = 'vue-prosemirror';
   blockToEdit = null;
-  fileInput?: HTMLInputElement;
-  filePortal: FilePortal = new FilePortal({
-    host: '//os.sundogrd.com/upload',
-    apiKey: 'keke',
-    token: 'keke'
-  });;
+  fileInput?: HTMLElement;
+  // filePortal: FilePortal = new FilePortal({
+  //   host: '//os.sundogrd.com/upload',
+  //   apiKey: 'keke',
+  //   token: 'keke'
+  // });;
+  qiniu4jsUploader: any = new UploaderBuilder()
+    .debug(false)// 开启debug，默认false
+    // .button('uploadButton')// 指定上传按钮
+    .domain({ http: 'http://up-z1.qiniup.com', https: 'https://up-z1.qiniup.com' })// 默认为{http: "http://upload.qiniu.com", https: "https://up.qbox.me"}
+    .scheme('https')// 默认从 window.location.protocol 获取，可以通过指定域名为 "http://img.yourdomain.com" 来忽略域名选择。
+    .retry(1)// 设置重传次数，默认0，不重传
+    .compress(0.5)// 默认为1,范围0-1
+    .scale([300, 0]) // 第一个参数是宽度，第二个是高度,[200,0],限定高度，宽度等比缩放.[0,100]限定宽度,高度等比缩放.[200,100]固定长宽
+    .size(1024 * 1024)// 分片大小，最多为4MB,单位为字节,默认1MB
+    .chunk(true)// 是否分块上传，默认true，当chunk=true并且文件大于4MB才会进行分块上传
+    .auto(true)// 选中文件后立即上传，默认true
+    .multiple(true)// 是否支持多文件选中，默认true
+    .accept(['.gif', 'image/*', 'video/*'])// 过滤文件，默认无，详细配置见http://www.w3schools.com/tags/att_input_accept.asp
+    .tokenShare(true)
+    .tokenUrl('/api/qiniu/token')
+    .saveKey(true)
+    .saveKey('lwio/images/$(uuid)_$(imageInfo.width)x$(imageInfo.height)$(ext)')
+
+  // 任务拦截器
+    .interceptor({
+      // 拦截任务,返回true，任务将会从任务队列中剔除，不会被上传
+      onIntercept: function (task: any) {
+        return task.file.size > 1024 * 1024
+      },
+      // 中断任务，返回true，任务队列将会在这里中断，不会执行上传操作。
+      onInterrupt: function (task: any) {
+        if (this.onIntercept(task)) {
+          alert('请上传小于1m的文件')
+          return true
+        } else {
+          return false
+        }
+      }
+    })
+    .listener({
+      onReady (tasks: any) {
+        // 该回调函数在图片处理前执行,也就是说task.file中的图片都是没有处理过的
+        // 选择上传文件确定后,该生命周期函数会被回调。
+
+      },
+      onStart (tasks: any) {
+        // 所有内部图片任务处理后执行
+        // 开始上传
+
+      },
+      onTaskGetKey (task: any) {
+        // 为每一个上传的文件指定key,如果不指定则由七牛服务器自行处理
+        // return 'test.png'
+        return ''
+      },
+      onTaskProgress: function (task: any) {
+        // 每一个任务的上传进度,通过`task.progress`获取
+        console.log(task.progress)
+      },
+      onTaskSuccess (task: any) {
+        // 一个任务上传成功后回调
+        console.log(task.result.key)// 文件的key
+        console.log(task.result.hash)// 文件hash
+      },
+      onTaskFail (task: any) {
+        // 一个任务在经历重传后依然失败后回调此函数
+
+      },
+      onTaskRetry (task: any) {
+        // 开始重传
+
+      },
+      onFinish: (tasks: any) => {
+        // 所有任务结束后回调，注意，结束不等于都成功，该函数会在所有HTTP上传请求响应后回调(包括重传请求)。
+        console.log(this)
+        this.store.insertImages([{
+          src: `//os.sundogrd.com/${tasks[0].result.key}`,
+          caption: ''
+        }])
+      } }
+    ).build();
 
   @Provide() store: any = new AmberStore({
     initialContent: [],
@@ -137,46 +214,53 @@ export default class AmberEditor extends Vue {
 
   public created () {
     this.initialDoc = defaultMarkdownParser(AmberSchema).parse(this.initialMarkdown)
-    const handleFileInputChange = () => {
+    // const handleFileInputChange = () => {
+    //   return (event: Event) => {
+    //     event.stopPropagation()
+    //     const input = event.target
+    //     const files = (input as any).files
+    //     if (!files || !files.length) return
+    //     let task = this.filePortal.addTask(files[0], {
+    //       token: 'test token',
+    //       apiKey: 'test key'
+    //       // host: 'http://0.0.0.0:9991/upload',
+    //     })
+    //     this.filePortal.start(task.id)
+    //     this.filePortal.on('complete', (task: any) => {
+    //       console.log(task)
+    //       console.log('completed !!!')
+    //       // done();
+    //     })
+    //     this.filePortal.on('uploaded', (res: any, task: any, tasks: any) => {
+    //       // uploaded res解析hack一下
+    //       const sdosRes = JSON.parse(res.currentTarget.response)
+    //       this.store.insertImages([{
+    //         src: `//os.sundogrd.com/fetch/${sdosRes.id}`,
+    //         caption: ''
+    //       }])
+    //     })
+    //     this.filePortal.on('error', (err: any) => {
+    //       console.log(err)
+    //     });
+    //     // const ids = this.store.insertPlaceholders(0, files.length)
+    //     (event.target as any).value = null
+    //   }
+    // }
+    const handleClickUpload = () => {
       return (event: Event) => {
-        event.stopPropagation()
-        const input = event.target
-        const files = (input as any).files
-        if (!files || !files.length) return
-        let task = this.filePortal.addTask(files[0], {
-          token: 'test token',
-          apiKey: 'test key'
-          // host: 'http://0.0.0.0:9991/upload',
-        })
-        this.filePortal.start(task.id)
-        this.filePortal.on('complete', (task: any) => {
-          console.log(task)
-          console.log('completed !!!')
-          // done();
-        })
-        this.filePortal.on('uploaded', (res: any, task: any, tasks: any) => {
-          // uploaded res解析hack一下
-          const sdosRes = JSON.parse(res.currentTarget.response)
-          this.store.insertImages([{
-            src: `//os.sundogrd.com/fetch/${sdosRes.id}`,
-            caption: ''
-          }])
-        })
-        this.filePortal.on('error', (err: any) => {
-          console.log(err)
-        });
-        // const ids = this.store.insertPlaceholders(0, files.length)
-        (event.target as any).value = null
+        this.qiniu4jsUploader.chooseFile()
       }
     }
+
     if (this.fileInput && this.fileInput.parentNode) {
       this.fileInput.parentNode.removeChild(this.fileInput)
     }
-    this.fileInput = document.createElement('input')
-    this.fileInput.type = 'file'
-    this.fileInput.multiple = true
-    this.fileInput.accept = 'image/*'
-    this.fileInput.onchange = handleFileInputChange()
+    this.fileInput = document.createElement('button')
+    // this.fileInput.type = 'file'
+    // this.fileInput.multiple = true
+    // this.fileInput.accept = 'image/*'
+    // this.fileInput.onchange = handleFileInputChange()
+    this.fileInput.onclick = handleClickUpload()
     this.fileInput.style.display = 'none'
     document.body.appendChild(this.fileInput)
     // this.store.setContent(initialDoc.content);
