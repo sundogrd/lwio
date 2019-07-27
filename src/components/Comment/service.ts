@@ -1,46 +1,5 @@
-import request from '@/utils/request'
-
-const host = 'http://localhost:8086'
-
-export type CommentCreator = {
-  id: string,
-  nick: string,
-  imgUrl: string
-}
-
-export type CommentExtra = {
-  platform?: string, // 平台
-  device?: string // 设备
-}
-
-// 主评论
-export type Comment = {
-  id: string,
-  creator: CommentCreator,
-  targetId: string, // 评论对象、文章id
-  content: string,
-  like: number,
-  hate: number,
-  createTime: number,
-  floor: number,
-  subComments?: SubComment[],
-  extra: string, // CommentExtra,
-  [propName: string]: any
-}
-
-// 评论的回复
-export type SubComment = {
-  id: string,
-  creator: CommentCreator,
-  reCommentCreator?: string, // 要回复的人（回复的回复）
-  targetId: string, // 评论对象、文章id
-  commentId: string, // 评论id
-  content: string,
-  like: number,
-  createTime: number,
-  // extra: CommentExtra,
-  [propName: string]: any
-}
+import request from './request'
+import { Comment, SubComment } from './types/comment'
 
 export type SundogComment = {
   count: number
@@ -95,7 +54,7 @@ type hateCommentResponse = {
   id: string
 }
 
-export function getMainComments (req: getCommentsRequest) {
+export function getMainComments (url: string, req: getCommentsRequest) {
   const params = {
     content_id: req.targetId,
     page: req.page || 1,
@@ -103,12 +62,12 @@ export function getMainComments (req: getCommentsRequest) {
   }
 
   return request<getCommentsResponse>({
-    url: `${host}/comments`,
+    url,
     params
   })
 }
 
-export function getSubComments (req: getCommentsRequest) {
+export function getSubComments (url: string, req: getCommentsRequest) {
   const params = {
     content_id: req.targetId,
     page: req.page || 1,
@@ -117,15 +76,17 @@ export function getSubComments (req: getCommentsRequest) {
   }
 
   return request<getSubCommentsResponse>({
-    url: `${host}/subcomments`,
+    url,
     params
   })
 }
 
-export function sendComment (req: sendCommentRequest) {
+export function sendComment (url: string, req: sendCommentRequest) {
   return request<sendCommentResponse>({
     method: 'post',
-    url: `${host}/comments`,
+    url,
+    // url: '/comments',
+    // url: 'http://localhost:8086/comments',
     data: {
       content_id: req.targetId.toString(), // 文章id
       parent_id: req.commentId ? req.commentId.toString() : '', // 评论id
@@ -135,20 +96,20 @@ export function sendComment (req: sendCommentRequest) {
   })
 }
 
-export function likeComment (req: likeCommentRequest) {
+export function likeComment (url: string, req: likeCommentRequest) {
   return request<likeCommentResponse>({
     method: 'post',
-    url: `${host}/comments/like`,
+    url,
     data: {
       comment_id: req.id
     }
   })
 }
 
-export function hateComment (req: hateCommentRequest) {
+export function hateComment (url: string, req: hateCommentRequest) {
   return request<hateCommentResponse>({
     method: 'post',
-    url: `${host}/comments/hate`,
+    url,
     data: {
       comment_id: req.id
     }
