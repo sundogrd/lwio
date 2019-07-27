@@ -1,349 +1,163 @@
 <template>
-  <div class='sundog-comment'>
-    <div class='sundog-comment--cover' :style="{ backgroundImage: `url(${comment.creator.img_url})`}" />
-    <div class='sundog-comment--card'>
-      <p class='sundog-comment--creator'>{{comment.creator.nick}}</p>
-      <div class='sundog-comment--content'>{{comment.content}}</div>
-      <div class="sundog-comment--extra">
-          <span class="floor">#{{comment.floor}}</span>
-          <span class="platform">{{comment.extra.platform}}</span>
-          <span class="time">{{comment.create_time | formatTime}}</span>
-          <span class="like"><icon-svg iconClass="thumbup"></icon-svg><span>{{comment.like}}</span></span>
-          <span class="hate"><icon-svg iconClass="cai"/><span>{{comment.hate}}</span></span>
-          <span class="reply btn-hover">回复</span>
-          <comment-operation></comment-operation>
-      </div>
-      <div class="sundog-comment--subcomments" v-if="comment.subComments && comment.subComments.length" >
-          <div class="subcomment-item" :date-index="index" v-for="(subComment, index) in listData" :key="index" v-show="isShow(index, currentPage)">
-              <a href=""><img :src="subComment.creator && subComment.creator.img_url" alt="image"></a>
-              <div class="subcomment-item--wrapper">
-                  <span class="subcomment-item--name">{{subComment.creator && subComment.creator.nick}}</span>
-                  <span class="subcomment-item--content">{{subComment.content}}</span>
-              </div>
-              <div class="subcomment-item--info">
-                    <span class="time">{{subComment.create_time | formatTime}}</span>
-                    <span class="like">{{subComment.like}}</span>
-                    <span class="reply btn-hover">回复</span>
-                    <comment-operation></comment-operation>
-              </div>
-          </div>
-          <div class="subcomment-item--more" v-show="showMore && isFirst">
-            共<b>{{comment.subComments.length}}</b>条回复， <a href="javascript:;;" @click="viewMore" class="btn-more">点击查看</a>
-          </div>
-      </div>
-      <div class="sundog-comment--pagenation" v-show="!isFirst && pages > 1">
-          <span class="result">共{{this.pages}}页</span>
-          <span class="prev" :style="{display: currentPage !== 1 ? 'inline-block' : 'none'}" @click="goPage(currentPage -1 )">上一页</span>
-          <a class="page-number" :class="{cur: currentPage === +idx}" v-for="idx in this.pages" :key="idx" @click="goPage(+idx)">{{idx}}</a>
-          <span class="next" :style="{display: currentPage !== pages ? 'inline-block' : 'none'}" @click="goPage(currentPage + 1 >= pages ? pages : currentPage + 1 )">下一页</span>
-      </div>
-    </div>
+  <div id='sundog-comment'>
+    <comment-header @send="refreshData" :total="total" :page="page" :pageSize="pageSize" @goto="refreshData"></comment-header>
+    <comment-list :comments="datas"></comment-list>
+    <!-- <comment-footer></comment-footer> -->
+    <comment-toast></comment-toast>
   </div>
 </template>
 
 <script lang='ts'>
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import * as SundogDataTypes from '@/types/api.d.ts'
-import { formatTime } from '@/utils/index.js'
-import { watch } from 'fs'
-import IconSvg from '@/components/IconSvg/index.vue'
-import commentOperation from './operation.vue'
+import { getMainComments, getSubComments } from './service'
+import { Component, Vue, Prop, Watch, Provide } from 'vue-property-decorator'
+import { Comment, CommentCreator } from './types/comment'
+import CommentList from './list.vue'
+import CommentHeader from './header.vue'
+import CommentToast from './toast.vue'
+import CommentFooter from './footer.vue'
+import EventBus from './eventbus'
 @Component({
   name: 'Comment',
-  filters!: {
-    formatTime
-  },
   components: {
-    commentOperation,
-    IconSvg
+    CommentHeader,
+    CommentFooter,
+    CommentToast,
+    CommentList
   }
 })
 export default class SundogComment extends Vue {
-  @Prop({ type: Number, required: false, default: 3 })
-  public maxCount!: number
+  // 目标id
+  @Prop({ type: [String, Number], required: true })
+  public targetId!: number
 
-  @Prop({ type: Number, required: false, default: 5 })
-  public pageSize!: number
+  @Prop({ type: Object, required: false })
+  public user!: CommentCreator | null
 
-  @Prop({ type: Object, required: true })
-  public comment!: SundogDataTypes.Comment
+  // 获取主评论接口
+  @Prop({ type: String, required: true, default: '/' })
+  public mainUrl!: string
 
-  @Prop({ type: Function, required: false })
-  public getPage!: (page: number)=> Promise<SundogDataTypes.Comment[]>
+  // 获取子评论接口
+  @Prop({ type: String, required: false, default: '/' })
+  public subUrl!: string
 
-  @Prop({ type: String, required: false, default: 'local', validator: (v) => ['local', 'remote'].indexOf(v) > -1 })
-  public mode!: string
+  // 点赞接口
+  @Prop({ type: String, required: true, default: '/' })
+  public likeUrl!: string
 
-  @Watch('currentPage')
-  async onPageChanged (val: number, oldVal: number) {
-    this.listData = await this.__getData(val) || []
+  // 踩接口
+  @Prop({ type: String, required: true, default: '/' })
+  public hateUrl!: string
+
+  // 发送接口
+  @Prop({ type: String, required: true, default: '/' })
+  public sendUrl!: string
+
+  // 分页大小
+  @Prop({ type: Number, required: false, default: 10 })
+  public size!: number
+  // 评论数据
+  public datas: Comment[] = []
+  // 总评论数
+  public total: number = 0
+  // 当前页码
+  public page: number = 1
+  // 页大小
+  public pageSize: number = this.size
+
+  @Provide() subLink = this.subUrl
+  @Provide() likeLink = this.likeUrl
+  @Provide() hateLink = this.hateUrl
+  @Provide() sendLink = this.sendUrl
+  @Provide() contentId = this.targetId // 文章id
+
+  public async mounted () {
+    await this.refreshData()
   }
 
-  public mounted () {
-    // console.log(this.comment)
-  }
+  private async refreshData (page: number = 1) {
+    let res = await getMainComments(this.mainUrl, {
+      page: page,
+      pageSize: this.size,
+      targetId: this.targetId.toString()
+    })
 
-  public isShow (idx: number, current: number): boolean {
-    // 第一页时
-    if (current === 1 && this.isFirst) {
-      if (idx >= this.maxCount) {
-        console.log(`idx is ${idx}, current page is ${current}, page size is ${this.pageSize}, page max count is ${this.maxCount}, total pages is ${this.pages}`)
-        return false
+    this.total = res.total
+    this.page = res.page
+    this.pageSize = res.page_size
+
+    this.datas = res.list.map(v => {
+      let tmpUser = {
+        imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+        id: '354657',
+        nick: '佛系玩家'
       }
-    }
-    return true
-    // console.log(`idx is ${idx}, current page is ${current}, page size is ${this.pageSize}, page max count is ${this.maxCount}, total pages is ${this.pages}`)
-  }
-
-  public __getSubLen (): number {
-    return Math.floor(((this.comment.subComments && this.comment.subComments.length) || 0) / this.pageSize) || 1
-  }
-
-  private async __getData (page: number = 0) {
-    if (this.mode === 'remote') {
-      await this.getPage(page)
-    } else {
-      const start = (page - 1) * this.pageSize
-      const end = page * this.pageSize
-      const copy: SundogDataTypes.Comment[] = [...(this.comment.subComments || [])]
-      if (copy.length && copy.length > start && copy.length >= end) {
-        return copy.splice(start, this.pageSize)
+      return {
+        id: v.comment_id.toString(),
+        creator: {
+          nick: tmpUser ? tmpUser.nick : 'luffylv',
+          imgUrl: tmpUser ? tmpUser.imgUrl : '',
+          id: v.creator_id.toString()
+        },
+        targetId: v.target_id,
+        content: v.content,
+        like: v.like || 0,
+        hate: v.hate || 0,
+        createTime: +v.created_at,
+        extra: v.extra,
+        floor: +v.floor
       }
-      return []
-    }
+    })
   }
 
-  private goPage (page: number) {
-    if (page >= 1 && page <= this.pages) {
-      this.currentPage = page
-    } else {
-      this.currentPage = 1
-    }
+  public created () {
+    // 发送完毕添加dom
+    EventBus.$on('login', () => {
+      this.$emit('login')
+    })
   }
 
-  public goPrevPage () {
+  // private genComments () {
+  //   let cmt = {
+  //     id: '12232323',
+  //     creator: {
+  //       nick: 'luffylv',
+  //       imgUrl: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+  //       id: '2323211'
+  //     },
+  //     targetId: '122323',
+  //     like: 23,
+  //     hate: 12,
+  //     floor: 1,
+  //     extra: {
+  //       platform: '客户端'
+  //     },
+  //     createTime: 1556812800000,
+  //     content: '这是一条测试评论，不用管他哈哈哈哈啊哈哈哈哈哈哈。。。。',
+  //     subComments: this.genSubComments()
+  //   }
 
-  }
+  //   return cmt
+  // }
 
-  public viewMore () {
-    this.isFirst = false
-  }
-
-  public pages: number = this.__getSubLen() // 总页数
-  public currentPage: number = 1 // 当前页
-  public isFirst: boolean = true // 是否第一次进入
-  public listData: SundogDataTypes.Comment[] = (this.comment.subComments || []).slice(0, this.pageSize) || []
-  public showMore: boolean = !!(((this.comment.subComments && this.comment.subComments.length) || 0) > this.maxCount)// 是否展示更多
+  // private genSubComments (): any {
+  //   return Array.from({ length: 20 }, (_, v) => {
+  //     return {
+  //       id: Math.random().toString().slice(2),
+  //       creator: {
+  //         nick: String.fromCodePoint(Math.round(Math.random() * 20901) + 19968),
+  //         img_url: 'https://avatars3.githubusercontent.com/u/12684886?s=40&v=4',
+  //         id: Math.random().toString().slice(2)
+  //       },
+  //       create_time: 1556812800000,
+  //       content: v + '测试评论回复',
+  //       like: ~~(100 * Math.random())
+  //     }
+  //   })
+  // }
 }
 </script>
 
 <style lang='less' scoped>
-.sundog-comment{
-    // background: red;
-    // min-width: 300px;
-    // min-height: 300px;
-    a{
-      outline: none;
-      color: #00a1d6;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .btn-hover{
-        padding: 0 5px;
-        border-radius: 4px;
-        // margin-right: 15px;
-        cursor: pointer;
-        display: inline-block;
-        &:hover{
-          color: #00a1d6;
-          background: #e5e9ef;
-        }
-    }
-
-    .sundog-comment--cover{
-        cursor: pointer;
-        float: left;
-        margin: 24px 0 0 5px;
-        position: relative;
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        width: 48px;
-        border: none;
-        vertical-align: middle;
-        height: 48px;
-        border-radius: 50%;
-    }
-
-    .sundog-comment--card{
-        position: relative;
-        margin-left: 85px;
-        padding: 22px 0 14px;
-        border-top: 1px solid #e5e9ef;
-        .sundog-comment--creator{
-            font-size: 12px;
-            font-weight: 700;
-            line-height: 18px;
-            padding-bottom: 4px;
-            display: block;
-            word-wrap: break-word;
-            color: #6d757a;
-            cursor: pointer;
-        }
-        .sundog-comment--content{
-            line-height: 20px;
-            padding: 2px 0;
-            font-size: 14px;
-            text-shadow: none;
-            overflow: hidden;
-            word-wrap: break-word;
-            word-break: break-word;
-        }
-
-        .sundog-comment--extra{
-            color: #99a2aa;
-            line-height: 26px;
-            font-size: 12px;
-            & > span{
-                margin-right: 20px;
-            }
-        }
-
-        .floor{
-
-        }
-
-        .platform{
-
-        }
-
-        .time{
-        }
-
-        .hate,
-        .like{
-            cursor: pointer;
-            svg{
-              display: inline-block;
-              width: 14px;
-              height: 14px;
-              font-size: 14px;
-              vertical-align: text-top;
-              margin-right: 5px;
-            }
-        }
-
-        .hate{
-            margin-right: 15px;
-        }
-
-        .operation{
-            position: relative;
-            width: 18px;
-            float: right;
-            margin-top: 5px;
-            margin-right: 0;
-        }
-
-        .reply{
-
-        }
-
-        .subcomment-item {
-          padding: 10px 0;
-
-          .operations{
-            display: none;
-          }
-          &:hover .operations{
-            display: block;
-          }
-
-          &>a{
-            display: inline-block;
-            position: relative;
-            margin-right: 10px;
-            vertical-align: top;
-
-            img {
-              width: 24px;
-              height: 24px;
-              border-radius: 50%;
-            }
-          }
-
-          .subcomment-item--wrapper{
-            display: inline-block;
-            width: calc(100% - 34px);
-
-            & > span {
-              font-size: 12px;
-              font-weight: 700;
-              line-height: 18px;
-              display: inline-block;
-              // padding-bottom: 4px;
-              word-wrap: break-word;
-            }
-
-            .subcomment-item--name{
-              color: #6d757a;
-              position: relative;
-              display: inline-block;
-              margin-right: 20px
-            }
-
-            .subcomment-item--content{
-              font-weight: 400;
-              font-size: 14px;
-              line-height: 20px;
-              word-break: break-all;
-            }
-          }
-
-          .subcomment-item--info{
-            color: #99a2aa;
-            line-height: 26px;
-            font-size: 12px;
-            margin-left: 34px;
-            & > span{
-              margin-right: 20px;
-            }
-          }
-        }
-
-        .subcomment-item--more{
-          font-size: 12px;
-          color: #6d757a;
-
-          a{
-            padding: 2px 3px;
-            border-radius: 4px;
-          }
-        }
-
-        .sundog-comment--pagenation{
-          font-size: 12px;
-          .result{
-            padding-right: 10px;
-          }
-          .cur{
-            color: #00a1d6;
-            font-weight: 700;
-          }
-
-          .prev,
-          .next,
-          a{
-            color: #222;
-            cursor: pointer;
-            text-align: center;
-            margin: 0 4px;
-            text-decoration: none;
-            line-height: 26px;
-          }
-        }
-    }
-}
 
 </style>

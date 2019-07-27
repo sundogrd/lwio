@@ -10,6 +10,8 @@ import SearchPage from './views/search/search-page'
 import Layout from './layout/layout.vue'
 import * as authService from './services/auth'
 
+import Test from './views/test/index.vue'
+
 Vue.use(Router)
 
 function hasLogined () {
