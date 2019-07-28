@@ -59,7 +59,7 @@ export default {
       // 获取子评论
       await Promise.all(this.comments.list.map(async (com) => {
         let { id, targetId } = com
-        await this.gosubpage({ commentId: id, targetId, page: 1, pageSize: this.config.replySize || 1 })
+        await this.gosubpage({ commentId: id, targetId, page: 1, pageSize: this.config.replySize || 1 }) // 性能：考虑获取主评论时默认的第一页子评论在后端获取
       }))
     },
     async gosubpage (data) {
@@ -72,7 +72,7 @@ export default {
       let ret = await this.$attrs.gosubpage(data)
       // this.comments.list[idx].subComments = ret // 不能这样，这样没有变化
       let reactiveObj = { ...this.comments.list[idx], subComments: ret }
-      this.comments.list.splice(idx, 1, reactiveObj)
+      this.comments.list.splice(idx, 1, reactiveObj) // 这里是性能问题存在的地方，以后优化
     },
     async comment (data) {
       let ret = await this.$attrs.comment(data)

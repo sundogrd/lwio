@@ -74,6 +74,10 @@ export default new Router({
           path: '/search',
           name: 'searchPage',
           component: SearchPage
+        }, {
+          path: '/test',
+          name: 'test',
+          component: Test
         }
       ]
     },

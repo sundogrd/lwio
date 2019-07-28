@@ -36,13 +36,16 @@ export default {
     },
     pageSize () {
       return this.store.config.pageSize || 1
-    },
-    page () {
-      return this.store.comments.page || 1
+    }
+  },
+  data () {
+    return {
+      page: 1
     }
   },
   methods: {
     goPage (page) {
+      this.page = page
       EventBus.$emit('gopage', {
         page: page || 1,
         pageSize: this.pageSize,

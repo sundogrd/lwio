@@ -60,7 +60,7 @@ export default {
   watch: {
     comments: {
       handler (n, o) {
-        // console.log('comments changed', n)
+        console.log('comments changed', n)
         this.refreshComments(n)
       },
       deep: true
