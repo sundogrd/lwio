@@ -9,8 +9,8 @@ install:
 script:
 - npm run build
 before_install:
-- openssl aes-256-cbc -K $encrypted_f3407dc12152_key -iv $encrypted_f3407dc12152_iv
+- openssl aes-256-cbc -K $encrypted_6349e1d0af2a_key -iv $encrypted_6349e1d0af2a_iv
   -in id_rsa.enc -out ~/.ssh/id_rsa -d
 after_success:
 - chmod 600 ~/.ssh/id_rsa
-- ssh sundogrd@sundogrd.com -o StrictHostKeyChecking=no 'cd ~/workspace/lwio && git pull && yarn && yarn build && rm -rf /usr/share/nginx/lwio/* && mv ./dist/* /usr/share/nginx/lwio'
+- ssh root@sundogrd.com -o StrictHostKeyChecking=no 'echo $PATH && cd ~/workspace/lwio && git pull && npm run build && rm -rf /usr/share/nginx/lwio/* && mv ./dist/* /usr/share/nginx/lwio'
