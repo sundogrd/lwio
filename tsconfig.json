@@ -1,16 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "es2015",
+    "target": "esnext",
+    "module": "esnext",
     "strict": true,
-    "noImplicitThis": false,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "allowJs": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
@@ -20,9 +17,6 @@
     "paths": {
       "@/*": [
         "src/*"
-      ],
-      "@config": [
-        "config"
       ]
     },
     "lib": [
@@ -32,16 +26,12 @@
       "scripthost"
     ]
   },
-  "plugins": [
-  ],
   "include": [
     "src/**/*.ts",
-    "src/**/*.js",
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx", 
-    "src/router.js"
+    "tests/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

@@ -1,4 +1,0 @@
-/**
- * prod config.
- */
-export default {}
