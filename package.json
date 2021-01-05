@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@sundogrd/fileportal": "^1.0.3",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "codemirror": "^5.44.0",
     "crel": "^4.0.1",
     "element-ui": "^2.4.5",
