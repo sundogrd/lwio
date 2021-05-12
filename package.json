@@ -13,7 +13,7 @@
   "dependencies": {
     "@sundogrd/fileportal": "^1.0.3",
     "axios": "^0.18.0",
-    "codemirror": "^5.44.0",
+    "codemirror": "^5.58.2",
     "crel": "^4.0.1",
     "element-ui": "^2.4.5",
     "he": "^1.2.0",
